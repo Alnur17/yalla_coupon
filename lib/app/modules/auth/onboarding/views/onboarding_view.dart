@@ -13,6 +13,7 @@ import 'package:yalla_coupon/common/widgets/custom_button.dart';
 import 'package:yalla_coupon/common/widgets/custom_textfield.dart';
 
 import '../controllers/onboarding_controller.dart';
+import 'onboarding_two_view.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -114,7 +115,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                 sh16,
                 CustomButton(
                   text: 'Next',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(()=> OnboardingTwoView(),transition: Transition.rightToLeft,
+                      duration: Duration(milliseconds: 1200),);
+                  },
                   gradientColors: AppColors.buttonColor,
                 ),
               ],

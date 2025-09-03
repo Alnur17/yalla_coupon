@@ -11,6 +11,8 @@ class CustomListTile extends StatelessWidget {
   final String? trailingImage;
   final bool? isSwitch;
   final bool switchValue;
+  final Color? borderColor;
+  final Color? containerColor;
   final ValueChanged<bool>? onSwitchChanged;
   final VoidCallback? onTap;
 
@@ -20,6 +22,8 @@ class CustomListTile extends StatelessWidget {
     required this.title,
     this.rightText,
     this.trailingImage,
+    this.borderColor,
+    this.containerColor = AppColors.silver,
     this.isSwitch = false,
     this.switchValue = false,
     this.onSwitchChanged,
@@ -30,11 +34,10 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
-        //border: Border.all(color: AppColors.silver)
+        color: containerColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor ?? AppColors.silver),
       ),
       child: ListTile(
         leading: Image.asset(

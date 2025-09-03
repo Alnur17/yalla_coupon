@@ -8,6 +8,7 @@ class AppColors {
   static const textColor = Color(0xff409E7A);
   static const blueTurquoise = Color(0xff00AEEF);
   static const blurBack = Color(0x8D8D8D6B);
+  static const bottomBarText = Color(0xFFDE54B1);
   static const gradientColor = [Color(0xff63CCA4), Color(0xff409E7A)];
   static const splashBackColor = [Color(0xffF9FAFC), Color(0xffFFD1F2)];
   static const buttonColor = [Color(0xffFFD6B3), Color(0xffDE54B1)];

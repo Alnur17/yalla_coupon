@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import '../app_images/app_images.dart';
 import 'custom_textfield.dart';
 
@@ -10,13 +11,14 @@ class SearchFiled extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextField(
+      borderColor: AppColors.transparent,
+      containerColor: AppColors.bottomNavbar,
       onChange: onChanged,
       hintText: 'Search...',
-      borderRadius: 30,
+      borderRadius: 12,
       preIcon: Image.asset(
         AppImages.search,
         scale: 4,
-        color: Colors.grey,
       ),
     );
   }

@@ -2,8 +2,10 @@ class AppImages {
   //================ Icons ==================>
   static const splashLogo = "assets/icons/splashLogo.png";
   static const logoText = "assets/icons/logo text.png";
+  static const arrowRight = "assets/icons/arrow right.png";
   static const arrowRightBig = "assets/icons/arrow right big.png";
   static const arrowRightNormal = "assets/icons/Arrow right light.png";
+  static const arrowLeftBack = "assets/icons/ArrowLeft.png";
   static const checkBox = "assets/icons/checkbox.png";
   static const checkBoxBig = "assets/icons/checkbox big.png";
   static const checkBoxCircle = "assets/icons/circle checkbox.png";
@@ -11,6 +13,27 @@ class AppImages {
   static const checkBoxFilledSquare = "assets/icons/Checbox filled squar.png";
   static const eyeClose = "assets/icons/eye close.png";
   static const eyeOpen = "assets/icons/eye.png";
+  static const accountInfo = "assets/icons/account info.png";
+  static const activityLog = "assets/icons/activity log.png";
+  static const activityLogFilled = "assets/icons/activity log filled.png";
+  static const coupon = "assets/icons/coupon.png";
+  static const couponFilled = "assets/icons/coupon filled.png";
+  static const home = "assets/icons/home.png";
+  static const homeFilled = "assets/icons/home filled.png";
+  static const profile = "assets/icons/profile.png";
+  static const profileFilled = "assets/icons/profile filled.png";
+  static const store = "assets/icons/store.png";
+  static const storeFilled = "assets/icons/store filled.png";
+  static const favorite = "assets/icons/favorite.png";
+  static const language = "assets/icons/language.png";
+  static const changePass = "assets/icons/change password.png";
+  static const logoutBig = "assets/icons/log out big.png";
+  static const notification = "assets/icons/Notification.png";
+  static const search = "assets/icons/search.png";
+
+
+
+
 
   static const addFloating = "assets/icons/float add.png";
   static const message = "assets/icons/message.png";
@@ -25,8 +48,6 @@ class AppImages {
   static const marketPlaceRed = "assets/icons/marketplace red.png";
   static const book = "assets/icons/book.png";
   static const bookFilled = "assets/icons/book filled.png";
-  static const home = "assets/icons/home.png";
-  static const homeFilled = "assets/icons/home filled.png";
   static const homeRed = "assets/icons/home red.png";
   static const order = "assets/icons/Order.png";
   static const orderTwo = "assets/icons/order 2.png";
@@ -42,9 +63,8 @@ class AppImages {
   static const chatFilled = "assets/icons/Chat_alt_fill.png";
   static const basket = "assets/icons/Basket_alt_3.png";
   static const basketFilled = "assets/icons/Basket_alt_3_fill.png";
-  static const search = "assets/icons/search.png";
   static const searchNav = "assets/icons/Search nav.png";
-  static const language = "assets/icons/world.png";
+
   static const languageTwo = "assets/icons/language 2.png";
   static const back = "assets/icons/back.png";
   static const like = "assets/icons/like.png";
@@ -67,7 +87,7 @@ class AppImages {
   static const locationRed = "assets/icons/location red.png";
   static const locationRound = "assets/icons/location round.png";
   static const locationRoundTwo = "assets/icons/location round 2.png";
-  static const favorite = "assets/icons/Favorite.png";
+
   static const share = "assets/icons/share.png";
   static const stars = "assets/icons/stars.png";
   static const fuel = "assets/icons/fuel station.png";
@@ -83,7 +103,6 @@ class AppImages {
   static const aboutUs = "assets/icons/about us.png";
   static const termsAndConditions = "assets/icons/terms and conditions.png";
   static const myOrder = "assets/icons/my order.png";
-  static const notification = "assets/icons/notification.png";
   static const payment = "assets/icons/payment.png";
   static const privacy = "assets/icons/privacy.png";
   static const garage = "assets/icons/garage.png";
@@ -123,7 +142,6 @@ class AppImages {
   static const carShipped = "assets/icons/car shipped.png";
   static const boxShape = "assets/icons/box shape.png";
   static const oilLoader = "assets/icons/oil loader.png";
-  static const changePass = "assets/icons/change pass.png";
   static const editProfile = "assets/icons/edit profile.png";
   static const policy = "assets/icons/policy.png";
   static const subscription = "assets/icons/subscription.png";
@@ -136,6 +154,14 @@ class AppImages {
   static const estimatedTime = "assets/icons/estimated time.png";
 
   //================ Images ==================>
+
+  static const offerImage = "assets/images/nike.png";
+  static const bannerImage = "assets/images/amazon offer.png";
+
+
+
+
+
 
   static const backgroundImage = "assets/images/backgroundImage.png";
   static const subscriptionImage = "assets/images/subscription image.png";

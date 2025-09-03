@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
   final double? borderRadius;
   final Color? iconColor;
   final List<Color>? gradientColors;
-  final EdgeInsetsGeometry? padding; // New parameter for customizable padding
+  final EdgeInsetsGeometry? padding;
 
   const CustomButton({
     super.key,
@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
     this.borderRadius = 40,
     this.iconColor,
     this.gradientColors,
-    this.padding = const EdgeInsets.only(left: 12, right: 12),
+    this.padding = const EdgeInsets.only(left: 16, right: 12),
   });
 
   @override
@@ -56,30 +56,26 @@ class CustomButton extends StatelessWidget {
           )
               : null,
         ),
-        child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (imageAssetPath != null) ...[
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Image.asset(
-                    imageAssetPath!,
-                    scale: 4,
-                    color: iconColor,
+        child: Row(
+          mainAxisAlignment: imageAssetPath == null
+              ? MainAxisAlignment.center // Center text if no image
+              : MainAxisAlignment.spaceBetween, // Spread text & image
+          children: [
+            Text(
+              text,
+              style: textStyle ??
+                  h3.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: textColor ?? AppColors.white,
                   ),
-                ),
-              ],
-              Text(
-                text,
-                style: textStyle ??
-                    h3.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: textColor ?? AppColors.white,
-                    ),
+            ),
+            if (imageAssetPath != null)
+              Image.asset(
+                imageAssetPath!,
+                scale: 4,
+                color: iconColor,
               ),
-            ],
-          ),
+          ],
         ),
       ),
     );

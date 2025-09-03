@@ -1,14 +1,17 @@
-class AppSizes{
-  static const double  fontExtraSmall = 12.0;
-  static const double fontDoubleExtraSmall  = 10.0;
-  static const double fontSmall = 14.0;
-  static const double fontDefault  = 16.0;
-  static const double fontLarge = 24.0;
-  static const double fontExtraLarge  = 32.0;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+class AppSizes {
+  // Font Sizes
+  static double get fontExtraSmall => 12.sp;
+  static double get fontDoubleExtraSmall => 10.sp;
+  static double get fontSmall => 14.sp;
+  static double get fontDefault => 16.sp;
+  static double get fontLarge => 24.sp;
+  static double get fontExtraLarge => 32.sp;
 
-  static const double  paddingExtraSmall = 5.0;
-  static const double paddingSmall = 10.0;
-  static const double paddingDefault = 14.0;
-  static const double paddingLarge = 20.0;
+  // Padding Sizes
+  static double get paddingExtraSmall => 5.w;
+  static double get paddingSmall => 10.w;
+  static double get paddingDefault => 14.w;
+  static double get paddingLarge => 20.w;
 }
