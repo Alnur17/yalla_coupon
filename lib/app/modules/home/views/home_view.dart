@@ -19,7 +19,6 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-
     final List<Map<String, String>> brands = [
       {'name': 'Nike', 'image': AppImages.offerImage},
       {'name': 'Adidas', 'image': AppImages.offerImage},
@@ -86,9 +85,11 @@ class HomeView extends GetView<HomeController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("🔥 OFF Amazon!", style: h3.copyWith(color: AppColors.white)),
+                        Text("🔥 OFF Amazon!",
+                            style: h3.copyWith(color: AppColors.white)),
                         sh8,
-                        Text("Limited time offer. Grab it now!", style: h3.copyWith(color: AppColors.white)),
+                        Text("Limited time offer. Grab it now!",
+                            style: h3.copyWith(color: AppColors.white)),
                         sh12,
                         CustomButton(
                           text: 'Get Offer',
@@ -117,8 +118,7 @@ class HomeView extends GetView<HomeController> {
                   return BrandCard(
                     image: brand['image']!,
                     title: brand['name']!,
-                    onTap: () {
-                    },
+                    onTap: () {},
                   );
                 },
               ),
@@ -150,6 +150,55 @@ class HomeView extends GetView<HomeController> {
                   ),
                 );
               },
+            ),
+            CustomRowHeader(title: 'Top Trending Coupons', onTap: () {}),
+            sh12,
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                border: Border.all(color: AppColors.silver),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: AppColors.silver,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.asset(
+                            AppImages.offerImage,
+                            scale: 4,
+                          ),
+                        ),
+                      ),
+                      sw8,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('50% OFF First Order', style: h3),
+                          Text(
+                            'Uber Eats',
+                            style: h5,
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        '2.3k times used',
+                        style: h5.copyWith(color: AppColors.bottomBarText),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
