@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:yalla_coupon/app/modules/activity_log/views/activity_log_view.dart';
+import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/home_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
+import 'package:yalla_coupon/app/modules/store/views/store_view.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
 
@@ -14,9 +17,9 @@ class DashboardView extends GetView<DashboardController> {
   List<Widget> _buildScreens() {
     return [
       const HomeView(),
-      const Center(child: Text('Store Screen', style: TextStyle(fontSize: 20))),
-      const Center(child: Text('Coupon Screen', style: TextStyle(fontSize: 20))),
-      const Center(child: Text('Activity Screen', style: TextStyle(fontSize: 20))),
+      const StoreView(),
+      const CouponsView(),
+      const ActivityLogView(),
       const ProfileView(),
     ];
   }
@@ -42,7 +45,7 @@ class DashboardView extends GetView<DashboardController> {
       PersistentBottomNavBarItem(
         icon: Image.asset(AppImages.couponFilled, scale: 4),
         inactiveIcon: Image.asset(AppImages.coupon, scale: 4),
-        title: ("Coupon"),
+        title: ("Coupons"),
         contentPadding: 0,
         activeColorPrimary: AppColors.bottomBarText,
         inactiveColorPrimary: AppColors.transparent,

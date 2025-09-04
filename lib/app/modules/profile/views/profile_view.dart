@@ -98,7 +98,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {
                         Get.to(() => LanguageView());
                       },
-                      leadingImage: AppImages.accountInfo,
+                      leadingImage: AppImages.languageTwo,
                       title: 'Language',
                       trailingImage: AppImages.arrowRight,
                     ),
@@ -106,7 +106,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {
                         Get.to(() => FavouriteView());
                       },
-                      leadingImage: AppImages.accountInfo,
+                      leadingImage: AppImages.favoriteFilled,
                       title: 'Favourite',
                       trailingImage: AppImages.arrowRight,
                     ),
@@ -133,7 +133,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {
                         Get.to(() => ChangePasswordView());
                       },
-                      leadingImage: AppImages.accountInfo,
+                      leadingImage: AppImages.changePass,
                       title: 'Change  Password ',
                       trailingImage: AppImages.arrowRight,
                     ),
@@ -141,7 +141,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {
                         Get.to(() => TermsAndConditionsView());
                       },
-                      leadingImage: AppImages.accountInfo,
+                      leadingImage: AppImages.terms,
                       title: 'Terms and conditions',
                       trailingImage: AppImages.arrowRight,
                     ),
@@ -149,7 +149,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {
                         Get.to(() => PrivacyAndPolicyView());
                       },
-                      leadingImage: AppImages.accountInfo,
+                      leadingImage: AppImages.privacy,
                       title: 'Privacy and Policies',
                       trailingImage: AppImages.arrowRight,
                     ),
@@ -167,7 +167,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {
                         Get.to(() => FeedbackView());
                       },
-                      leadingImage: AppImages.accountInfo,
+                      leadingImage: AppImages.feedback,
                       title: 'Feedback',
                       trailingImage: AppImages.arrowRight,
                     ),
@@ -175,7 +175,7 @@ class ProfileView extends GetView<ProfileController> {
                       onTap: () {
                         Get.to(() => FaqView());
                       },
-                      leadingImage: AppImages.accountInfo,
+                      leadingImage: AppImages.faq,
                       title: 'FAQ',
                       trailingImage: AppImages.arrowRight,
                     ),
@@ -187,7 +187,7 @@ class ProfileView extends GetView<ProfileController> {
                 onTap: () {
                   _showLogoutDialog(context);
                 },
-                leadingImage: AppImages.accountInfo,
+                leadingImage: AppImages.logout,
                 title: 'Log Out',
                 trailingImage: AppImages.arrowRight,
               ),

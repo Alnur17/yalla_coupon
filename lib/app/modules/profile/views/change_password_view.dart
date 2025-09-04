@@ -39,7 +39,7 @@ class ChangePasswordView extends GetView {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: Image.asset(AppImages.changePass,scale: 4,)),
+            Center(child: Image.asset(AppImages.changePassBig,scale: 4,)),
             sh30,
             Text(
               'Current Password',

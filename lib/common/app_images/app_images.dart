@@ -25,11 +25,20 @@ class AppImages {
   static const store = "assets/icons/store.png";
   static const storeFilled = "assets/icons/store filled.png";
   static const favorite = "assets/icons/favorite.png";
+  static const favoriteFilled = "assets/icons/favorite filled.png";
   static const language = "assets/icons/language.png";
+  static const languageTwo = "assets/icons/language 2.png";
   static const changePass = "assets/icons/change password.png";
+  static const changePassBig = "assets/icons/change password big.png";
   static const logoutBig = "assets/icons/log out big.png";
   static const notification = "assets/icons/Notification.png";
   static const search = "assets/icons/search.png";
+  static const faq = "assets/icons/faq.png";
+  static const feedback = "assets/icons/feedback.png";
+  static const logout = "assets/icons/logout.png";
+  static const terms = "assets/icons/terms and conditions.png";
+  static const privacy = "assets/icons/privacy and policy.png";
+
 
 
 
@@ -65,7 +74,7 @@ class AppImages {
   static const basketFilled = "assets/icons/Basket_alt_3_fill.png";
   static const searchNav = "assets/icons/Search nav.png";
 
-  static const languageTwo = "assets/icons/language 2.png";
+
   static const back = "assets/icons/back.png";
   static const like = "assets/icons/like.png";
   static const unLike = "assets/icons/unlike.png";
@@ -104,10 +113,8 @@ class AppImages {
   static const termsAndConditions = "assets/icons/terms and conditions.png";
   static const myOrder = "assets/icons/my order.png";
   static const payment = "assets/icons/payment.png";
-  static const privacy = "assets/icons/privacy.png";
   static const garage = "assets/icons/garage.png";
   static const keyLight = "assets/icons/key light.png";
-  static const logout = "assets/icons/logout.png";
   static const filter = "assets/icons/Filter_big.png";
   static const call = "assets/icons/call.png";
   static const callSmall = "assets/icons/call small.png";

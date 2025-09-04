@@ -28,6 +28,7 @@ class AppColors {
   static const black100 = Color(0xff5C5C5C);
   static const black200 = Color(0xff3C3C3C);
   static const green = Color(0xff00BA11);
+  static const darkGreen = Color(0xff0c5514);
   static const borderColor = Color(0xffCACACA);
   static const blueLight = Color(0xff105FCB);
   static const blue = Color(0xff1A63A6);
@@ -39,7 +40,7 @@ class AppColors {
   static const primaryColor = Color(0xff409E7A);
   static const orange = Color(0xffff6200);
   static const orangeLight = Color(0xffFFAE35);
-  static const darkRed = Color(0xffC21A1E);
+  static const darkRed = Color(0xffBE080B);
   static const red = Color(0xffff3c00);
   static const purple = Color(0xff5366BE);
 }
