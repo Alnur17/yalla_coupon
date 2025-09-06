@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -96,20 +98,29 @@ class _OnboardingViewState extends State<OnboardingView> {
                 sh12,
                 IntlPhoneField(
                   decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    labelText: 'Enter your number',
-                    labelStyle: h6,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                     fillColor: AppColors.white,
                     filled: true,
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: AppColors.borderColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: AppColors.black),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: AppColors.red),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: const BorderSide(color: AppColors.red),
                     ),
                   ),
-                  initialCountryCode: 'BD', // Default country
+                  initialCountryCode: 'BD',
                   onChanged: (phone) {
-                    print(phone
-                        .completeNumber); // Full phone number with country code
+                    log(phone.completeNumber);
                   },
                 ),
                 sh16,

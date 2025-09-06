@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:yalla_coupon/app/data/dummy_data.dart';
 
 import '../../../../common/app_color/app_colors.dart';
-import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/store_card.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/search_filed.dart';
+import '../../coupons/views/single_store_coupons_view.dart';
 import '../controllers/store_controller.dart';
 
 class StoreView extends GetView<StoreController> {
@@ -44,7 +44,7 @@ class StoreView extends GetView<StoreController> {
           ),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 12),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               itemCount: DummyData.stores.length,
               itemBuilder: (context, index) {
                 final store = DummyData.stores[index];
@@ -55,6 +55,7 @@ class StoreView extends GetView<StoreController> {
                     couponCount: store['couponCount'],
                     imagePath: store['imagePath'],
                     onTap: () {
+                      Get.to(() => SingleStoreCouponsView(store['storeName']));
                       print("${store['storeName']} tapped");
                     },
                   ),

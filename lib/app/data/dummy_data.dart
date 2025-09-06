@@ -1,24 +1,31 @@
 import '../../common/app_images/app_images.dart';
 
 class DummyData {
+
+  static final List<Map<String, String>> activityHome = [
+    {"type": "COPY", "title": "SAVE20 copied", "subtitle": "2 hours ago"},
+    {"type": "VIEW", "title": "Checked Offer", "subtitle": "5 hours ago"},
+    {"type": "COPY", "title": "WELCOME10 copied", "subtitle": "1 day ago"},
+  ];
+
   static final List<Map<String, String>> notifications = [
     {
       "title": "New 20% off on Grofers!",
       "subtitle": "Use the code SAVE20 before 10 Aug",
       "time": "2h ago",
-      "image": AppImages.accountInfo,
+      "image": AppImages.giftBox,
     },
     {
       "title": "Flat 50% off on Zomato!",
       "subtitle": "Use the code ZOM50 today",
       "time": "5h ago",
-      "image": AppImages.accountInfo,
+      "image": AppImages.giftBox,
     },
     {
       "title": "Special Offer on Amazon",
       "subtitle": "Get ₹200 cashback on first order",
       "time": "1d ago",
-      "image": AppImages.accountInfo,
+      "image": AppImages.giftBox,
     },
   ];
 

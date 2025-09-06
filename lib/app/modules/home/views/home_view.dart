@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/coupons/views/coupons_details_view.dart';
+import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
+import 'package:yalla_coupon/app/modules/coupons/views/single_store_coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/notifications_view.dart';
+import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
+import 'package:yalla_coupon/app/modules/store/views/store_view.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
 import 'package:yalla_coupon/common/widgets/custom_button.dart';
@@ -10,10 +15,12 @@ import 'package:yalla_coupon/common/widgets/search_filed.dart';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/brand_card.dart';
+import '../../../../common/helper/my_activity_card.dart';
 import '../../../../common/helper/offer_card.dart';
 import '../../../../common/helper/trending_offer_card.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../data/dummy_data.dart';
+import '../../coupons/views/coupons_details_from_banner_view.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -29,7 +36,7 @@ class HomeView extends GetView<HomeController> {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(()=> NotificationsView());
+              Get.to(() => NotificationsView());
             },
             child: Image.asset(
               AppImages.notification,
@@ -37,15 +44,21 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
           sw12,
-          CircleAvatar(
-            radius: 18,
-            backgroundImage: NetworkImage(AppImages.profileImage, scale: 4),
+          GestureDetector(
+            onTap: (){
+              Get.to(()=> ProfileView(showBackButton: true,));
+            },
+            child: CircleAvatar(
+              radius: 18,
+              backgroundImage: NetworkImage(AppImages.profileImage, scale: 4),
+            ),
           ),
           sw20,
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -92,7 +105,9 @@ class HomeView extends GetView<HomeController> {
                         sh12,
                         CustomButton(
                           text: 'Get Offer',
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(() => CouponsDetailsFromBannerView());
+                          },
                           gradientColors: AppColors.buttonColor,
                           width: 120.w,
                         ),
@@ -103,7 +118,11 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             sh20,
-            CustomRowHeader(title: 'Store', onTap: () {}),
+            CustomRowHeader(
+                title: 'Store',
+                onTap: () {
+                  Get.to(() => StoreView());
+                }),
             sh12,
             SizedBox(
               height: 90.h, // enough for icon + text
@@ -117,13 +136,19 @@ class HomeView extends GetView<HomeController> {
                   return BrandCard(
                     image: brand['image']!,
                     title: brand['name']!,
-                    onTap: () {},
+                    onTap: () {
+                      Get.to(() => SingleStoreCouponsView(brand['name']!));
+                    },
                   );
                 },
               ),
             ),
             sh20,
-            CustomRowHeader(title: 'Featured Deals', onTap: () {}),
+            CustomRowHeader(
+                title: 'Featured Deals',
+                onTap: () {
+                  Get.to(() => CouponsView());
+                }),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -141,16 +166,21 @@ class HomeView extends GetView<HomeController> {
                     usageCount: offer['usageCount'],
                     isFavorite: offer['isFavorite'],
                     onFavoriteTap: () {},
-                    onButtonTap: () {},
+                    onButtonTap: () {
+                      Get.to(() => CouponsDetailsView());
+                    },
                   ),
                 );
               },
             ),
-            CustomRowHeader(title: '🔥Top Trending Coupons', onTap: () {}),
+            CustomRowHeader(
+              title: '🔥Top Trending Coupons',
+            ),
+            sh16,
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: 2,
               itemBuilder: (context, index) {
                 final offer = DummyData.offers[index];
@@ -162,13 +192,37 @@ class HomeView extends GetView<HomeController> {
                     imagePath: offer['image'],
                     usageText: offer['usageCount'],
                     onTap: () {
-                      print("Offer clicked!");
+                      Get.to(() => CouponsDetailsView());
                     },
                   ),
                 );
               },
             ),
-            sh30
+            sh8,
+            CustomRowHeader(title: 'Your Activity'),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 20.w),
+            //   child: Text('Your Activity',style: h3,),
+            // ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.silver)),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: DummyData.activityHome.length,
+                itemBuilder: (context, index) {
+                  final item = DummyData.activityHome[index];
+                  return MyActivityCard(
+                    imageType: item["type"]!,
+                    title: item["title"]!,
+                    subtitle: item["subtitle"]!,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

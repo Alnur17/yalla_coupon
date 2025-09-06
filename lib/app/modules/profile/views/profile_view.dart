@@ -1,10 +1,13 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:yalla_coupon/app/modules/profile/views/faq_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/favourite_view.dart';
-import 'package:yalla_coupon/app/modules/profile/views/feedback_view.dart';
+import 'package:yalla_coupon/app/modules/profile/views/contact_us_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/language_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/privacy_and_policy_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/terms_and_conditions_view.dart';
@@ -21,9 +24,10 @@ import 'change_password_view.dart';
 import 'edit_profile_view.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({super.key});
+  final bool showBackButton;
+  ProfileView( {super.key, this.showBackButton = false});
 
-  //final ProfileController profileController = Get.put(ProfileController());
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,18 @@ class ProfileView extends GetView<ProfileController> {
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
         title: const Text('Profile'),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: showBackButton,
+        leading: showBackButton
+            ? GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Image.asset(
+            AppImages.back,
+            scale: 4,
+          ),
+        )
+            : null,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -47,13 +62,36 @@ class ProfileView extends GetView<ProfileController> {
               Center(
                 child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: AppColors.white,
-                      backgroundImage: NetworkImage(
-                        AppImages.profileImageTwo,
-                      ),
-                    ),
+                    Obx(() {
+                      final imagePath = profileController.profileImageUrl.value;
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundColor: AppColors.whiteDark,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: imagePath.startsWith("http")
+                              ? CachedNetworkImage(
+                            imageUrl: imagePath,
+                            height: Get.height.h,
+                            width: Get.width.w,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(color: AppColors.bottomBarText,),
+                            ),
+                            errorWidget: (context, url, error) => const Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            ),
+                          )
+                              : Image.file(
+                            File(imagePath),
+                            height: Get.height.h,
+                            width: Get.width.w,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    }),
                     sh12,
                     Text(
                       'Alex Richards',
@@ -165,10 +203,10 @@ class ProfileView extends GetView<ProfileController> {
                   children: [
                     CustomListTile(
                       onTap: () {
-                        Get.to(() => FeedbackView());
+                        Get.to(() => ContactUsView());
                       },
                       leadingImage: AppImages.feedback,
-                      title: 'Feedback',
+                      title: 'Contact Us',
                       trailingImage: AppImages.arrowRight,
                     ),
                     CustomListTile(
@@ -229,6 +267,7 @@ class ProfileView extends GetView<ProfileController> {
               // Confirm Logout Button
               CustomButton(
                 text: "Confirm Log Out",
+                borderRadius: 12,
                 backgroundColor: AppColors.red,
                 textColor: AppColors.white,
                 onPressed: () {
@@ -240,6 +279,7 @@ class ProfileView extends GetView<ProfileController> {
               // Cancel Button
               CustomButton(
                 text: "Cancel",
+                borderRadius: 12,
                 backgroundColor: AppColors.silver,
                 textColor: AppColors.black,
                 onPressed: () {

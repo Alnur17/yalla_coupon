@@ -7,11 +7,11 @@ class CustomRowHeader extends StatelessWidget {
   const CustomRowHeader({
     super.key,
     required this.title,
-    required this.onTap,
+     this.onTap,
   });
 
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,17 @@ class CustomRowHeader extends StatelessWidget {
             title,
             style: h3,
           ),
-          GestureDetector(
-            onTap: onTap,
-            child: Text(
-              'View All',
-              style: h6.copyWith(color: AppColors.blue),
+          if (onTap != null)
+            GestureDetector(
+              onTap: onTap,
+              child: Text(
+                'View All',
+                style: h6.copyWith(
+                  color: AppColors.blue,
+                  //decoration: TextDecoration.underline, // optional for visual cue
+                ),
+              ),
             ),
-          ),
         ],
       ),
     );

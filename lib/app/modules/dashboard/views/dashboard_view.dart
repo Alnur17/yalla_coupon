@@ -20,7 +20,7 @@ class DashboardView extends GetView<DashboardController> {
       const StoreView(),
       const CouponsView(),
       const ActivityLogView(),
-      const ProfileView(),
+      ProfileView(),
     ];
   }
 
@@ -30,7 +30,8 @@ class DashboardView extends GetView<DashboardController> {
         icon: Image.asset(AppImages.homeFilled, scale: 4),
         inactiveIcon: Image.asset(AppImages.home, scale: 4),
         title: ("Home"),
-        contentPadding: 0, // 🔥 Reduce gap
+        contentPadding: 0,
+        // 🔥 Reduce gap
         activeColorPrimary: AppColors.bottomBarText,
         inactiveColorPrimary: AppColors.transparent,
       ),
@@ -72,7 +73,7 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     final PersistentTabController controller =
-    PersistentTabController(initialIndex: 0);
+        PersistentTabController(initialIndex: 0);
 
     return Scaffold(
       body: PersistentTabView(

@@ -38,175 +38,22 @@ class AppImages {
   static const logout = "assets/icons/logout.png";
   static const terms = "assets/icons/terms and conditions.png";
   static const privacy = "assets/icons/privacy and policy.png";
-
-
-
-
-
-
-  static const addFloating = "assets/icons/float add.png";
-  static const message = "assets/icons/message.png";
-  static const earning = "assets/icons/earning.png";
-  static const earningFilled = "assets/icons/earning filled.png";
-  static const messages = "assets/icons/messages.png";
-  static const messagesFilled = "assets/icons/messages filled.png";
-  static const person = "assets/icons/person.png";
-  static const personFilled = "assets/icons/person filled.png";
-  static const personRed = "assets/icons/person red.png";
-  static const marketPlace = "assets/icons/market place.png";
-  static const marketPlaceRed = "assets/icons/marketplace red.png";
-  static const book = "assets/icons/book.png";
-  static const bookFilled = "assets/icons/book filled.png";
-  static const homeRed = "assets/icons/home red.png";
-  static const order = "assets/icons/Order.png";
-  static const orderTwo = "assets/icons/order 2.png";
-  static const chatTwo = "assets/icons/chat 2.png";
-  static const addGroup = "assets/icons/add group.png";
-  static const addCircle = "assets/icons/add circle.png";
-  static const wheelIcon = "assets/icons/wheel icon.png";
-  static const wheelIconRed = "assets/icons/wheel icon red.png";
-  static const steeringWheel = "assets/icons/steering wheel.png";
   static const copy = "assets/icons/copy.png";
-  static const chat = "assets/icons/chat.png";
-  static const chatRed = "assets/icons/chat red.png";
-  static const chatFilled = "assets/icons/Chat_alt_fill.png";
-  static const basket = "assets/icons/Basket_alt_3.png";
-  static const basketFilled = "assets/icons/Basket_alt_3_fill.png";
-  static const searchNav = "assets/icons/Search nav.png";
-
-
-  static const back = "assets/icons/back.png";
-  static const like = "assets/icons/like.png";
-  static const unLike = "assets/icons/unlike.png";
+  static const view = "assets/icons/view.png";
+  static const call = "assets/icons/call.png";
+  static const email = "assets/icons/email.png";
   static const facebook = "assets/icons/facebook.png";
   static const google = "assets/icons/google.png";
-  static const apple = "assets/icons/apple.png";
-  static const bookmark = "assets/icons/bookmark-add.png";
-  static const bookmarkSmall = "assets/icons/bookmark-small.png";
-  static const delete = "assets/icons/delete.png";
-  static const deleteTwo = "assets/icons/delete 2.png";
-  static const edit = "assets/icons/edit.png";
-  static const editRound = "assets/icons/edit round.png";
-  static const add = "assets/icons/add.png";
-  static const invite = "assets/icons/invite.png";
-  static const addRound = "assets/icons/add round.png";
-  static const minusRound = "assets/icons/minus_round.png";
-  static const minus = "assets/icons/minus.png";
-  static const location = "assets/icons/location.png";
-  static const locationRed = "assets/icons/location red.png";
-  static const locationRound = "assets/icons/location round.png";
-  static const locationRoundTwo = "assets/icons/location round 2.png";
+  static const back = "assets/icons/back.png";
+  static const giftBox = "assets/icons/gift box.png";
 
-  static const share = "assets/icons/share.png";
-  static const stars = "assets/icons/stars.png";
-  static const fuel = "assets/icons/fuel station.png";
-  static const fuelFiller = "assets/icons/fuel filler.png";
-  static const mileage = "assets/icons/mileage.png";
-  static const transmission = "assets/icons/transmission.png";
-  static const upload = "assets/icons/upload.png";
-  static const send = "assets/icons/send.png";
-  static const attachFile = "assets/icons/attach file.png";
-  static const account = "assets/icons/account.png";
-  static const family = "assets/icons/family.png";
-  static const deliveryCar = "assets/icons/delivery car.png";
-  static const aboutUs = "assets/icons/about us.png";
-  static const termsAndConditions = "assets/icons/terms and conditions.png";
-  static const myOrder = "assets/icons/my order.png";
-  static const payment = "assets/icons/payment.png";
-  static const garage = "assets/icons/garage.png";
-  static const keyLight = "assets/icons/key light.png";
-  static const filter = "assets/icons/Filter_big.png";
-  static const call = "assets/icons/call.png";
-  static const callSmall = "assets/icons/call small.png";
-  static const callRound = "assets/icons/call round.png";
-  static const close = "assets/icons/close.png";
-  static const groupLight = "assets/icons/group light.png";
-  static const public = "assets/icons/public.png";
-  static const work = "assets/icons/Work.png";
-  static const toggleOn = "assets/icons/toggle on.png";
-  static const toggleOff = "assets/icons/toggle off.png";
-  static const gasStation = "assets/icons/gas station.png";
-  static const gasStationSmall = "assets/icons/gas station small.png";
-  static const pdfDownload = "assets/icons/pdf download.png";
-
-  static const starCard = "assets/icons/star card.png";
-  static const starCardTwo = "assets/icons/star card 2.png";
-  static const starFilled = "assets/icons/star filled.png";
-  static const menu = "assets/icons/menu.png";
-  static const pause = "assets/icons/pause.png";
-  static const play = "assets/icons/play.png";
-  static const unMute = "assets/icons/unmute.png";
-  static const mute = "assets/icons/mute.png";
-  static const fileAttachment = 'assets/icons/file-attachment.png';
-  static const media = "assets/icons/media.png";
-  static const logoutTwo = "assets/icons/logout 2.png";
-  static const settings = "assets/icons/settings.png";
-  static const placeHolderImage = "assets/icons/placeholder no image.png";
-  static const adminSettings = "assets/icons/admin settings.png";
-  static const camera = "assets/icons/camera.png";
-  static const gallery = "assets/icons/gallery.png";
-  static const car = "assets/icons/car.png";
-  static const carShipped = "assets/icons/car shipped.png";
-  static const boxShape = "assets/icons/box shape.png";
-  static const oilLoader = "assets/icons/oil loader.png";
-  static const editProfile = "assets/icons/edit profile.png";
-  static const policy = "assets/icons/policy.png";
-  static const subscription = "assets/icons/subscription.png";
-  static const submit = "assets/icons/submit.png";
-  static const addCar = "assets/icons/add car.png";
-  static const checkMark = "assets/icons/checkmark.png";
-  static const subsRight = "assets/icons/subs right.png";
-  static const star = "assets/icons/star.png";
-  static const locationBlue = "assets/icons/location blue.png";
-  static const estimatedTime = "assets/icons/estimated time.png";
 
   //================ Images ==================>
 
   static const offerImage = "assets/images/nike.png";
   static const bannerImage = "assets/images/amazon offer.png";
-
-
-
-
-
-
-  static const backgroundImage = "assets/images/backgroundImage.png";
-  static const subscriptionImage = "assets/images/subscription image.png";
   static const verifySuccess = "assets/images/verify success.png";
-  static const unleaded = "assets/images/unleaded.png";
-  static const premium = "assets/images/premium.png";
-  static const diesel = "assets/images/diesel.png";
-  static const emergencyFuel = "assets/images/emergency fuel image.png";
-  static const discount = "assets/images/discount image.png";
-  static const mapImage = "assets/images/map image.png";
-  static const paymentSuccess = "assets/images/payment success.png";
 
-
-  static const onboardingOne = "assets/images/onboarding 1.png";
-  static const onboardingTwo = "assets/images/onboarding 2.png";
-  static const onboardingThree = "assets/images/onboarding 3.png";
-  static const homePromo = "assets/images/home promo image.png";
-  static const storeImage = 'assets/images/store image.png';
-  static const productImage = 'assets/images/product image.jpg';
-  static const carImage = 'assets/images/car image 1.jpg';
-  static const carImageTwo = 'assets/images/car image 2.jpg';
-  static const carImageThree = 'assets/images/car image 3.jpg';
-  static const carImageFour = 'assets/images/car image 4.jpg';
-  static const carImageFive = 'assets/images/car image 5.jpg';
-  static const coverImage = 'assets/images/cover image.png';
-  static const onboardingBackTwo = "assets/images/onboarding background 2.png";
-  static const authFlower = "assets/images/auth flower.png";
-  static const authHome = "assets/images/auth home back.png";
-  static const signInSignUpBackColor = "assets/images/signin or signup background.png";
-  static const forgotImage = "assets/images/forgot.png";
-  static const loginImage = "assets/images/login.png";
-  static const newPassImage = "assets/images/new pass.png";
-  static const signUpImage = "assets/images/signup.png";
-  static const verifyCodeImage = "assets/images/verify.png";
-  static const groupImage = "assets/images/groupImage.png";
-  static const starImage = "assets/images/star image.png";
-  static const scheduleDeliveryImage = "assets/images/schedule delivery image.png";
-  static const deliveryManImage = "assets/images/delivery man image.png";
 
   static const profileImage = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
   static const profileImageTwo = 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541';
