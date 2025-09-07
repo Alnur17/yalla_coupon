@@ -43,11 +43,11 @@ class NotificationCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(time, style: h6),
+              Text(time, style: h6.copyWith(color: AppColors.greyMedium)),
             ],
           ),
           sh8,
-          Text(subtitle, style: h4),
+          Text(subtitle, style: h5.copyWith(color: AppColors.greyMedium)),
           sh8,
           CustomButton(
             text: 'View Offer',

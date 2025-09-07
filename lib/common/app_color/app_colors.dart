@@ -21,6 +21,7 @@ class AppColors {
   static const transparent = Colors.transparent;
   static const greyLight = Color(0xffececec);
   static const grey = Color(0xffa5a5a5);
+  static const greyMedium = Color(0xff4B5563);
   static const greyDark = Color(0xff2A2A2A);
   static const silver = Color(0xffE8EBF0);
   static const white = Color(0xffffffff);

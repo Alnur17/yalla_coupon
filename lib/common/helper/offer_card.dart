@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yalla_coupon/app/modules/auth/forgot_password/views/forgot_password_view.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
 import 'package:yalla_coupon/common/app_text_style/styles.dart';
@@ -62,8 +61,9 @@ class OfferCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: h3),
-                  Text(subtitle, style: h6),
+                  Text(title, style: h3.copyWith(fontWeight: FontWeight.w700)),
+                  Text(subtitle,
+                      style: h6.copyWith(color: AppColors.greyMedium)),
                 ],
               ),
               const Spacer(),
@@ -90,11 +90,14 @@ class OfferCard extends StatelessWidget {
             children: [
               Text(
                 'Valid till: $validTill',
-                style: h5,
+                style: h5.copyWith(color: AppColors.greyMedium),
               ),
               Text(
                 '$usageCount times used',
-                style: h5.copyWith(color: AppColors.bottomBarText),
+                style: h6.copyWith(
+                  color: AppColors.bottomBarText,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ],
           )

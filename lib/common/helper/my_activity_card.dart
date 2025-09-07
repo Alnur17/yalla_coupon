@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yalla_coupon/common/app_color/app_colors.dart';
 
 import '../app_images/app_images.dart';
+import '../app_text_style/styles.dart';
 
 class MyActivityCard extends StatelessWidget {
   final String imageType;
@@ -37,8 +39,17 @@ class MyActivityCard extends StatelessWidget {
         imagePath,
         scale: scale,
       ),
-      title: Text(title),
-      subtitle: Text(subtitle),
+      title: Text(
+        title,
+        style: h5.copyWith(fontWeight: FontWeight.w700),
+      ),
+      subtitle: Text(
+        subtitle,
+        style: h6.copyWith(
+          fontWeight: FontWeight.w700,
+          color: AppColors.greyMedium,
+        ),
+      ),
     );
   }
 }

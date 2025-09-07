@@ -48,7 +48,7 @@ class ContactUsView extends GetView {
               sh5,
               Text(
                 'We\'d love to hear from you!',
-                style: h5,
+                style: h5.copyWith(color: AppColors.greyMedium),
               ),
               sh20,
               Text('Email Address', style: h4),

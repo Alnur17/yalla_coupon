@@ -103,6 +103,7 @@ class ProfileView extends GetView<ProfileController> {
                       'alex.Richards@**90.com',
                       style: h5.copyWith(
                         fontWeight: FontWeight.w500,
+                        color: AppColors.grey
                       ),
                     ),
                   ],
@@ -115,7 +116,7 @@ class ProfileView extends GetView<ProfileController> {
               ),
               Text(
                 'Update your info to your account',
-                style: h5,
+                style: h5.copyWith(color: AppColors.grey),
               ),
               sh12,
               Container(
@@ -158,7 +159,7 @@ class ProfileView extends GetView<ProfileController> {
               ),
               Text(
                 'View your privacy',
-                style: h5,
+                style: h5.copyWith(color: AppColors.grey),
               ),
               sh12,
               Container(

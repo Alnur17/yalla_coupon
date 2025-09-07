@@ -80,7 +80,7 @@ class ActivityLogCard extends StatelessWidget {
                 children: [
                   Text(storeName, style: h3),
                   Text(couponCode, style: h5),
-                  Text(dateTime, style: h6),
+                  Text(dateTime, style: h6.copyWith(color: AppColors.grey)),
                 ],
               ),
             ),
