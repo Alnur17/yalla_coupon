@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
@@ -9,11 +12,47 @@ import 'package:yalla_coupon/common/widgets/custom_button.dart';
 
 import '../../../../common/app_images/app_images.dart';
 
-class CouponsDetailsView extends GetView {
+class CouponsDetailsView extends StatefulWidget {
   const CouponsDetailsView({super.key});
 
   @override
+  State<CouponsDetailsView> createState() => _CouponsDetailsViewState();
+}
+
+class _CouponsDetailsViewState extends State<CouponsDetailsView> {
+  late Timer _timer;
+  Duration _timeLeft = const Duration(days: 2, hours: 23, minutes: 45); // initial value
+
+  @override
+  void initState() {
+    super.initState();
+    _startCountdown();
+  }
+
+  void _startCountdown() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_timeLeft.inSeconds > 0) {
+        setState(() {
+          _timeLeft -= const Duration(seconds: 1);
+        });
+      } else {
+        _timer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final days = _timeLeft.inDays;
+    final hours = _timeLeft.inHours % 24;
+    final minutes = _timeLeft.inMinutes % 60;
+    final seconds = _timeLeft.inSeconds % 60;
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -69,11 +108,13 @@ class CouponsDetailsView extends GetView {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      timeBox("01", "Days"),
+                      timeBox(days.toString().padLeft(2, "0"), "Days"),
                       sw8,
-                      timeBox("23", "Hours"),
+                      timeBox(hours.toString().padLeft(2, "0"), "Hours"),
                       sw8,
-                      timeBox("45", "Min"),
+                      timeBox(minutes.toString().padLeft(2, "0"), "Min"),
+                      sw8,
+                      timeBox(seconds.toString().padLeft(2, "0"), "Sec"),
                     ],
                   )
                 ],
@@ -156,7 +197,18 @@ class CouponsDetailsView extends GetView {
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.pink,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: "MYNTRA20"));
+                            Get.snackbar(
+                              "Copied!",
+                              "Coupon code copied to clipboard",
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.black87,
+                              colorText: Colors.white,
+                              margin: EdgeInsets.all(12),
+                              borderRadius: 8,
+                            );
+                          },
                           child: const Text("COPY CODE"),
                         ),
                       ],
@@ -178,7 +230,18 @@ class CouponsDetailsView extends GetView {
             // Copy & Go button
             CustomButton(
               text: "COPY & GO TO STORE",
-              onPressed: () {},
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: "MYNTRA20"));
+                Get.snackbar(
+                  "Copied!",
+                  "Coupon code copied to clipboard",
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.black87,
+                  colorText: Colors.white,
+                  margin: EdgeInsets.all(12),
+                  borderRadius: 8,
+                );
+              },
               backgroundColor: AppColors.transparent,
               borderColor: AppColors.orange,
               borderRadius: 12,
