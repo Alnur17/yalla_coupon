@@ -70,53 +70,6 @@ class LanguageView extends GetView {
               trailingImage: AppImages.checkBox,
               containerColor: AppColors.transparent,
             ),
-            // Center(
-            //   child: ToggleButtons(
-            //     borderRadius: BorderRadius.circular(20),
-            //     selectedBorderColor: AppColors.buttonColor[0],
-            //     selectedColor: Colors.white,
-            //     fillColor: AppColors.buttonColor[0],
-            //     color: AppColors.buttonColor[0].withOpacity(0.5),
-            //     borderColor: AppColors.buttonColor[0].withOpacity(0.5),
-            //     splashColor: AppColors.buttonColor[0].withOpacity(0.3),
-            //     children: [
-            //       Padding(
-            //         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            //         child: Row(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Image.asset(
-            //               AppImages.accountInfo, // Replace with actual English flag asset
-            //               width: 24.w,
-            //               height: 24.w,
-            //             ),
-            //             SizedBox(width: 8.w),
-            //             Text('English', style: h5),
-            //           ],
-            //         ),
-            //       ),
-            //       Padding(
-            //         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-            //         child: Row(
-            //           mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Image.asset(
-            //               AppImages.accountInfo, // Replace with actual Arabic flag asset
-            //               width: 24.w,
-            //               height: 24.w,
-            //             ),
-            //             SizedBox(width: 8.w),
-            //             Text('Arabic', style: h5),
-            //           ],
-            //         ),
-            //       ),
-            //     ],
-            //     onPressed: (int index) {
-            //       // Handle toggle selection (single selection logic)
-            //     },
-            //     isSelected: [true, false], // Initial selection (English by default)
-            //   ),
-            // ),
             sh30,
             CustomButton(
               text: 'Save Changes',

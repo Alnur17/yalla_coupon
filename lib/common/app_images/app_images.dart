@@ -1,5 +1,6 @@
 class AppImages {
   //================ Icons ==================>
+  static const logo = "assets/icons/logo.png";
   static const splashLogo = "assets/icons/splashLogo.png";
   static const logoText = "assets/icons/logo text.png";
   static const arrowRight = "assets/icons/arrow right.png";
