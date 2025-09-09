@@ -13,7 +13,7 @@
         android:maxSdkVersion="29"/>
 
     <application
-        android:label="yalla_coupon"
+        android:label="Yalla Coupon"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
