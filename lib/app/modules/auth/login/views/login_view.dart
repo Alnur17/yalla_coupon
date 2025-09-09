@@ -12,6 +12,7 @@ import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../../common/widgets/custom_button.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
 import '../../forgot_password/views/forgot_password_view.dart';
+import '../../sign_up/views/sign_up_view.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends StatefulWidget {
@@ -99,6 +100,18 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                         'Forgot password?',
                         style: h4.copyWith(color: AppColors.blue),
+                      ),
+                    ),
+                    sh16,
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => const SignUpView());
+                      },
+                      child: Center(
+                        child: Text(
+                          'I don\'t have an account',
+                          style: h4.copyWith(color: AppColors.grey),
+                        ),
                       ),
                     ),
                     sh24,

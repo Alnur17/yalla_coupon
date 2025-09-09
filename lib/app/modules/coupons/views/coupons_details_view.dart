@@ -21,7 +21,8 @@ class CouponsDetailsView extends StatefulWidget {
 
 class _CouponsDetailsViewState extends State<CouponsDetailsView> {
   late Timer _timer;
-  Duration _timeLeft = const Duration(days: 2, hours: 23, minutes: 45); // initial value
+  Duration _timeLeft =
+      const Duration(days: 2, hours: 23, minutes: 45); // initial value
 
   @override
   void initState() {
@@ -199,15 +200,6 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                           ),
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: "MYNTRA20"));
-                            Get.snackbar(
-                              "Copied!",
-                              "Coupon code copied to clipboard",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Colors.black87,
-                              colorText: Colors.white,
-                              margin: EdgeInsets.all(12),
-                              borderRadius: 8,
-                            );
                           },
                           child: const Text("COPY CODE"),
                         ),
@@ -272,14 +264,16 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
               width: double.infinity,
               padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
-                color: Colors.green.shade50,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.green.shade300)
-              ),
+                  color: Colors.green.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.green.shade300)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('User Rate',style: h3.copyWith(color: AppColors.darkGreen),),
+                  Text(
+                    'User Rate',
+                    style: h3.copyWith(color: AppColors.darkGreen),
+                  ),
                   sh12,
                   Text(
                     "2.3k Times copied this coupon",

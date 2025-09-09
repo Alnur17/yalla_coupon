@@ -22,7 +22,7 @@ class _SplashViewState extends State<SplashView> {
       Get.to(
         () => OnboardingView(),
         transition: Transition.rightToLeft,
-        duration: Duration(milliseconds: 1200),
+        duration: Duration(milliseconds: 1500),
       );
     });
   }

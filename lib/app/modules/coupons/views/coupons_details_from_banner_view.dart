@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,11 +11,50 @@ import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 
-class CouponsDetailsFromBannerView extends GetView {
+class CouponsDetailsFromBannerView extends StatefulWidget {
   const CouponsDetailsFromBannerView({super.key});
 
   @override
+  State<CouponsDetailsFromBannerView> createState() =>
+      _CouponsDetailsFromBannerViewState();
+}
+
+class _CouponsDetailsFromBannerViewState
+    extends State<CouponsDetailsFromBannerView> {
+  late Timer _timer;
+  Duration _timeLeft =
+      const Duration(days: 2, hours: 23, minutes: 45); // initial value
+
+  @override
+  void initState() {
+    super.initState();
+    _startCountdown();
+  }
+
+  void _startCountdown() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_timeLeft.inSeconds > 0) {
+        setState(() {
+          _timeLeft -= const Duration(seconds: 1);
+        });
+      } else {
+        _timer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final days = _timeLeft.inDays;
+    final hours = _timeLeft.inHours % 24;
+    final minutes = _timeLeft.inMinutes % 60;
+    final seconds = _timeLeft.inSeconds % 60;
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -65,15 +106,16 @@ class CouponsDetailsFromBannerView extends GetView {
                       color: AppColors.darkRed,
                     ),
                   ),
-                  sh12,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      timeBox("01", "Days"),
+                      timeBox(days.toString().padLeft(2, "0"), "Days"),
                       sw8,
-                      timeBox("23", "Hours"),
+                      timeBox(hours.toString().padLeft(2, "0"), "Hours"),
                       sw8,
-                      timeBox("45", "Min"),
+                      timeBox(minutes.toString().padLeft(2, "0"), "Min"),
+                      sw8,
+                      timeBox(seconds.toString().padLeft(2, "0"), "Sec"),
                     ],
                   )
                 ],
