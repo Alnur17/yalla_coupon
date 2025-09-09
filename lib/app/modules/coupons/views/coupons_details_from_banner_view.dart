@@ -106,6 +106,7 @@ class _CouponsDetailsFromBannerViewState
                       color: AppColors.darkRed,
                     ),
                   ),
+                  sh12,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

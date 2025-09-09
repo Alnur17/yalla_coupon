@@ -224,15 +224,6 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
               text: "COPY & GO TO STORE",
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: "MYNTRA20"));
-                Get.snackbar(
-                  "Copied!",
-                  "Coupon code copied to clipboard",
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.black87,
-                  colorText: Colors.white,
-                  margin: EdgeInsets.all(12),
-                  borderRadius: 8,
-                );
               },
               backgroundColor: AppColors.transparent,
               borderColor: AppColors.orange,

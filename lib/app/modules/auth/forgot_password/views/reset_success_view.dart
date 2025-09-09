@@ -44,8 +44,9 @@ class ResetSuccessView extends GetView {
               onPressed: () {
                 Get.offAll(()=> LoginView());
               },
-              imageAssetPath: AppImages.arrowRightNormal,
-              gradientColors: AppColors.buttonColor,
+              borderColor: AppColors.bottomBarText,
+              textStyle: h3.copyWith(color: AppColors.bottomBarText),
+              //gradientColors: AppColors.buttonColor,
             ),
           ],
         ),
