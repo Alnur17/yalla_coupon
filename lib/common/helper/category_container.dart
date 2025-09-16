@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_text_style/styles.dart';
 
@@ -24,11 +25,12 @@ class BrandCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 55.h,
-            width: 55.w,
+            height: 45.h,
+            width: 45.w,
             decoration: BoxDecoration(
-              color: AppColors.silver,
+             // color: AppColors.silver,
               borderRadius: BorderRadius.circular(8),
+
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -38,11 +40,17 @@ class BrandCard extends StatelessWidget {
               ),
             ),
           ),
-          sh8,
-          Text(
-            title,
-            style: h5,
+          SizedBox(
+            width: 70.w, // give a width so text wraps nicely
+            child: Text(
+              title,
+              style: h5,
+              maxLines: 2, // allow up to 2 lines
+              overflow: TextOverflow.ellipsis, // optional
+              textAlign: TextAlign.center, // center text under image
+            ),
           ),
+          //sh8,
         ],
       ),
     );

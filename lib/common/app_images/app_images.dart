@@ -45,6 +45,7 @@ class AppImages {
   static const email = "assets/icons/email.png";
   static const facebook = "assets/icons/facebook.png";
   static const google = "assets/icons/google.png";
+  static const apple = "assets/icons/apple.png";
   static const back = "assets/icons/back.png";
   static const giftBox = "assets/icons/gift box.png";
 

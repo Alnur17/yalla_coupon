@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,12 +11,13 @@ import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
 import 'package:yalla_coupon/app/modules/store/views/store_view.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
+import 'package:yalla_coupon/common/helper/store_container.dart';
 import 'package:yalla_coupon/common/widgets/custom_button.dart';
 import 'package:yalla_coupon/common/widgets/custom_row_header.dart';
 import 'package:yalla_coupon/common/widgets/search_filed.dart';
 
 import '../../../../common/app_text_style/styles.dart';
-import '../../../../common/helper/brand_card.dart';
+import '../../../../common/helper/category_container.dart';
 import '../../../../common/helper/my_activity_card.dart';
 import '../../../../common/helper/offer_card.dart';
 import '../../../../common/helper/trending_offer_card.dart';
@@ -45,8 +48,10 @@ class HomeView extends GetView<HomeController> {
           ),
           sw12,
           GestureDetector(
-            onTap: (){
-              Get.to(()=> ProfileView(showBackButton: true,));
+            onTap: () {
+              Get.to(() => ProfileView(
+                    showBackButton: true,
+                  ));
             },
             child: CircleAvatar(
               radius: 18,
@@ -118,32 +123,106 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             sh20,
-            CustomRowHeader(
-                title: 'Store',
-                onTap: () {
-                  Get.to(() => StoreView());
-                }),
-            sh12,
-            SizedBox(
-              height: 90.h, // enough for icon + text
-              child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                scrollDirection: Axis.horizontal,
-                itemCount: DummyData.brands.length,
-                separatorBuilder: (_, __) => SizedBox(width: 16.w),
-                itemBuilder: (context, index) {
-                  final brand = DummyData.brands[index];
-                  return BrandCard(
-                    image: brand['image']!,
-                    title: brand['name']!,
-                    onTap: () {
-                      Get.to(() => SingleStoreCouponsView(brand['name']!));
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              margin: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppColors.borderColor),
+              ),
+              child: Column(
+                children: [
+                  CustomRowHeader(
+                      title: 'Categories',
+                      onTap: () {
+                        Get.to(() => StoreView());
+                      }),
+                  sh12,
+                  SizedBox(
+                    height: 90.h, // enough for icon + text
+                    child: ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: DummyData.brands.length,
+                      separatorBuilder: (_, __) => SizedBox(width: 16.w),
+                      itemBuilder: (context, index) {
+                        final brand = DummyData.brands[index];
+                        return BrandCard(
+                          image: brand['image']!,
+                          title: brand['name']!,
+                          onTap: () {
+                            Get.to(
+                                () => SingleStoreCouponsView(brand['name']!));
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  Divider(
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  sh12,
+                  // StoreContainer(
+                  //   imagePath: AppImages.offerImage,
+                  //   title: 'Nike',
+                  //   onTap: () {
+                  //     // handle tap
+                  //   },
+                  // ),
+
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    // will show at most 12 items, or less if list is shorter
+                    itemCount: min(12, DummyData.brands.length),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 1,
+                    ),
+                    itemBuilder: (context, index) {
+                      final brand = DummyData.brands[index];
+                      return StoreContainer(
+                        image: brand['image']!,
+                        title: brand['name']!,
+                        onTap: () {
+                          Get.to(() => SingleStoreCouponsView(brand['name']!));
+                        },
+                      );
                     },
-                  );
-                },
+                  ),
+                ],
               ),
             ),
             sh20,
+            CustomRowHeader(
+              title: '🔥Top Trending Coupons',
+            ),
+            sh16,
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                final offer = DummyData.offers[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: TrendingOfferCard(
+                    title: offer['title'],
+                    subtitle: offer['subtitle'],
+                    imagePath: offer['image'],
+                    usageText: offer['usageCount'],
+                    onTap: () {
+                      Get.to(() => CouponsDetailsView());
+                    },
+                  ),
+                );
+              },
+            ),
+            sh16,
             CustomRowHeader(
                 title: 'Featured Deals',
                 onTap: () {
@@ -173,32 +252,8 @@ class HomeView extends GetView<HomeController> {
                 );
               },
             ),
-            CustomRowHeader(
-              title: '🔥Top Trending Coupons',
-            ),
-            sh16,
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                final offer = DummyData.offers[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: TrendingOfferCard(
-                    title: offer['title'],
-                    subtitle: offer['subtitle'],
-                    imagePath: offer['image'],
-                    usageText: offer['usageCount'],
-                    onTap: () {
-                      Get.to(() => CouponsDetailsView());
-                    },
-                  ),
-                );
-              },
-            ),
-            sh8,
+
+            //sh8,
             CustomRowHeader(title: 'Your Activity'),
             // Padding(
             //   padding: EdgeInsets.symmetric(horizontal: 20.w),
