@@ -25,6 +25,8 @@ class AppImages {
   static const profileFilled = "assets/icons/profile filled.png";
   static const store = "assets/icons/store.png";
   static const storeFilled = "assets/icons/store filled.png";
+  static const category = "assets/icons/category.png";
+  static const categoryFilled = "assets/icons/category filled.png";
   static const favorite = "assets/icons/favorite.png";
   static const favoriteFilled = "assets/icons/favorite filled.png";
   static const language = "assets/icons/language.png";
@@ -48,6 +50,7 @@ class AppImages {
   static const apple = "assets/icons/apple.png";
   static const back = "assets/icons/back.png";
   static const giftBox = "assets/icons/gift box.png";
+  static const categoryImage = "assets/icons/category image.png";
 
 
   //================ Images ==================>

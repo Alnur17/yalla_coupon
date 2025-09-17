@@ -82,6 +82,34 @@ class DummyData {
     }
   ];
 
+  static final List<Map<String, dynamic>> category = [
+    {
+      "categoryName": "Beauty",
+      "storeCount": "12",
+      "imagePath": AppImages.categoryImage
+    },
+    {
+      "categoryName": "Fation",
+      "storeCount": "8",
+      "imagePath": AppImages.categoryImage
+    },
+    {
+      "categoryName": "Mom & Kids",
+      "storeCount": "15",
+      "imagePath": AppImages.categoryImage
+    },
+    {
+      "categoryName": "Furniture",
+      "storeCount": "5",
+      "imagePath": AppImages.categoryImage
+    },
+    {
+      "categoryName": "Food",
+      "storeCount": "10",
+      "imagePath": AppImages.categoryImage
+    }
+  ];
+
   static final List<Map<String, dynamic>> offers = [
     {
       'title': '20% OFF Everything',

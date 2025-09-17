@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:yalla_coupon/app/modules/activity_log/views/activity_log_view.dart';
+import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/home_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
@@ -17,7 +18,8 @@ class DashboardView extends GetView<DashboardController> {
   List<Widget> _buildScreens() {
     return [
       const HomeView(),
-      const StoreView(),
+      //const StoreView(),
+      const CategoryView(),
       const CouponsView(),
       const ActivityLogView(),
       ProfileView(),
@@ -36,9 +38,9 @@ class DashboardView extends GetView<DashboardController> {
         inactiveColorPrimary: AppColors.transparent,
       ),
       PersistentBottomNavBarItem(
-        icon: Image.asset(AppImages.storeFilled, scale: 4),
-        inactiveIcon: Image.asset(AppImages.store, scale: 4),
-        title: ("Store"),
+        icon: Image.asset(AppImages.categoryFilled, scale: 4),
+        inactiveIcon: Image.asset(AppImages.category, scale: 4),
+        title: ("Category"),
         contentPadding: 0,
         activeColorPrimary: AppColors.bottomBarText,
         inactiveColorPrimary: AppColors.transparent,

@@ -14,6 +14,7 @@ abstract class Routes {
   static const STORE = _Paths.STORE;
   static const COUPONS = _Paths.COUPONS;
   static const ACTIVITY_LOG = _Paths.ACTIVITY_LOG;
+  static const CATEGORY = _Paths.CATEGORY;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const STORE = '/store';
   static const COUPONS = '/coupons';
   static const ACTIVITY_LOG = '/activity-log';
+  static const CATEGORY = '/category';
 }

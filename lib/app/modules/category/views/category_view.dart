@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:yalla_coupon/app/data/dummy_data.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
+import '../../../../common/helper/all_category_container.dart';
 import '../../../../common/helper/store_card.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/search_filed.dart';
+import '../../../data/dummy_data.dart';
 import '../../coupons/views/single_store_coupons_view.dart';
-import '../controllers/store_controller.dart';
+import '../../store/views/store_view.dart';
+import '../controllers/category_controller.dart';
 
-class StoreView extends GetView<StoreController> {
-  final String categoryName;
-  const StoreView( {super.key, required this.categoryName,});
-
+class CategoryView extends GetView<CategoryController> {
+  const CategoryView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,11 +26,11 @@ class StoreView extends GetView<StoreController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '$categoryName Stores',
+              'All Category',
               style: appBarStyle,
             ),
             Text(
-              'View Category wise Stores',
+              'View All Category',
               style: h5,
             ),
           ],
@@ -46,18 +46,18 @@ class StoreView extends GetView<StoreController> {
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              itemCount: DummyData.stores.length,
+              itemCount: DummyData.category.length,
               itemBuilder: (context, index) {
-                final store = DummyData.stores[index];
+                final category = DummyData.category[index];
                 return Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: StoreCard(
-                    storeName: store['storeName'],
-                    couponCount: store['couponCount'],
-                    imagePath: store['imagePath'],
+                  child: AllCategoryContainer(
+                    categoryName: category['categoryName'],
+                    storeCount: category['storeCount'],
+                    imagePath: category['imagePath'],
                     onTap: () {
-                      Get.to(() => SingleStoreCouponsView(store['storeName']));
-                      print("${store['storeName']} tapped");
+                      Get.to(() => StoreView(categoryName: category['categoryName'], ));
+                      print("${category['categoryName']} tapped");
                     },
                   ),
                 );

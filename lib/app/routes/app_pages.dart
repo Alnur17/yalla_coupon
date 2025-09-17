@@ -12,6 +12,8 @@ import '../modules/auth/sign_up/bindings/sign_up_binding.dart';
 import '../modules/auth/sign_up/views/sign_up_view.dart';
 import '../modules/auth/splash/bindings/splash_binding.dart';
 import '../modules/auth/splash/views/splash_view.dart';
+import '../modules/category/bindings/category_binding.dart';
+import '../modules/category/views/category_view.dart';
 import '../modules/coupons/bindings/coupons_binding.dart';
 import '../modules/coupons/views/coupons_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
@@ -73,7 +75,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.STORE,
-      page: () => const StoreView(),
+      page: () => const StoreView(categoryName: ''),
       binding: StoreBinding(),
     ),
     GetPage(
@@ -85,6 +87,11 @@ class AppPages {
       name: _Paths.ACTIVITY_LOG,
       page: () => const ActivityLogView(),
       binding: ActivityLogBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY,
+      page: () => const CategoryView(),
+      binding: CategoryBinding(),
     ),
   ];
 }

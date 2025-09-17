@@ -3,12 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_details_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/single_store_coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/notifications_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
-import 'package:yalla_coupon/app/modules/store/views/store_view.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
 import 'package:yalla_coupon/common/helper/store_container.dart';
@@ -26,8 +26,15 @@ import '../../../data/dummy_data.dart';
 import '../../coupons/views/coupons_details_from_banner_view.dart';
 import '../controllers/home_controller.dart';
 
-class HomeView extends GetView<HomeController> {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -135,26 +142,27 @@ class HomeView extends GetView<HomeController> {
                   CustomRowHeader(
                       title: 'Categories',
                       onTap: () {
-                        Get.to(() => StoreView());
+                        Get.to(() => CategoryView());
                       }),
                   sh12,
                   SizedBox(
-                    height: 90.h, // enough for icon + text
+                    height: 90.h,
                     child: ListView.separated(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       scrollDirection: Axis.horizontal,
-                      itemCount: DummyData.brands.length,
+                      itemCount: DummyData.category.length,
                       separatorBuilder: (_, __) => SizedBox(width: 16.w),
                       itemBuilder: (context, index) {
-                        final brand = DummyData.brands[index];
-                        return BrandCard(
-                          image: brand['image']!,
-                          title: brand['name']!,
-                          onTap: () {
-                            Get.to(
-                                () => SingleStoreCouponsView(brand['name']!));
-                          },
-                        );
+                        final category = DummyData.category[index];
+                        return Obx(() => CategoryContainer(
+                              image: category['imagePath']!,
+                              title: category['categoryName']!,
+                              isSelected:
+                                  homeController.selectedIndex.value == index,
+                              onTap: () {
+                                homeController.setSelectedIndex(index);
+                              },
+                            ));
                       },
                     ),
                   ),
@@ -163,14 +171,6 @@ class HomeView extends GetView<HomeController> {
                     endIndent: 20,
                   ),
                   sh12,
-                  // StoreContainer(
-                  //   imagePath: AppImages.offerImage,
-                  //   title: 'Nike',
-                  //   onTap: () {
-                  //     // handle tap
-                  //   },
-                  // ),
-
                   GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),

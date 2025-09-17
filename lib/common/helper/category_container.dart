@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_text_style/styles.dart';
 
-import '../size_box/custom_sizebox.dart';
 
-class BrandCard extends StatelessWidget {
+class CategoryContainer extends StatelessWidget {
   final String image;
   final String title;
   final VoidCallback? onTap;
+  final bool isSelected;
 
-  const BrandCard({
+  const CategoryContainer({
     super.key,
     required this.image,
     required this.title,
     this.onTap,
+    this.isSelected = false,
   });
 
   @override
@@ -28,9 +27,11 @@ class BrandCard extends StatelessWidget {
             height: 45.h,
             width: 45.w,
             decoration: BoxDecoration(
-             // color: AppColors.silver,
+              color: isSelected ? Colors.pink.shade50 : Colors.transparent,
               borderRadius: BorderRadius.circular(8),
-
+              border: isSelected
+                  ? Border.all(color: Colors.pink, width: 2)
+                  : null,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
@@ -41,18 +42,21 @@ class BrandCard extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 70.w, // give a width so text wraps nicely
+            width: 70.w,
             child: Text(
               title,
-              style: h5,
-              maxLines: 2, // allow up to 2 lines
-              overflow: TextOverflow.ellipsis, // optional
-              textAlign: TextAlign.center, // center text under image
+              style: h5.copyWith(
+                color: isSelected ? Colors.pink : Colors.black,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             ),
           ),
-          //sh8,
         ],
       ),
     );
   }
 }
+
