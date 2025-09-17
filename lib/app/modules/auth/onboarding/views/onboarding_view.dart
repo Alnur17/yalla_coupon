@@ -11,7 +11,7 @@ import 'package:yalla_coupon/common/widgets/custom_background_color.dart';
 import 'package:yalla_coupon/common/widgets/custom_button.dart';
 
 import '../../../../../common/widgets/custom_list_tile.dart';
-import '../controllers/onboarding_controller.dart';
+import '../../../profile/controllers/language_controller.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -21,7 +21,7 @@ class OnboardingView extends StatefulWidget {
 }
 
 class _OnboardingViewState extends State<OnboardingView> {
-  final controller = Get.put(OnboardingController());
+  final LanguageController languageController = Get.put(LanguageController());
 
   @override
   Widget build(BuildContext context) {
@@ -45,22 +45,33 @@ class _OnboardingViewState extends State<OnboardingView> {
                   style: h3,
                 ),
                 sh8,
-                CustomListTile(
+                Obx(() => CustomListTile(
                   leadingImage: AppImages.languageTwo,
                   title: 'English',
-                  onTap: () {},
-                  trailingImage: AppImages.checkBoxFilled,
-                  containerColor: AppColors.white,
-                  borderColor: AppColors.bottomBarText,
-                ),
+                  onTap: () => languageController.selectLanguage('English'),
+                  trailingImage: languageController.selectedLanguage.value == 'English'
+                      ? AppImages.checkBoxFilled
+                      : AppImages.checkBox,
+                  containerColor: AppColors.transparent,
+                  borderColor: languageController.selectedLanguage.value == 'English'
+                      ? AppColors.bottomBarText
+                      : AppColors.borderColor,
+                )),
+
                 sh12,
-                CustomListTile(
+
+                Obx(() => CustomListTile(
                   leadingImage: AppImages.languageTwo,
                   title: 'Arabic',
-                  onTap: () {},
-                  trailingImage: AppImages.checkBox,
-                  containerColor: AppColors.white,
-                ),
+                  onTap: () => languageController.selectLanguage('Arabic'),
+                  trailingImage: languageController.selectedLanguage.value == 'Arabic'
+                      ? AppImages.checkBoxFilled
+                      : AppImages.checkBox,
+                  containerColor: AppColors.transparent,
+                  borderColor: languageController.selectedLanguage.value == 'Arabic'
+                      ? AppColors.bottomBarText
+                      : AppColors.borderColor,
+                )),
                 sh16,
                 CustomButton(
                   text: 'Next',

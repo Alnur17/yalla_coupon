@@ -64,26 +64,31 @@ class _LanguageViewState extends State<LanguageView> {
             ),
             sh12,
             Obx(() => CustomListTile(
-              leadingImage: AppImages.accountInfo,
+              leadingImage: AppImages.languageTwo,
               title: 'English',
               onTap: () => languageController.selectLanguage('English'),
               trailingImage: languageController.selectedLanguage.value == 'English'
                   ? AppImages.checkBoxFilled
                   : AppImages.checkBox,
               containerColor: AppColors.transparent,
-              borderColor: AppColors.bottomBarText,
+              borderColor: languageController.selectedLanguage.value == 'English'
+                  ? AppColors.bottomBarText
+                  : AppColors.borderColor,
             )),
 
             sh12,
 
             Obx(() => CustomListTile(
-              leadingImage: AppImages.accountInfo,
+              leadingImage: AppImages.languageTwo,
               title: 'Arabic',
               onTap: () => languageController.selectLanguage('Arabic'),
               trailingImage: languageController.selectedLanguage.value == 'Arabic'
                   ? AppImages.checkBoxFilled
                   : AppImages.checkBox,
               containerColor: AppColors.transparent,
+              borderColor: languageController.selectedLanguage.value == 'Arabic'
+                  ? AppColors.bottomBarText
+                  : AppColors.borderColor,
             )),
             sh30,
             CustomButton(
