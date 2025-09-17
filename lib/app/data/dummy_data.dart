@@ -89,7 +89,7 @@ class DummyData {
       "imagePath": AppImages.categoryImage
     },
     {
-      "categoryName": "Fation",
+      "categoryName": "Fashion",
       "storeCount": "8",
       "imagePath": AppImages.categoryImage
     },

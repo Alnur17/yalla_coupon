@@ -174,8 +174,8 @@ class _HomeViewState extends State<HomeView> {
                   GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    // will show at most 12 items, or less if list is shorter
-                    itemCount: min(12, DummyData.brands.length),
+                    // will show at most 9 items, or less if list is shorter
+                    itemCount: min(9, DummyData.brands.length),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,

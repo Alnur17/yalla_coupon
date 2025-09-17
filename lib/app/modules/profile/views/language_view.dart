@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/profile/controllers/language_controller.dart';
 import 'package:yalla_coupon/common/widgets/custom_list_tile.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -11,8 +12,15 @@ import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../../../common/widgets/custom_circular_container.dart';
 
-class LanguageView extends GetView {
+class LanguageView extends StatefulWidget {
   const LanguageView({super.key});
+
+  @override
+  State<LanguageView> createState() => _LanguageViewState();
+}
+
+class _LanguageViewState extends State<LanguageView> {
+  final LanguageController languageController = Get.put(LanguageController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +63,28 @@ class LanguageView extends GetView {
               style: h5,
             ),
             sh12,
-            CustomListTile(
+            Obx(() => CustomListTile(
               leadingImage: AppImages.accountInfo,
               title: 'English',
-              onTap: () {},
-              trailingImage: AppImages.checkBoxFilled,
+              onTap: () => languageController.selectLanguage('English'),
+              trailingImage: languageController.selectedLanguage.value == 'English'
+                  ? AppImages.checkBoxFilled
+                  : AppImages.checkBox,
               containerColor: AppColors.transparent,
               borderColor: AppColors.bottomBarText,
-            ),sh12,
-            CustomListTile(
+            )),
+
+            sh12,
+
+            Obx(() => CustomListTile(
               leadingImage: AppImages.accountInfo,
               title: 'Arabic',
-              onTap: () {},
-              trailingImage: AppImages.checkBox,
+              onTap: () => languageController.selectLanguage('Arabic'),
+              trailingImage: languageController.selectedLanguage.value == 'Arabic'
+                  ? AppImages.checkBoxFilled
+                  : AppImages.checkBox,
               containerColor: AppColors.transparent,
-            ),
+            )),
             sh30,
             CustomButton(
               text: 'Save Changes',
