@@ -19,64 +19,65 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        scrolledUnderElevation: 0,
+        title: Image.asset(
+          AppImages.logoText,
+          scale: 4,
+        ),
+        titleSpacing: 8,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 8.w),
+          child: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Image.asset(
+                AppImages.back,
+                scale: 4,
+              )),
+        ),
+      ),
       body: CustomBackgroundColor(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sh60,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Image.asset(
-                      AppImages.arrowLeftBack,
-                      scale: 4,
-                    )),
-              ),
-              sh8,
-              Divider(),
-              sh12,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Forgot Password',
-                      style: h2.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    sh12,
-                    Text(
-                      'We will send the OTP code to your email for security in forgetting your password',
-                      style: h5,
-                    ),
-                    sh30,
-                    Text(
-                      'Email',
-                      style: h4,
-                    ),
-                    sh8,
-                    CustomTextField(
-                      hintText: 'Enter your email',
-                    ),
-                    sh30,
-                    CustomButton(
-                      text: 'Send Code',
-                      onPressed: () {
-                        Get.to(() => VerifyOtpView());
-                      },
-                      imageAssetPath: AppImages.arrowRightNormal,
-                      gradientColors: AppColors.buttonColor,
-                    ),
-                  ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20).r,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sh20,
+                Text(
+                  'Forgot Password',
+                  style: h2.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-            ],
+                sh12,
+                Text(
+                  'We will send the OTP code to your email for security in forgetting your password',
+                  style: h5,
+                ),
+                sh30,
+                Text(
+                  'Email',
+                  style: h4,
+                ),
+                sh8,
+                CustomTextField(
+                  hintText: 'Enter your email',
+                ),
+                sh30,
+                CustomButton(
+                  text: 'Send Code',
+                  onPressed: () {
+                    Get.to(() => VerifyOtpView());
+                  },
+                  imageAssetPath: AppImages.arrowRightNormal,
+                  gradientColors: AppColors.buttonColor,
+                ),
+              ],
+            ),
           ),
         ),
       ),

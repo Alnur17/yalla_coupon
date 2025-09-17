@@ -46,7 +46,7 @@ class SignUpView extends GetView<SignUpController> {
       body: CustomBackgroundColor(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: 20).r,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

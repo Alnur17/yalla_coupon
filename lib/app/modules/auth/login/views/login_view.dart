@@ -31,113 +31,114 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        scrolledUnderElevation: 0,
+        title: Image.asset(
+          AppImages.logoText,
+          scale: 4,
+        ),
+        titleSpacing: 8,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 8.w),
+          child: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Image.asset(
+                AppImages.back,
+                scale: 4,
+              )),
+        ),
+      ),
       body: CustomBackgroundColor(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sh60,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Image.asset(
-                      AppImages.arrowLeftBack,
-                      scale: 4,
-                    )),
-              ),
-              sh8,
-              Divider(),
-              sh12,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20).r,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sh20,
+                Text(
+                  'Login to your Account',
+                  style: h2.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                sh12,
+                Text(
+                  'It is quick and easy to log in. Enter your email and password below.',
+                  style: h4,
+                ),
+                sh40,
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Login to your Account',
-                      style: h2.copyWith(
-                        fontWeight: FontWeight.w700,
+                    Text('Email', style: h4),
+                    sh8,
+                    CustomTextField(
+                      hintText: 'Your email',
+                      containerColor: AppColors.white,
+                      controller: emailTEController,
+                    ),
+                    const SizedBox(height: 12),
+                    Text('Password', style: h4),
+                    sh8,
+                    CustomTextField(
+                      sufIcon: Image.asset(
+                        AppImages.eyeClose,
+                        scale: 4,
                       ),
-                    ),
-                    sh12,
-                    Text(
-                      'It is quick and easy to log in. Enter your email and password below.',
-                      style: h4,
-                    ),
-                    sh40,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Email', style: h4),
-                        sh8,
-                        CustomTextField(
-                          hintText: 'Your email',
-                          containerColor: AppColors.white,
-                          controller: emailTEController,
-                        ),
-                        const SizedBox(height: 12),
-                        Text('Password', style: h4),
-                        sh8,
-                        CustomTextField(
-                          sufIcon: Image.asset(
-                            AppImages.eyeClose,
-                            scale: 4,
-                          ),
-                          hintText: '**********',
-                          containerColor: AppColors.white,
-                          controller: passwordTEController,
-                        ),
-                      ],
-                    ),
-                    sh16,
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(() => const ForgotPasswordView());
-                      },
-                      child: Text(
-                        'Forgot password?',
-                        style: h4.copyWith(color: AppColors.blue),
-                      ),
-                    ),
-                    sh16,
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(() => const SignUpView());
-                      },
-                      child: Center(
-                        child: Text(
-                          'I don\'t have an account',
-                          style: h4.copyWith(color: AppColors.grey),
-                        ),
-                      ),
-                    ),
-                    sh24,
-                    // Obx(
-                    //       () {
-                    //     return loginController.isLoading.value == true
-                    //         ? CustomLoader(color: AppColors.white)
-                    //         :
-                    CustomButton(
-                      text: 'Login',
-                      onPressed: () {
-                        Get.to(()=> DashboardView());
-                        // loginController.userLogin(
-                        //   email: emailTEController.text,
-                        //   password: passwordTEController.text,
-                        // );
-                      },
-                      imageAssetPath: AppImages.arrowRightNormal,
-                      gradientColors: AppColors.buttonColor,
-                      //   );
-                      // },
+                      hintText: '**********',
+                      containerColor: AppColors.white,
+                      controller: passwordTEController,
                     ),
                   ],
                 ),
-              ),
-            ],
+                sh16,
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => const ForgotPasswordView());
+                  },
+                  child: Text(
+                    'Forgot password?',
+                    style: h4.copyWith(color: AppColors.blue),
+                  ),
+                ),
+                sh16,
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => const SignUpView());
+                  },
+                  child: Center(
+                    child: Text(
+                      'I don\'t have an account',
+                      style: h4.copyWith(color: AppColors.grey),
+                    ),
+                  ),
+                ),
+                sh24,
+                // Obx(
+                //       () {
+                //     return loginController.isLoading.value == true
+                //         ? CustomLoader(color: AppColors.white)
+                //         :
+                CustomButton(
+                  text: 'Login',
+                  onPressed: () {
+                    Get.to(()=> DashboardView());
+                    // loginController.userLogin(
+                    //   email: emailTEController.text,
+                    //   password: passwordTEController.text,
+                    // );
+                  },
+                  imageAssetPath: AppImages.arrowRightNormal,
+                  gradientColors: AppColors.buttonColor,
+                  //   );
+                  // },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -20,104 +20,105 @@ class VerifyOtpView extends GetView {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        scrolledUnderElevation: 0,
+        title: Image.asset(
+          AppImages.logoText,
+          scale: 4,
+        ),
+        titleSpacing: 8,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 8.w),
+          child: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Image.asset(
+                AppImages.back,
+                scale: 4,
+              )),
+        ),
+      ),
       body: CustomBackgroundColor(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sh60,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Image.asset(
-                      AppImages.arrowLeftBack,
-                      scale: 4,
-                    )),
-              ),
-              sh8,
-              Divider(),
-              sh12,
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20).r,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sh20,
+                Text(
+                  'OTP Verification',
+                  style: h2.copyWith(fontWeight: FontWeight.w700),
+                ),
+                sh12,
+                Text(
+                  'Enter 6-digit Code',
+                  style: h4,
+                ),
+                sh8,
+                Text(
+                  'Your code was sent to your given email',
+                  style: h5,
+                ),
+                const SizedBox(height: 30),
+                PinCodeTextField(
+                  length: 6,
+                  obscureText: false,
+                  keyboardType: TextInputType.number,
+                  animationType: AnimationType.fade,
+                  pinTheme: PinTheme(
+                    shape: PinCodeFieldShape.underline,
+                    borderRadius: BorderRadius.circular(8),
+                    fieldHeight: 60,
+                    fieldWidth: 50,
+                    // Reduce the width slightly for the gap
+                    activeColor: AppColors.white,
+                    activeFillColor: AppColors.white,
+                    inactiveColor: AppColors.borderColor,
+                    inactiveFillColor: AppColors.white,
+                    selectedColor: AppColors.blue,
+                    selectedFillColor: AppColors.white,
+                  ),
+                  animationDuration: const Duration(milliseconds: 300),
+                  backgroundColor: AppColors.transparent,
+                  cursorColor: AppColors.blue,
+                  enablePinAutofill: true,
+                  enableActiveFill: true,
+                  onCompleted: (v) {},
+                  onChanged: (value) {},
+                  beforeTextPaste: (text) {
+                    log("Allowing to paste $text");
+                    return true;
+                  },
+                  appContext: context,
+                ),
+                sh20,
+                Row(
                   children: [
                     Text(
-                      'OTP Verification',
-                      style: h2.copyWith(fontWeight: FontWeight.w700),
-                    ),
-                    sh12,
-                    Text(
-                      'Enter 6-digit Code',
-                      style: h4,
-                    ),
-                    sh8,
-                    Text(
-                      'Your code was sent to your given email',
+                      'Resent Code',
                       style: h5,
                     ),
-                    const SizedBox(height: 30),
-                    PinCodeTextField(
-                      length: 6,
-                      obscureText: false,
-                      keyboardType: TextInputType.number,
-                      animationType: AnimationType.fade,
-                      pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.underline,
-                        borderRadius: BorderRadius.circular(8),
-                        fieldHeight: 60,
-                        fieldWidth: 50,
-                        // Reduce the width slightly for the gap
-                        activeColor: AppColors.white,
-                        activeFillColor: AppColors.white,
-                        inactiveColor: AppColors.borderColor,
-                        inactiveFillColor: AppColors.white,
-                        selectedColor: AppColors.blue,
-                        selectedFillColor: AppColors.white,
-                      ),
-                      animationDuration: const Duration(milliseconds: 300),
-                      backgroundColor: AppColors.transparent,
-                      cursorColor: AppColors.blue,
-                      enablePinAutofill: true,
-                      enableActiveFill: true,
-                      onCompleted: (v) {},
-                      onChanged: (value) {},
-                      beforeTextPaste: (text) {
-                        log("Allowing to paste $text");
-                        return true;
-                      },
-                      appContext: context,
-                    ),
-                    sh20,
-                    Row(
-                      children: [
-                        Text(
-                          'Resent Code',
-                          style: h5,
-                        ),
-                        sw5,
-                        Text(
-                          '59s',
-                          style: h4.copyWith(color: Colors.cyan),
-                        )
-                      ],
-                    ),
-                    sh30,
-                    CustomButton(
-                      text: 'Verify',
-                      onPressed: () {
-                        Get.to(() => const SetNewPasswordView());
-                      },
-                      imageAssetPath: AppImages.arrowRightNormal,
-                      gradientColors: AppColors.buttonColor,
-                    ),
+                    sw5,
+                    Text(
+                      '59s',
+                      style: h4.copyWith(color: Colors.cyan),
+                    )
                   ],
                 ),
-              ),
-            ],
+                sh30,
+                CustomButton(
+                  text: 'Verify',
+                  onPressed: () {
+                    Get.to(() => const SetNewPasswordView());
+                  },
+                  imageAssetPath: AppImages.arrowRightNormal,
+                  gradientColors: AppColors.buttonColor,
+                ),
+              ],
+            ),
           ),
         ),
       ),
