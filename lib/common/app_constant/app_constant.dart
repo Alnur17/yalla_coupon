@@ -1,5 +1,5 @@
 class AppConstant {
-  static const accessToken = 'accessToken';
+  static const token = 'accessToken';
   static const userId = 'userId';
   static const deliveryId = 'deliveryId';
   static const subscriptionId = 'subscriptionId';

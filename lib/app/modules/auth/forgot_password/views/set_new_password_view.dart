@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:yalla_coupon/app/modules/auth/forgot_password/views/reset_success_view.dart';
+import 'package:yalla_coupon/app/modules/auth/forgot_password/controllers/forgot_password_controller.dart';
 import 'package:yalla_coupon/common/widgets/custom_background_color.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
@@ -10,10 +10,20 @@ import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/app_text_style/styles.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../../common/widgets/custom_button.dart';
+import '../../../../../common/widgets/custom_loader.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
 
-class SetNewPasswordView extends GetView {
-  const SetNewPasswordView({super.key});
+class SetNewPasswordView extends StatefulWidget {
+  const SetNewPasswordView({
+    super.key,
+  });
+
+  @override
+  State<SetNewPasswordView> createState() => _SetNewPasswordViewState();
+}
+
+class _SetNewPasswordViewState extends State<SetNewPasswordView> {
+  final ForgotPasswordController forgotPasswordController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +72,7 @@ class SetNewPasswordView extends GetView {
                 ),
                 sh12,
                 CustomTextField(
+                  controller: forgotPasswordController.newPasswordTEController,
                   hintText: '**********',
                   sufIcon: Image.asset(
                     AppImages.eyeClose,
@@ -75,6 +86,8 @@ class SetNewPasswordView extends GetView {
                 ),
                 sh12,
                 CustomTextField(
+                  controller:
+                      forgotPasswordController.confirmNewPasswordTEController,
                   sufIcon: Image.asset(
                     AppImages.eyeClose,
                     scale: 4,
@@ -82,13 +95,19 @@ class SetNewPasswordView extends GetView {
                   hintText: '**********',
                 ),
                 sh16,
-                CustomButton(
-                  text: 'Save changes',
-                  onPressed: () {
-                    Get.offAll(() => ResetSuccessView());
+                Obx(
+                  () {
+                    return forgotPasswordController.isLoading.value == true
+                        ? CustomLoader(color: AppColors.white)
+                        : CustomButton(
+                            text: 'Save changes',
+                            onPressed: () {
+                              forgotPasswordController.resetPass();
+                            },
+                            imageAssetPath: AppImages.arrowRightNormal,
+                            gradientColors: AppColors.buttonColor,
+                          );
                   },
-                  imageAssetPath: AppImages.arrowRightNormal,
-                  gradientColors: AppColors.buttonColor,
                 ),
               ],
             ),

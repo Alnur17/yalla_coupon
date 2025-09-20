@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:yalla_coupon/app/modules/dashboard/views/dashboard_view.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -13,12 +12,20 @@ import '../../../../../common/app_text_style/styles.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../../common/widgets/custom_background_color.dart';
 import '../../../../../common/widgets/custom_button.dart';
+import '../../../../../common/widgets/custom_loader.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
 import '../../login/views/login_view.dart';
 import '../controllers/sign_up_controller.dart';
 
-class SignUpView extends GetView<SignUpController> {
+class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
+  final SignUpController signUpController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +66,7 @@ class SignUpView extends GetView<SignUpController> {
                 Text('Phone', style: h4),
                 sh8,
                 IntlPhoneField(
+                  controller: signUpController.phoneTEController,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 12, horizontal: 16),
@@ -90,6 +98,7 @@ class SignUpView extends GetView<SignUpController> {
                 Text('Email', style: h4),
                 sh8,
                 CustomTextField(
+                  controller: signUpController.emailTEController,
                   hintText: 'Your email',
                   containerColor: AppColors.white,
                 ),
@@ -97,6 +106,7 @@ class SignUpView extends GetView<SignUpController> {
                 Text('Password', style: h4),
                 sh8,
                 CustomTextField(
+                  controller: signUpController.passwordTEController,
                   sufIcon: Image.asset(
                     AppImages.eyeClose,
                     scale: 4,
@@ -108,6 +118,7 @@ class SignUpView extends GetView<SignUpController> {
                 Text('Confirm Password', style: h4),
                 sh8,
                 CustomTextField(
+                  controller: signUpController.confirmPassTEController,
                   sufIcon: Image.asset(
                     AppImages.eyeClose,
                     scale: 4,
@@ -116,24 +127,19 @@ class SignUpView extends GetView<SignUpController> {
                   containerColor: AppColors.white,
                 ),
                 sh24,
-                // Obx(
-                //       () {
-                //     return loginController.isLoading.value == true
-                //         ? CustomLoader(color: AppColors.white)
-                //         :
-                CustomButton(
-                  text: 'Sign Up',
-                  onPressed: () {
-                    Get.to(()=> DashboardView());
-                    // loginController.userLogin(
-                    //   email: emailTEController.text,
-                    //   password: passwordTEController.text,
-                    // );
+                Obx(
+                  () {
+                    return signUpController.isLoading.value == true
+                        ? CustomLoader(color: AppColors.white)
+                        : CustomButton(
+                            text: 'Sign Up',
+                            onPressed: () {
+                              signUpController.registerUser();
+                            },
+                            imageAssetPath: AppImages.arrowRightNormal,
+                            gradientColors: AppColors.buttonColor,
+                          );
                   },
-                  imageAssetPath: AppImages.arrowRightNormal,
-                  gradientColors: AppColors.buttonColor,
-                  //   );
-                  // },
                 ),
                 sh12,
                 Row(
