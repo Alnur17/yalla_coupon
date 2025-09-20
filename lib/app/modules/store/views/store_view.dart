@@ -56,7 +56,7 @@ class StoreView extends GetView<StoreController> {
                     couponCount: store['couponCount'],
                     imagePath: store['imagePath'],
                     onTap: () {
-                      Get.to(() => SingleStoreCouponsView(store['storeName']));
+                      Get.to(() => SingleStoreCouponsView(store['storeName'],store['imagePath'],));
                       print("${store['storeName']} tapped");
                     },
                   ),

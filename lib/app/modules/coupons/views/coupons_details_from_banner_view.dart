@@ -127,101 +127,89 @@ class _CouponsDetailsFromBannerViewState
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                image: DecorationImage(
-                  image: AssetImage(AppImages.bannerImage),
-                  scale: 4,
-                  fit: BoxFit.cover,
-                ),
+                color: AppColors.black100
               ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: LinearGradient(
-                    colors: [Colors.black54, Colors.white30],
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Logo + Title
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 24,
-                            backgroundColor: AppColors.white,
-                            child: Image.asset(
-                              AppImages.offerImage,
-                              scale: 4,
-                            ),
+              child: Padding(
+                padding: EdgeInsets.all(16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Logo + Title
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 24,
+                          backgroundColor: AppColors.white,
+                          child: Image.asset(
+                            AppImages.offerImage,
+                            scale: 4,
                           ),
-                          sw8,
-                          Text("Amazon",
-                              style: h5.copyWith(color: AppColors.white)),
+                        ),
+                        sw8,
+                        Text("Amazon",
+                            style: h5.copyWith(color: AppColors.white)),
+                      ],
+                    ),
+                    sh12,
+                    Text(
+                      "30% OFF Summer Collection",
+                      style: h2.copyWith(
+                        color: AppColors.white,
+                      ),
+                    ),
+                    Text(
+                      "Get amazing discounts on all fashion items",
+                      style: h6.copyWith(color: AppColors.white),
+                    ),
+                    sh16,
+
+                    // Coupon code
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 12.w, vertical: 10.h),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Coupon Code",
+                                style: h6.copyWith(color: AppColors.white),
+                              ),
+                              sh5,
+                              Text(
+                                "MYNTRA20",
+                                style: h3.copyWith(
+                                  color: AppColors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.white,
+                              foregroundColor: AppColors.black,
+                            ),
+                            onPressed: () {},
+                            child: const Text("Code Copied "),
+                          ),
                         ],
                       ),
-                      sh12,
-                      Text(
-                        "30% OFF Summer Collection",
-                        style: h2.copyWith(
-                          color: AppColors.white,
-                        ),
+                    ),
+                    sh12,
+                    Text(
+                      "Valid till Aug 30",
+                      style: h6.copyWith(
+                        color: AppColors.white,
                       ),
-                      Text(
-                        "Get amazing discounts on all fashion items",
-                        style: h6.copyWith(color: AppColors.white),
-                      ),
-                      sh16,
-
-                      // Coupon code
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 12.w, vertical: 10.h),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Coupon Code",
-                                  style: h6.copyWith(color: AppColors.white),
-                                ),
-                                sh5,
-                                Text(
-                                  "MYNTRA20",
-                                  style: h3.copyWith(
-                                    color: AppColors.white,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.pink,
-                              ),
-                              onPressed: () {},
-                              child: const Text("Code Copied "),
-                            ),
-                          ],
-                        ),
-                      ),
-                      sh12,
-                      Text(
-                        "Valid till Aug 30",
-                        style: h6.copyWith(
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

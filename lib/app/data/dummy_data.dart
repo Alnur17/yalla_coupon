@@ -1,7 +1,6 @@
 import '../../common/app_images/app_images.dart';
 
 class DummyData {
-
   static final List<Map<String, String>> activityHome = [
     {"type": "COPY", "title": "SAVE20 copied", "subtitle": "2 hours ago"},
     {"type": "VIEW", "title": "Checked Offer", "subtitle": "5 hours ago"},
@@ -29,6 +28,21 @@ class DummyData {
     },
   ];
 
+  static final List<Map<String, String>> currentSales = [
+    {
+      "title": "Sales 1",
+      "image_url": AppImages.bigSales,
+    },
+    {
+      "title": "Sales 2",
+      "image_url": AppImages.bigSales50,
+    },
+    {
+      "title": "Sales 3",
+      "image_url": AppImages.newSales,
+    },
+  ];
+
   static final List<Map<String, String>> activityLogData = [
     {
       "storeName": "Amazon",
@@ -52,7 +66,6 @@ class DummyData {
       "imagePath": AppImages.offerImage
     },
   ];
-
 
   static final List<Map<String, dynamic>> stores = [
     {

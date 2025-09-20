@@ -170,7 +170,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -181,13 +181,12 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                           children: [
                             Text(
                               "Coupon Code",
-                              style: h6.copyWith(color: AppColors.white),
+                              style: h6,
                             ),
                             sh5,
                             Text(
                               "MYNTRA20",
                               style: h3.copyWith(
-                                color: AppColors.white,
                                 fontSize: 18,
                               ),
                             ),
@@ -195,8 +194,8 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.pink,
+                            backgroundColor: AppColors.black,
+                            foregroundColor: AppColors.white,
                           ),
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: "MYNTRA20"));

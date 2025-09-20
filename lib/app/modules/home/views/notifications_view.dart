@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/coupons/views/coupons_details_view.dart';
 import 'package:yalla_coupon/common/app_text_style/styles.dart';
 
 import '../../../../common/app_color/app_colors.dart';
@@ -57,6 +58,9 @@ class NotificationsView extends GetView {
                   subtitle: item['subtitle']!,
                   time: item['time']!,
                   image: item['image']!,
+                  onTap: (){
+                    Get.to(()=> CouponsDetailsView());
+                  },
                 );
               },
             ),

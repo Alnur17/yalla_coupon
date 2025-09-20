@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -188,7 +189,12 @@ class _HomeViewState extends State<HomeView> {
                         image: brand['image']!,
                         title: brand['name']!,
                         onTap: () {
-                          Get.to(() => SingleStoreCouponsView(brand['name']!));
+                          Get.to(
+                            () => SingleStoreCouponsView(
+                              brand['name']!,
+                              brand['image']!,
+                            ),
+                          );
                         },
                       );
                     },
@@ -221,6 +227,40 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 );
               },
+            ),
+            sh16,
+            CustomRowHeader(
+              title: 'Sales Currently',
+            ),
+            sh12,
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 150.0,
+                autoPlay: true,
+                onPageChanged: (index, reason) {},
+              ),
+              items: DummyData.currentSales.map<Widget>((item) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(
+                          item['image_url']!,
+                          scale: 4,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
             ),
             sh16,
             CustomRowHeader(
@@ -284,4 +324,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-

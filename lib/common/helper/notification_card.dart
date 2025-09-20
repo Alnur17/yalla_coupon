@@ -11,6 +11,7 @@ class NotificationCard extends StatelessWidget {
   final String subtitle;
   final String time;
   final String image;
+  final VoidCallback onTap;
 
   const NotificationCard({
     super.key,
@@ -18,6 +19,7 @@ class NotificationCard extends StatelessWidget {
     required this.subtitle,
     required this.time,
     required this.image,
+    required this.onTap,
   });
 
   @override
@@ -51,7 +53,7 @@ class NotificationCard extends StatelessWidget {
           sh8,
           CustomButton(
             text: 'View Offer',
-            onPressed: () {},
+            onPressed: onTap,
             gradientColors: AppColors.buttonColor,
             width: 150.w,
             height: 36.h,
