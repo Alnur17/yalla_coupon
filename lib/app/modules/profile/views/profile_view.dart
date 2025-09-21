@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
+
 import 'package:yalla_coupon/app/modules/profile/views/faq_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/favourite_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/contact_us_view.dart';
@@ -25,7 +25,7 @@ import 'edit_profile_view.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final bool showBackButton;
-  ProfileView( {super.key, this.showBackButton = false});
+  ProfileView({super.key, this.showBackButton = false});
 
   final ProfileController profileController = Get.put(ProfileController());
 
@@ -40,252 +40,206 @@ class ProfileView extends GetView<ProfileController> {
         automaticallyImplyLeading: showBackButton,
         leading: showBackButton
             ? GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Image.asset(
-            AppImages.back,
-            scale: 4,
-          ),
+          onTap: () => Get.back(),
+          child: Image.asset(AppImages.back, scale: 4),
         )
             : null,
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              sh20,
-              Center(
-                child: Column(
-                  children: [
-                    Obx(() {
-                      final imagePath = profileController.profileImageUrl.value;
-                      return CircleAvatar(
-                        radius: 50,
-                        backgroundColor: AppColors.whiteDark,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: imagePath.startsWith("http")
-                              ? CachedNetworkImage(
-                            imageUrl: imagePath,
-                            height: Get.height.h,
-                            width: Get.width.w,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => const Center(
-                              child: CircularProgressIndicator(color: AppColors.bottomBarText,),
+      body: Obx(() {
+        final user = profileController.profileData.value?.data?.user;
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sh20,
+                Center(
+                  child: Column(
+                    children: [
+                      // profile picture
+                      Obx(() {
+                        final imagePath =
+                            profileController.profileImageUrl.value;
+                        return CircleAvatar(
+                          radius: 50,
+                          backgroundColor: AppColors.whiteDark,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: imagePath.startsWith("http")
+                                ? CachedNetworkImage(
+                              imageUrl: imagePath,
+                              height: Get.height.h,
+                              width: Get.width.w,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.bottomBarText,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                              const Icon(Icons.error, color: Colors.red),
+                            )
+                                : Image.file(
+                              File(imagePath),
+                              height: Get.height.h,
+                              width: Get.width.w,
+                              fit: BoxFit.cover,
                             ),
-                            errorWidget: (context, url, error) => const Icon(
-                              Icons.error,
-                              color: Colors.red,
-                            ),
-                          )
-                              : Image.file(
-                            File(imagePath),
-                            height: Get.height.h,
-                            width: Get.width.w,
-                            fit: BoxFit.cover,
                           ),
-                        ),
-                      );
-                    }),
-                    sh12,
-                    Text(
-                      'Alex Richards',
-                      style: h3.copyWith(
-                        fontWeight: FontWeight.w500,
+                        );
+                      }),
+                      sh12,
+                      Text(
+                        user?.name?.toString() ?? 'Your Name',
+                        style: h3.copyWith(fontWeight: FontWeight.w500),
                       ),
-                    ),
-                    Text(
-                      'alex.Richards@**90.com',
-                      style: h5.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.grey
+                      Text(
+                        user?.email ?? 'your.email@example.com',
+                        style: h5.copyWith(
+                            fontWeight: FontWeight.w500, color: AppColors.grey),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              sh30,
-              Text(
-                'Account',
-                style: h3,
-              ),
-              Text(
-                'Update your info to your account',
-                style: h5.copyWith(color: AppColors.grey),
-              ),
-              sh12,
-              Container(
-                decoration: BoxDecoration(
+                sh30,
+                Text('Account', style: h3),
+                Text('Update your info to your account',
+                    style: h5.copyWith(color: AppColors.grey)),
+                sh12,
+                Container(
+                  decoration: BoxDecoration(
                     color: AppColors.silver,
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(
-                  children: [
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => EditProfileView());
-                      },
-                      leadingImage: AppImages.accountInfo,
-                      title: 'Account Information',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => LanguageView());
-                      },
-                      leadingImage: AppImages.languageTwo,
-                      title: 'Language',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => FavouriteView());
-                      },
-                      leadingImage: AppImages.favoriteFilled,
-                      title: 'Favourite',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                  ],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      CustomListTile(
+                        onTap: () => Get.to(() => EditProfileView()),
+                        leadingImage: AppImages.accountInfo,
+                        title: 'Account Information',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                      CustomListTile(
+                        onTap: () => Get.to(() => LanguageView()),
+                        leadingImage: AppImages.languageTwo,
+                        title: 'Language',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                      CustomListTile(
+                        onTap: () => Get.to(() => FavouriteView()),
+                        leadingImage: AppImages.favoriteFilled,
+                        title: 'Favorite',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              sh16,
-              Text(
-                'Privacy',
-                style: h3,
-              ),
-              Text(
-                'View your privacy',
-                style: h5.copyWith(color: AppColors.grey),
-              ),
-              sh12,
-              Container(
-                decoration: BoxDecoration(
+                sh16,
+                Text('Privacy', style: h3),
+                Text('View your privacy',
+                    style: h5.copyWith(color: AppColors.grey)),
+                sh12,
+                Container(
+                  decoration: BoxDecoration(
                     color: AppColors.silver,
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(
-                  children: [
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => ChangePasswordView());
-                      },
-                      leadingImage: AppImages.changePass,
-                      title: 'Change  Password ',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => TermsAndConditionsView());
-                      },
-                      leadingImage: AppImages.terms,
-                      title: 'Terms and conditions',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => PrivacyAndPolicyView());
-                      },
-                      leadingImage: AppImages.privacy,
-                      title: 'Privacy and Policies',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                  ],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      CustomListTile(
+                        onTap: () => Get.to(() => ChangePasswordView()),
+                        leadingImage: AppImages.changePass,
+                        title: 'Change Password',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                      CustomListTile(
+                        onTap: () => Get.to(() => TermsAndConditionsView()),
+                        leadingImage: AppImages.terms,
+                        title: 'Terms and conditions',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                      CustomListTile(
+                        onTap: () => Get.to(() => PrivacyAndPolicyView()),
+                        leadingImage: AppImages.privacy,
+                        title: 'Privacy and Policies',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              sh16,
-              Container(
-                decoration: BoxDecoration(
+                sh16,
+                Container(
+                  decoration: BoxDecoration(
                     color: AppColors.silver,
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(
-                  children: [
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => ContactUsView());
-                      },
-                      leadingImage: AppImages.feedback,
-                      title: 'Contact Us',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                    CustomListTile(
-                      onTap: () {
-                        Get.to(() => FaqView());
-                      },
-                      leadingImage: AppImages.faq,
-                      title: 'FAQ',
-                      trailingImage: AppImages.arrowRight,
-                    ),
-                  ],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      CustomListTile(
+                        onTap: () => Get.to(() => ContactUsView()),
+                        leadingImage: AppImages.feedback,
+                        title: 'Contact Us',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                      CustomListTile(
+                        onTap: () => Get.to(() => FaqView()),
+                        leadingImage: AppImages.faq,
+                        title: 'FAQ',
+                        trailingImage: AppImages.arrowRight,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              sh16,
-              CustomListTile(
-                onTap: () {
-                  _showLogoutDialog(context);
-                },
-                leadingImage: AppImages.logout,
-                title: 'Log Out',
-                trailingImage: AppImages.arrowRight,
-              ),
-              sh40,
-            ],
+                sh16,
+                CustomListTile(
+                  onTap: () => _showLogoutDialog(context),
+                  leadingImage: AppImages.logout,
+                  title: 'Log Out',
+                  trailingImage: AppImages.arrowRight,
+                ),
+                sh40,
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
   void _showLogoutDialog(BuildContext context) {
     Get.dialog(
       Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
           padding: EdgeInsets.all(20.w),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Top Icon/Image
-              Image.asset(
-                AppImages.logoutBig, // <- make sure you have this image
-                height: 60,
-                width: 60,
-              ),
+              Image.asset(AppImages.logoutBig, height: 60, width: 60),
               sh16,
-
-              // Title & Description
               Text(
                 "Are you sure you want to log out of your account?",
                 textAlign: TextAlign.center,
                 style: h3.copyWith(fontWeight: FontWeight.w500),
               ),
               sh20,
-
-              // Confirm Logout Button
               CustomButton(
                 text: "Confirm Log Out",
                 borderRadius: 12,
                 backgroundColor: AppColors.red,
                 textColor: AppColors.white,
-                onPressed: () {
-                  Get.offAll(() => LoginView()); // clear navigation stack
-                },
+                onPressed: () => Get.offAll(() => LoginView()),
               ),
-            sh12,
-
-              // Cancel Button
+              sh12,
               CustomButton(
                 text: "Cancel",
                 borderRadius: 12,
                 backgroundColor: AppColors.silver,
                 textColor: AppColors.black,
-                onPressed: () {
-                  Get.back(); // close dialog
-                },
+                onPressed: () => Get.back(),
               ),
             ],
           ),
@@ -293,5 +247,4 @@ class ProfileView extends GetView<ProfileController> {
       ),
     );
   }
-
 }

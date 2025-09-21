@@ -8,9 +8,13 @@ class Api {
   static const login = "$baseUrl/auth/login"; //
   static const forgotPassword = "$baseUrl/auth/send-otp"; //done
   static const otpVerify = "$baseUrl/auth/verify-otp"; //done
-  static const reSendOtp = "$baseUrl/auth/send-otp"; //
-  static const resetPassword = "$baseUrl/auth/reset-forgotten-password"; //
-  static const changePassword = "$baseUrl/auth/change-password"; //
+  static const reSendOtp = "$baseUrl/auth/send-otp"; //done
+  static const resetPassword = "$baseUrl/auth/reset-forgotten-password"; //done
+  static const changePassword = "$baseUrl/auth/change-password"; //done
 
-
+  ///Profile
+  static const userProfile = "$baseUrl/users/profile"; //done
+  static const favourite = "$baseUrl/favorites"; //done
+  static const conditionsPage = "$baseUrl/legal"; //done
+  static const contactUs = "$baseUrl/feedbacks"; //
 }

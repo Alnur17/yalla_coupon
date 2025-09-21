@@ -10,10 +10,12 @@ import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_circular_container.dart';
 import '../../../../common/widgets/custom_textfield.dart';
+import '../controllers/contact_us_controller.dart';
 
 class ContactUsView extends GetView {
-  const ContactUsView({super.key});
+  ContactUsView({super.key});
 
+  final ContactUsController c = Get.put(ContactUsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,9 +53,19 @@ class ContactUsView extends GetView {
                 style: h5.copyWith(color: AppColors.greyMedium),
               ),
               sh20,
+              Text('Name', style: h4),
+              sh8,
+              CustomTextField(
+                controller: c.nameController,
+                borderRadius: 12,
+                hintText: 'Enter your name',
+                containerColor: AppColors.white,
+              ),
+              sh20,
               Text('Email Address', style: h4),
               sh8,
               CustomTextField(
+                controller: c.emailController,
                 borderRadius: 12,
                 hintText: 'Enter your email address',
                 containerColor: AppColors.white,
@@ -62,6 +74,7 @@ class ContactUsView extends GetView {
               Text('Subject', style: h4),
               sh8,
               CustomTextField(
+                controller: c.subjectController,
                 borderRadius: 12,
                 hintText: 'What\'s your message about?',
                 containerColor: AppColors.white,
@@ -70,18 +83,19 @@ class ContactUsView extends GetView {
               Text('Message', style: h4),
               sh8,
               CustomTextField(
+                controller: c.messageController,
                 borderRadius: 12,
                 height: 150,
                 hintText: 'Type your message here...',
                 containerColor: AppColors.white,
               ),
               sh12,
-              CustomButton(
-                text: 'Send Message',
-                onPressed: () {},
+              Obx(() => CustomButton(
+                text: c.isLoading.value ? 'Sending...' : 'Send Message',
+                onPressed: c.sendFeedback,
                 gradientColors: AppColors.buttonColor,
                 borderRadius: 12,
-              ),
+              )),
               sh30,
               Row(
                 children: [
