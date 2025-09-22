@@ -16,5 +16,9 @@ class Api {
   static const userProfile = "$baseUrl/users/profile"; //done
   static const favourite = "$baseUrl/favorites"; //done
   static const conditionsPage = "$baseUrl/legal"; //done
-  static const contactUs = "$baseUrl/feedbacks"; //
+  static const contactUs = "$baseUrl/feedbacks"; //done
+
+  ///Banners
+  static const allBanners = "$baseUrl/banners"; //done
+  static singleBanners(String id) => "$baseUrl/banners/$id"; //
 }

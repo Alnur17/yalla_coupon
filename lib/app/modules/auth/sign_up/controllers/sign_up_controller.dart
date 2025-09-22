@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:yalla_coupon/app/modules/auth/forgot_password/views/verify_otp_view.dart';
 
@@ -13,22 +15,60 @@ class SignUpController extends GetxController {
   var isPasswordVisible = false.obs;
   var isConfirmPasswordVisible = false.obs;
 
+  var countryCode = ''.obs;
+
   final TextEditingController phoneTEController = TextEditingController();
   final TextEditingController emailTEController = TextEditingController();
   final TextEditingController passwordTEController = TextEditingController();
   final TextEditingController confirmPassTEController = TextEditingController();
 
-  void toggleCheckboxVisibility() {
-    isCheckboxVisible.toggle();
+  @override
+  void onInit() {
+    super.onInit();
+    detectCountry(); // detect country automatically on init
   }
 
-  void togglePasswordVisibility() {
-    isPasswordVisible.toggle();
+  /// new: detect country code from device location
+  Future<void> detectCountry() async {
+    try {
+      // ask permission
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+
+      if (permission == LocationPermission.deniedForever ||
+          permission == LocationPermission.denied) {
+        countryCode.value = 'US'; // fallback
+        return;
+      }
+
+      // get position
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
+      // reverse geocode
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          position.latitude, position.longitude);
+
+      if (placemarks.isNotEmpty) {
+        final code = placemarks.first.isoCountryCode;
+        if (code != null && code.isNotEmpty) {
+          countryCode.value = code.toUpperCase();
+        } else {
+          countryCode.value = 'US'; // fallback
+        }
+      } else {
+        countryCode.value = 'US';
+      }
+    } catch (e) {
+      countryCode.value = 'US';
+    }
   }
 
-  void toggleConfirmPasswordVisibility() {
-    isConfirmPasswordVisible.toggle();
-  }
+  void toggleCheckboxVisibility() => isCheckboxVisible.toggle();
+  void togglePasswordVisibility() => isPasswordVisible.toggle();
+  void toggleConfirmPasswordVisibility() => isConfirmPasswordVisible.toggle();
 
   Future<void> registerUser() async {
     try {
@@ -47,7 +87,7 @@ class SignUpController extends GetxController {
 
       final body = {
         "phone": phoneTEController.text.trim(),
-        "country": "bangladesh",
+        "country": countryCode.value,
         "email": emailTEController.text.trim(),
         "password": passwordTEController.text.trim(),
       };

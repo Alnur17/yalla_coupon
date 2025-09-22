@@ -78,58 +78,95 @@ class _HomeViewState extends State<HomeView> {
               child: SearchFiled(onChanged: (value) {}),
             ),
             sh12,
-            Container(
-              height: 200.h,
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: AppColors.silver,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      AppImages.bannerImage,
-                      scale: 4,
-                      fit: BoxFit.cover,
-                      height: Get.height,
-                      width: Get.width,
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.black26,
-                    ),
-                  ),
-                  Positioned(
-                    left: 16.w,
-                    top: 40.h,
-                    right: 16.w,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("🔥 OFF Amazon!",
-                            style: h3.copyWith(color: AppColors.white)),
-                        sh8,
-                        Text("Limited time offer. Grab it now!",
-                            style: h3.copyWith(color: AppColors.white)),
-                        sh12,
-                        CustomButton(
-                          text: 'Get Offer',
-                          onPressed: () {
-                            Get.to(() => CouponsDetailsFromBannerView());
-                          },
-                          gradientColors: AppColors.buttonColor,
-                          width: 120.w,
+            Obx(() {
+              if (homeController.isBannerLoading.value) {
+                return SizedBox(
+                  height: 100.h,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              if (homeController.banners.isEmpty) {
+                return SizedBox(
+                  height: 100.h,
+                  child: Center(child: Text('No banners available')),
+                );
+              }
+
+              return CarouselSlider(
+                options: CarouselOptions(
+                  height: 180.h,
+                  autoPlay: true,
+                  onPageChanged: (index, reason) {},
+                ),
+                items: homeController.banners.map((banner) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: AppColors.silver,
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.network(
+                                banner.image ?? '',
+                                fit: BoxFit.cover,
+                                height: Get.height,
+                                width: Get.width,
+                                errorBuilder: (_, __, ___) =>
+                                    Icon(Icons.image_not_supported),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.black26,
+                              ),
+                            ),
+                            Positioned(
+                              left: 16.w,
+                              top: 20.h,
+                              right: 16.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    banner.title ?? '',
+                                    style: h3.copyWith(color: AppColors.white),
+                                  ),
+                                  sh8,
+                                  Text(
+                                    banner.subTitle ?? '',
+                                    style: h3.copyWith(color: AppColors.white),
+                                  ),
+                                  sh12,
+                                  CustomButton(
+                                    text: 'Get Offer',
+                                    onPressed: () {
+                                      // you can pass banner.coupon?.id or code to the next screen
+                                      Get.to(
+                                          () => CouponsDetailsFromBannerView(bannerId: banner.id ?? '',));
+                                    },
+                                    gradientColors: AppColors.buttonColor,
+                                    width: 120.w,
+                                    height: 40.h,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+              );
+            }),
             sh20,
             Container(
               padding: EdgeInsets.symmetric(vertical: 12),
@@ -295,10 +332,6 @@ class _HomeViewState extends State<HomeView> {
 
             //sh8,
             CustomRowHeader(title: 'Your Activity'),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 20.w),
-            //   child: Text('Your Activity',style: h3,),
-            // ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
               decoration: BoxDecoration(

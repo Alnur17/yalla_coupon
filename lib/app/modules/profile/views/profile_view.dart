@@ -11,6 +11,8 @@ import 'package:yalla_coupon/app/modules/profile/views/contact_us_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/language_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/privacy_and_policy_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/terms_and_conditions_view.dart';
+import 'package:yalla_coupon/common/app_constant/app_constant.dart';
+import 'package:yalla_coupon/common/helper/local_store.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -231,7 +233,10 @@ class ProfileView extends GetView<ProfileController> {
                 borderRadius: 12,
                 backgroundColor: AppColors.red,
                 textColor: AppColors.white,
-                onPressed: () => Get.offAll(() => LoginView()),
+                onPressed: () {
+                  LocalStorage.removeData(key: AppConstant.token);
+                  Get.offAll(() => LoginView());
+                }
               ),
               sh12,
               CustomButton(

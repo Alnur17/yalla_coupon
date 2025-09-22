@@ -65,34 +65,47 @@ class _SignUpViewState extends State<SignUpView> {
                 sh24,
                 Text('Phone', style: h4),
                 sh8,
-                IntlPhoneField(
-                  controller: signUpController.phoneTEController,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 16),
-                    fillColor: AppColors.white,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide:
-                          const BorderSide(color: AppColors.borderColor),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: AppColors.black),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: AppColors.red),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: AppColors.red),
-                    ),
-                  ),
-                  initialCountryCode: 'BD',
-                  onChanged: (phone) {
-                    log(phone.completeNumber);
+                Obx(
+                  () {
+                    if (signUpController.countryCode.value.isEmpty) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.bottomBarText,
+                        ),
+                      ); // loading
+                    }
+
+                    return IntlPhoneField(
+                      controller: signUpController.phoneTEController,
+                      initialCountryCode: signUpController.countryCode.value,
+
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 16),
+                        fillColor: AppColors.white,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide:
+                              const BorderSide(color: AppColors.borderColor),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: const BorderSide(color: AppColors.black),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: const BorderSide(color: AppColors.red),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: const BorderSide(color: AppColors.red),
+                        ),
+                      ),
+                      onChanged: (phone) {
+                        log(phone.completeNumber);
+                      },
+                    );
                   },
                 ),
                 Text('Email', style: h4),
