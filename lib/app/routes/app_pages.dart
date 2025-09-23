@@ -80,12 +80,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.COUPONS,
-      page: () => const CouponsView(),
+      page: () => CouponsView(),
       binding: CouponsBinding(),
     ),
     GetPage(
       name: _Paths.ACTIVITY_LOG,
-      page: () => const ActivityLogView(),
+      page: () => ActivityLogView(),
       binding: ActivityLogBinding(),
     ),
     GetPage(

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_images/app_images.dart';
@@ -14,6 +16,7 @@ import '../../home/model/single_banner_details_model.dart';
 
 class CouponsDetailsFromBannerView extends StatefulWidget {
   final String bannerId;
+
   const CouponsDetailsFromBannerView({super.key, required this.bannerId});
 
   @override
@@ -40,9 +43,8 @@ class _CouponsDetailsFromBannerViewState
         if (coupon?.validity != null) {
           final now = DateTime.now();
           final validity = coupon!.validity!;
-          _timeLeft = validity.isAfter(now)
-              ? validity.difference(now)
-              : Duration.zero;
+          _timeLeft =
+              validity.isAfter(now) ? validity.difference(now) : Duration.zero;
           _startCountdown();
         }
       }
@@ -90,7 +92,10 @@ class _CouponsDetailsFromBannerViewState
       ),
       body: Obx(() {
         if (homeController.isBannerDetailsLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+              child: CircularProgressIndicator(
+            color: AppColors.bottomBarText,
+          ));
         }
 
         if (homeController.singleBannerDetails.isEmpty) {
@@ -122,7 +127,7 @@ class _CouponsDetailsFromBannerViewState
                           style: h3.copyWith(color: AppColors.darkRed)),
                       sh5,
                       Text(
-                          "Only ${DateHelper.timeRemaining(coupon?.validity.toString())} days left to grab this deal",
+                          "Only ${DateHelper.timeRemaining(coupon?.validity.toString())} to grab this deal",
                           style: h5.copyWith(color: AppColors.darkRed)),
                       sh12,
                       Row(
@@ -198,7 +203,7 @@ class _CouponsDetailsFromBannerViewState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Coupon Code",
-                                    style: h6.copyWith(color: AppColors.white)),
+                                    style: h5.copyWith(color: AppColors.white)),
                                 sh5,
                                 Text(
                                   coupon?.code ?? '',
@@ -214,8 +219,10 @@ class _CouponsDetailsFromBannerViewState
                               ),
                               onPressed: () {
                                 if (coupon?.code != null) {
+                                  Clipboard.setData(
+                                      ClipboardData(text: "${coupon!.code}"));
                                   Get.snackbar("Copied",
-                                      "${coupon!.code} copied to clipboard");
+                                      "${coupon.code} already copied to clipboard");
                                 }
                               },
                               child: const Text("Code Copied"),
@@ -225,7 +232,11 @@ class _CouponsDetailsFromBannerViewState
                       ),
                       sh12,
                       Text(
-                        {DateHelper.timeRemaining(coupon?.validity.toString())} != null
+                        {
+                                  DateHelper.timeRemaining(
+                                      coupon?.validity.toString())
+                                } !=
+                                null
                             ? "Valid till ${DateHelper.formatDate(coupon!.validity.toString())}"
                             : '',
                         style: h6.copyWith(color: AppColors.white),
@@ -239,9 +250,15 @@ class _CouponsDetailsFromBannerViewState
               /// Continue To Store button
               CustomButton(
                 text: "Continue To Store",
-                onPressed: () {
-                  if (coupon?.link != null) {
-                    // launch url or do your navigation here
+                onPressed: () async {
+                  final url = Uri.parse(coupon!.link!);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(
+                      url,
+                      mode: LaunchMode.externalApplication,
+                    );
+                  } else {
+                    Get.snackbar("Error", "Could not open the store link");
                   }
                 },
                 backgroundColor: AppColors.transparent,
@@ -331,8 +348,8 @@ class _CouponsDetailsFromBannerViewState
               gradient: LinearGradient(colors: AppColors.buttonColor),
             ),
             child: Center(
-              child: Text("$number",
-                  style: h6.copyWith(color: AppColors.white)),
+              child:
+                  Text("$number", style: h6.copyWith(color: AppColors.white)),
             ),
           ),
           sw10,

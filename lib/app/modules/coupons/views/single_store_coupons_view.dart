@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:yalla_coupon/common/app_images/app_images.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -62,7 +61,7 @@ class SingleStoreCouponsView extends GetView {
                       // 🔹 Handle favorite toggle
                     },
                     onButtonTap: () {
-                      Get.to(()=> CouponsDetailsView());
+                      Get.to(()=> CouponsDetailsView(couponId: offer['id'],));
                     },
                   ),
                 );

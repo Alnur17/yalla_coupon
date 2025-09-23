@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
@@ -82,7 +83,7 @@ class _HomeViewState extends State<HomeView> {
               if (homeController.isBannerLoading.value) {
                 return SizedBox(
                   height: 100.h,
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(child: CircularProgressIndicator(color: AppColors.bottomBarText,)),
                 );
               }
 
@@ -148,7 +149,7 @@ class _HomeViewState extends State<HomeView> {
                                   CustomButton(
                                     text: 'Get Offer',
                                     onPressed: () {
-                                      // you can pass banner.coupon?.id or code to the next screen
+                                      Clipboard.setData(ClipboardData(text: "${banner.coupon?.code}"));
                                       Get.to(
                                           () => CouponsDetailsFromBannerView(bannerId: banner.id ?? '',));
                                     },
@@ -259,7 +260,7 @@ class _HomeViewState extends State<HomeView> {
                     imagePath: offer['image'],
                     usageText: offer['usageCount'],
                     onTap: () {
-                      Get.to(() => CouponsDetailsView());
+                      Get.to(() => CouponsDetailsView(couponId: offer['id'],));
                     },
                   ),
                 );
@@ -323,7 +324,7 @@ class _HomeViewState extends State<HomeView> {
                     isFavorite: offer['isFavorite'],
                     onFavoriteTap: () {},
                     onButtonTap: () {
-                      Get.to(() => CouponsDetailsView());
+                      Get.to(() => CouponsDetailsView(couponId: offer['id'],));
                     },
                   ),
                 );

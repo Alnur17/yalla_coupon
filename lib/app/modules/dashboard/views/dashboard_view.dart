@@ -6,7 +6,6 @@ import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/home_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
-import 'package:yalla_coupon/app/modules/store/views/store_view.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
 
@@ -20,8 +19,8 @@ class DashboardView extends GetView<DashboardController> {
       const HomeView(),
       //const StoreView(),
       const CategoryView(),
-      const CouponsView(),
-      const ActivityLogView(),
+      CouponsView(),
+      ActivityLogView(),
       ProfileView(),
     ];
   }

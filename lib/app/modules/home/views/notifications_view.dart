@@ -59,7 +59,7 @@ class NotificationsView extends GetView {
                   time: item['time']!,
                   image: item['image']!,
                   onTap: (){
-                    Get.to(()=> CouponsDetailsView());
+                    Get.to(()=> CouponsDetailsView(couponId: item['id'] ?? '',));
                   },
                 );
               },

@@ -24,9 +24,9 @@ class ActivityLogCard extends StatelessWidget {
 
   Color _statusColor() {
     switch (status) {
-      case 'Viewed':
+      case 'VIEW':
         return Colors.blue[100]!;
-      case 'Copied':
+      case 'COPY':
         return Colors.pink[100]!;
       default:
         return AppColors.silver;
@@ -35,9 +35,9 @@ class ActivityLogCard extends StatelessWidget {
 
   Color _statusTextColor() {
     switch (status) {
-      case 'Viewed':
+      case 'VIEW':
         return Colors.blue;
-      case 'Copied':
+      case 'COPY':
         return Colors.pink;
       default:
         return AppColors.black;

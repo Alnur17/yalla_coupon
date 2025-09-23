@@ -17,8 +17,13 @@ class Api {
   static const favourite = "$baseUrl/favorites"; //done
   static const conditionsPage = "$baseUrl/legal"; //done
   static const contactUs = "$baseUrl/feedbacks"; //done
+  static const activityLog = "$baseUrl/activities"; //done
 
   ///Banners
   static const allBanners = "$baseUrl/banners"; //done
-  static singleBanners(String id) => "$baseUrl/banners/$id"; //
+  static singleBanners(String id) => "$baseUrl/banners/$id"; //done
+
+  ///Coupons
+  static const allCoupons = "$baseUrl/coupons"; //
+  static singleCoupons(String id) => "$baseUrl/coupons/single/$id"; //
 }
