@@ -14,6 +14,8 @@ class Api {
 
   ///Profile
   static const userProfile = "$baseUrl/users/profile"; //done
+  static const editProfile = "$baseUrl/users"; //
+  static const addOrRemoveFavourite = "$baseUrl/favorites"; //done
   static const favourite = "$baseUrl/favorites"; //done
   static const conditionsPage = "$baseUrl/legal"; //done
   static const contactUs = "$baseUrl/feedbacks"; //done
@@ -24,6 +26,9 @@ class Api {
   static singleBanners(String id) => "$baseUrl/banners/$id"; //done
 
   ///Coupons
-  static const allCoupons = "$baseUrl/coupons"; //
-  static singleCoupons(String id) => "$baseUrl/coupons/single/$id"; //
+  static const allCoupons = "$baseUrl/coupons"; //done
+  static singleCoupons(String id) => "$baseUrl/coupons/single/$id"; //done
+
+  ///Notifications
+  static const notification = "$baseUrl/notifications"; //
 }

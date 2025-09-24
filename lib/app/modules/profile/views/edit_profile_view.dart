@@ -13,12 +13,35 @@ import '../../../../../common/widgets/custom_button.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
 import '../controllers/profile_controller.dart';
 
-class EditProfileView extends GetView<ProfileController> {
+class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
 
   @override
+  State<EditProfileView> createState() => _EditProfileViewState();
+}
+
+class _EditProfileViewState extends State<EditProfileView> {
+
+  final ProfileController profileController = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  void _loadProfileData() {
+    profileController.nameTEController.text =
+        profileController..profileData.value?.name ?? '';
+    profileController.emailTEController.text =
+        profileController..profileData.value?.email ?? '';
+    profileController.contactTEController.text =
+        profileController..profileData.value?.contactNumber ?? '';
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    final ProfileController controller = Get.find();
 
     return Scaffold(
       backgroundColor: AppColors.mainColor,
@@ -50,9 +73,9 @@ class EditProfileView extends GetView<ProfileController> {
                         radius: 50,
                         backgroundColor: AppColors.white,
                         child: ClipOval(
-                          child: controller.selectedImage.value != null
+                          child: profileController.selectedImage.value != null
                               ? Image.file(
-                                  controller.selectedImage.value!,
+                            profileController.selectedImage.value!,
                                   height: Get.height.h,
                                   width: Get.width.w,
                                   fit: BoxFit.cover,
@@ -75,7 +98,7 @@ class EditProfileView extends GetView<ProfileController> {
                         bottom: 0,
                         right: 0,
                         child: GestureDetector(
-                          onTap: () => controller.pickImageFromGallery(),
+                          onTap: () => profileController.pickImageFromGallery(),
                           child: const CircleAvatar(
                             radius: 15,
                             backgroundColor: AppColors.black,
@@ -94,15 +117,25 @@ class EditProfileView extends GetView<ProfileController> {
               sh40,
               Text('Full Name', style: h5),
               sh8,
-              CustomTextField(hintText: 'Enter your Name'),
+              CustomTextField(
+                controller: profileController.nameTEController,
+                hintText: 'Enter your name',
+              ),
               sh12,
-              Text('Email', style: h5),
+              Text(
+                'Email',
+                style: h6.copyWith(fontWeight: FontWeight.w700),
+              ),
               sh8,
-              CustomTextField(hintText: 'Enter Email'),
+              CustomTextField(
+                controller: profileController.emailTEController,
+                hintText: 'Enter your email',
+              ),
               sh12,
               Text('Contact', style: h5),
               sh8,
               IntlPhoneField(
+                controller: profileController.contactTEController,
                 decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -134,7 +167,7 @@ class EditProfileView extends GetView<ProfileController> {
               CustomButton(
                 text: 'Save Changes',
                 onPressed: () {
-                  controller.saveProfileChanges(); // save image to controller
+                  profileController.saveProfileChanges(); // save image to controller
                   Get.back();
                 },
                 gradientColors: AppColors.buttonColor,

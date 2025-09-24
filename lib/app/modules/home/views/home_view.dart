@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/activity_log/controllers/activity_log_controller.dart';
 import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
+import 'package:yalla_coupon/app/modules/coupons/controllers/coupons_controller.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_details_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/single_store_coupons_view.dart';
@@ -20,12 +22,14 @@ import 'package:yalla_coupon/common/widgets/search_filed.dart';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/category_container.dart';
+import '../../../../common/helper/date_helper.dart';
 import '../../../../common/helper/my_activity_card.dart';
 import '../../../../common/helper/offer_card.dart';
 import '../../../../common/helper/trending_offer_card.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../data/dummy_data.dart';
 import '../../coupons/views/coupons_details_from_banner_view.dart';
+import '../../profile/controllers/favorite_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends StatefulWidget {
@@ -37,6 +41,9 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
+  final FavoriteController favoriteController = Get.put(FavoriteController());
+  final CouponsController couponsController = Get.put(CouponsController());
+  final ActivityLogController activityLogController = Get.put(ActivityLogController());
 
   @override
   Widget build(BuildContext context) {
@@ -324,13 +331,54 @@ class _HomeViewState extends State<HomeView> {
                     isFavorite: offer['isFavorite'],
                     onFavoriteTap: () {},
                     onButtonTap: () {
-                      Get.to(() => CouponsDetailsView(couponId: offer['id'],));
+                      Get.to(() => CouponsDetailsView(couponId: '',));
                     },
                   ),
                 );
               },
             ),
-
+            // Obx(() {
+            //   if (couponsController.isLoading.value) {
+            //     return const Center(
+            //       child: CircularProgressIndicator(
+            //         color: AppColors.bottomBarText,
+            //       ),
+            //     );
+            //   }
+            //
+            //   if (couponsController.allCoupons.isEmpty) {
+            //     return const Center(child: Text("No coupons found"));
+            //   }
+            //
+            //   return ListView.builder(
+            //       shrinkWrap: true,
+            //       physics: NeverScrollableScrollPhysics(),
+            //     padding: EdgeInsets.all(16.sp),
+            //     itemCount: 2,
+            //     itemBuilder: (context, index) {
+            //       final coupon = couponsController.allCoupons[index];
+            //
+            //       return Padding(
+            //         padding: const EdgeInsets.only(bottom: 8.0),
+            //         child: OfferCard(
+            //           title: coupon.title ?? '',
+            //           subtitle: coupon.store.first.name ?? '',
+            //           image: coupon.store.first.image ?? '',
+            //           validTill:
+            //           DateHelper.formatDate(coupon.validity.toString()),
+            //           usageCount: coupon.fakeUses.toString(),
+            //           isFavorite: coupon.isFavorite ?? false,
+            //           onFavoriteTap: () {
+            //             favoriteController.addOrRemoveFavorites(coupon.id ?? '');
+            //           },
+            //           onButtonTap: () {
+            //             Get.to(() => CouponsDetailsView(couponId: coupon.id ?? ''));
+            //           },
+            //         ),
+            //       );
+            //     },
+            //   );
+            // }),
             //sh8,
             CustomRowHeader(title: 'Your Activity'),
             Container(

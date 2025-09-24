@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_details_view.dart';
+import 'package:yalla_coupon/app/modules/profile/controllers/favorite_controller.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/helper/date_helper.dart';
 
@@ -14,6 +15,7 @@ class CouponsView extends StatelessWidget {
   CouponsView({super.key});
 
   final CouponsController couponsController = Get.put(CouponsController());
+  final FavoriteController favoriteController = Get.put(FavoriteController());
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +63,19 @@ class CouponsView extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: OfferCard(
                       title: coupon.title ?? '',
-                      subtitle: coupon.store.first.name ?? '',
-                      image: coupon.store.first.image ?? '',
+                      subtitle: coupon.store.isNotEmpty ? (coupon.store.first.name ?? '') : '',
+                      image: coupon.store.isNotEmpty ? (coupon.store.first.image ?? '') : '',
                       validTill:
                           DateHelper.formatDate(coupon.validity.toString()),
                       usageCount: coupon.fakeUses.toString(),
                       isFavorite: coupon.isFavorite ?? false,
                       onFavoriteTap: () {
-                        // handle favorite
+                        favoriteController
+                            .addOrRemoveFavorites(coupon.id ?? '');
                       },
                       onButtonTap: () {
-                        Get.to(() => CouponsDetailsView(couponId: coupon.id ?? ''));
+                        Get.to(() =>
+                            CouponsDetailsView(couponId: coupon.id ?? ''));
                       },
                     ),
                   );

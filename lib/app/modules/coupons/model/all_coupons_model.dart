@@ -1,63 +1,66 @@
 class AllCouponsModel {
   AllCouponsModel({
-    required this.success,
-    required this.message,
-    required this.data,
+    this.success,
+    this.message,
+    this.data,
   });
 
   final bool? success;
   final String? message;
-  final Data? data;
+  final AllCouponsData? data;
 
-  factory AllCouponsModel.fromJson(Map<String, dynamic> json){
+  factory AllCouponsModel.fromJson(Map<String, dynamic> json) {
     return AllCouponsModel(
-      success: json["success"],
-      message: json["message"],
-      data: json["data"] == null ? null : Data.fromJson(json["data"]),
+      success: json['success'],
+      message: json['message'],
+      data: json['data'] == null
+          ? null
+          : AllCouponsData.fromJson(json['data']),
     );
   }
-
 }
 
-class Data {
-  Data({
-    required this.data,
-    required this.meta,
+class AllCouponsData {
+  AllCouponsData({
+    this.data = const [],
+    this.meta,
   });
 
   final List<AllCouponsDatum> data;
   final Meta? meta;
 
-  factory Data.fromJson(Map<String, dynamic> json){
-    return Data(
-      data: json["data"] == null ? [] : List<AllCouponsDatum>.from(json["data"]!.map((x) => AllCouponsDatum.fromJson(x))),
-      meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
+  factory AllCouponsData.fromJson(Map<String, dynamic> json) {
+    return AllCouponsData(
+      data: (json['data'] as List<dynamic>?)
+          ?.map((x) => AllCouponsDatum.fromJson(x))
+          .toList() ??
+          [],
+      meta: json['meta'] == null ? null : Meta.fromJson(json['meta']),
     );
   }
-
 }
 
 class AllCouponsDatum {
   AllCouponsDatum({
-    required this.id,
-    required this.store,
-    required this.categories,
-    required this.countries,
-    required this.link,
-    required this.fakeUses,
-    required this.realUses,
-    required this.code,
-    required this.title,
-    required this.subtitle,
-    required this.validity,
-    required this.status,
-    required this.applicableUserType,
-    required this.howToUse,
-    required this.terms,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
-    required this.isFavorite,
+    this.id,
+    this.store = const [],
+    this.categories = const [],
+    this.countries = const [],
+    this.link,
+    this.fakeUses,
+    this.realUses,
+    this.code,
+    this.title,
+    this.subtitle,
+    this.validity,
+    this.status,
+    this.applicableUserType,
+    this.howToUse = const [],
+    this.terms = const [],
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+    this.isFavorite,
   });
 
   final String? id;
@@ -80,40 +83,54 @@ class AllCouponsDatum {
   final int? v;
   final bool? isFavorite;
 
-  factory AllCouponsDatum.fromJson(Map<String, dynamic> json){
+  factory AllCouponsDatum.fromJson(Map<String, dynamic> json) {
     return AllCouponsDatum(
-      id: json["_id"],
-      store: json["store"] == null ? [] : List<Category>.from(json["store"]!.map((x) => Category.fromJson(x))),
-      categories: json["categories"] == null ? [] : List<Category>.from(json["categories"]!.map((x) => Category.fromJson(x))),
-      countries: json["countries"] == null ? [] : List<String>.from(json["countries"]!.map((x) => x)),
-      link: json["link"],
-      fakeUses: json["fakeUses"],
-      realUses: json["realUses"],
-      code: json["code"],
-      title: json["title"],
-      subtitle: json["subtitle"],
-      validity: DateTime.tryParse(json["validity"] ?? ""),
-      status: json["status"],
-      applicableUserType: json["applicableUserType"],
-      howToUse: json["howToUse"] == null ? [] : List<String>.from(json["howToUse"]!.map((x) => x)),
-      terms: json["terms"] == null ? [] : List<String>.from(json["terms"]!.map((x) => x)),
-      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      v: json["__v"],
-      isFavorite: json["isFavorite"],
+      id: json['_id'],
+      store: (json['store'] as List<dynamic>?)
+          ?.map((x) => Category.fromJson(x))
+          .toList() ??
+          [],
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((x) => Category.fromJson(x))
+          .toList() ??
+          [],
+      countries: (json['countries'] as List<dynamic>?)
+          ?.map((x) => x.toString())
+          .toList() ??
+          [],
+      link: json['link'],
+      fakeUses: json['fakeUses'],
+      realUses: json['realUses'],
+      code: json['code'],
+      title: json['title'],
+      subtitle: json['subtitle'],
+      validity: DateTime.tryParse(json['validity'] ?? ''),
+      status: json['status'],
+      applicableUserType: json['applicableUserType'],
+      howToUse: (json['howToUse'] as List<dynamic>?)
+          ?.map((x) => x.toString())
+          .toList() ??
+          [],
+      terms: (json['terms'] as List<dynamic>?)
+          ?.map((x) => x.toString())
+          .toList() ??
+          [],
+      createdAt: DateTime.tryParse(json['createdAt'] ?? ''),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      v: json['__v'],
+      isFavorite: json['isFavorite'],
     );
   }
-
 }
 
 class Category {
   Category({
-    required this.id,
-    required this.name,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.v,
-    required this.image,
+    this.id,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+    this.image,
   });
 
   final String? id;
@@ -123,36 +140,34 @@ class Category {
   final int? v;
   final String? image;
 
-  factory Category.fromJson(Map<String, dynamic> json){
+  factory Category.fromJson(Map<String, dynamic> json) {
     return Category(
-      id: json["_id"],
-      name: json["name"],
-      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
-      v: json["__v"],
-      image: json["image"],
+      id: json['_id'],
+      name: json['name'],
+      createdAt: DateTime.tryParse(json['createdAt'] ?? ''),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? ''),
+      v: json['__v'],
+      image: json['image'],
     );
   }
-
 }
 
 class Meta {
   Meta({
-    required this.total,
-    required this.limit,
-    required this.page,
+    this.total,
+    this.limit,
+    this.page,
   });
 
   final int? total;
   final int? limit;
   final int? page;
 
-  factory Meta.fromJson(Map<String, dynamic> json){
+  factory Meta.fromJson(Map<String, dynamic> json) {
     return Meta(
-      total: json["total"],
-      limit: json["limit"],
-      page: json["page"],
+      total: json['total'],
+      limit: json['limit'],
+      page: json['page'],
     );
   }
-
 }

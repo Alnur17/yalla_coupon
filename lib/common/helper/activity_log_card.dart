@@ -8,7 +8,7 @@ class ActivityLogCard extends StatelessWidget {
   final String storeName;
   final String couponCode;
   final String dateTime;
-  final String status; // Used, Viewed, Copied
+  final String status; // Viewed, Copied
   final String imagePath;
   final VoidCallback? onTap;
 

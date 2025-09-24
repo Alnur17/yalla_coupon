@@ -51,7 +51,9 @@ class FavouriteView extends StatelessWidget {
                 validTill: DateHelper.formatDate(fav.coupon?.validity.toString()),
                 usageCount: fav.coupon?.fakeUses.toString() ?? '0',
                 isFavorite: true,
-                onFavoriteTap: () {},
+                onFavoriteTap: () {
+                  favoriteController.addOrRemoveFavorites(fav.coupon?.id ?? '');
+                },
                 onButtonTap: () {},
               ),
             );

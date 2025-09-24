@@ -57,9 +57,9 @@ class SingleBannerData {
 
 class Coupon {
   Coupon({
+    required this.categories,
     required this.id,
     required this.store,
-    required this.categories,
     required this.countries,
     required this.link,
     required this.fakeUses,
@@ -68,6 +68,7 @@ class Coupon {
     required this.title,
     required this.subtitle,
     required this.validity,
+    required this.type,
     required this.status,
     required this.applicableUserType,
     required this.howToUse,
@@ -77,9 +78,9 @@ class Coupon {
     required this.v,
   });
 
+  final List<dynamic> categories;
   final String? id;
   final Store? store;
-  final List<String> categories;
   final List<String> countries;
   final String? link;
   final int? fakeUses;
@@ -88,6 +89,7 @@ class Coupon {
   final String? title;
   final String? subtitle;
   final DateTime? validity;
+  final String? type;
   final String? status;
   final String? applicableUserType;
   final List<String> howToUse;
@@ -98,9 +100,9 @@ class Coupon {
 
   factory Coupon.fromJson(Map<String, dynamic> json){
     return Coupon(
+      categories: json["categories"] == null ? [] : List<dynamic>.from(json["categories"]!.map((x) => x)),
       id: json["_id"],
       store: json["store"] == null ? null : Store.fromJson(json["store"]),
-      categories: json["categories"] == null ? [] : List<String>.from(json["categories"]!.map((x) => x)),
       countries: json["countries"] == null ? [] : List<String>.from(json["countries"]!.map((x) => x)),
       link: json["link"],
       fakeUses: json["fakeUses"],
@@ -109,6 +111,7 @@ class Coupon {
       title: json["title"],
       subtitle: json["subtitle"],
       validity: DateTime.tryParse(json["validity"] ?? ""),
+      type: json["type"],
       status: json["status"],
       applicableUserType: json["applicableUserType"],
       howToUse: json["howToUse"] == null ? [] : List<String>.from(json["howToUse"]!.map((x) => x)),
@@ -126,6 +129,8 @@ class Store {
     required this.id,
     required this.name,
     required this.image,
+    required this.thumbnail,
+    required this.categories,
     required this.createdAt,
     required this.updatedAt,
     required this.v,
@@ -134,6 +139,8 @@ class Store {
   final String? id;
   final String? name;
   final String? image;
+  final String? thumbnail;
+  final List<String> categories;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? v;
@@ -143,6 +150,8 @@ class Store {
       id: json["_id"],
       name: json["name"],
       image: json["image"],
+      thumbnail: json["thumbnail"],
+      categories: json["categories"] == null ? [] : List<String>.from(json["categories"]!.map((x) => x)),
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       v: json["__v"],

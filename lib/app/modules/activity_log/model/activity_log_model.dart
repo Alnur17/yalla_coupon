@@ -62,7 +62,7 @@ class Item {
     required this.createdAt,
     required this.dateLabel,
     required this.sortKey,
-    required this.couponTitle,
+    required this.couponCode,
     required this.storeName,
     required this.storeImage,
   });
@@ -72,7 +72,7 @@ class Item {
   final DateTime? createdAt;
   final String? dateLabel;
   final int? sortKey;
-  final String? couponTitle;
+  final String? couponCode;
   final String? storeName;
   final String? storeImage;
 
@@ -83,7 +83,7 @@ class Item {
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       dateLabel: json["dateLabel"],
       sortKey: json["sortKey"],
-      couponTitle: json["couponTitle"],
+      couponCode: json["couponCode"],
       storeName: json["storeName"],
       storeImage: json["storeImage"],
     );

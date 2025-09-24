@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:yalla_coupon/common/helper/date_helper.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -56,7 +57,7 @@ class ActivityLogView extends StatelessWidget {
                   (item.storeName ?? '')
                       .toLowerCase()
                       .contains(searchQuery.value.toLowerCase()) ||
-                      (item.couponTitle ?? '')
+                      (item.couponCode ?? '')
                           .toLowerCase()
                           .contains(searchQuery.value.toLowerCase())))
                   .toList();
@@ -76,15 +77,15 @@ class ActivityLogView extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // if you want to show the label/date group heading
-                      // if (log.label != null)
-                      //   Padding(
-                      //     padding: EdgeInsets.symmetric(vertical: 8.h),
-                      //     child: Text(
-                      //       log.label!,
-                      //       style: h5.copyWith(color: Colors.white),
-                      //     ),
-                      //   ),
+                      //if you want to show the label/date group heading
+                      if (log.label != null)
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.h),
+                          child: Text(
+                            log.label!,
+                            style: h5,
+                          ),
+                        ),
 
                       // now list of all items in this group
                       ...log.items.map((item) {
@@ -92,10 +93,8 @@ class ActivityLogView extends StatelessWidget {
                           padding: EdgeInsets.only(top: 8.h),
                           child: ActivityLogCard(
                             storeName: item.storeName ?? '',
-                            couponCode: item.couponTitle ?? '',
-                            dateTime: item.createdAt != null
-                                ? item.createdAt!.toString()
-                                : '',
+                            couponCode: item.couponCode ?? '',
+                            dateTime: DateHelper.formatDate(item.createdAt.toString()),
                             status: item.type ?? '',
                             imagePath: item.storeImage ?? '',
                             onTap: () {
