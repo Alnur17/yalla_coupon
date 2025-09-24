@@ -27,17 +27,17 @@ class _EditProfileViewState extends State<EditProfileView> {
   @override
   void initState() {
     super.initState();
-    _loadProfileData();
+    //_loadProfileData();
   }
 
-  void _loadProfileData() {
-    profileController.nameTEController.text =
-        profileController..profileData.value?.name ?? '';
-    profileController.emailTEController.text =
-        profileController..profileData.value?.email ?? '';
-    profileController.contactTEController.text =
-        profileController..profileData.value?.contactNumber ?? '';
-  }
+  // void _loadProfileData() {
+  //   profileController.nameTEController.text =
+  //       profileController..profileData.value?.name ?? '';
+  //   profileController.emailTEController.text =
+  //       profileController..profileData.value?.email ?? '';
+  //   profileController.contactTEController.text =
+  //       profileController..profileData.value?.contactNumber ?? '';
+  // }
 
 
   @override
