@@ -78,7 +78,7 @@ class OfferCard extends StatelessWidget {
           ),
           sh12,
           CustomButton(
-            text: 'Get Code',
+            text: 'Get Deal',
             onPressed: onButtonTap,
             backgroundColor: AppColors.silver,
             borderRadius: 12,

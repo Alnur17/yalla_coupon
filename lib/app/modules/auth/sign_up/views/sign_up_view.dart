@@ -77,7 +77,7 @@ class _SignUpViewState extends State<SignUpView> {
 
                     return IntlPhoneField(
                       controller: signUpController.phoneTEController,
-                      initialCountryCode: signUpController.countryCode.value,
+                      initialCountryCode: signUpController.countryCode.value.toUpperCase(),
 
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(

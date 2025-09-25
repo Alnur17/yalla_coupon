@@ -26,7 +26,7 @@ class CouponsDetailsFromBannerView extends StatefulWidget {
 
 class _CouponsDetailsFromBannerViewState
     extends State<CouponsDetailsFromBannerView> {
-  late Timer _timer;
+  Timer? _timer;
   Duration _timeLeft = Duration.zero;
 
   final HomeController homeController = Get.find<HomeController>();
@@ -52,20 +52,21 @@ class _CouponsDetailsFromBannerViewState
   }
 
   void _startCountdown() {
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft.inSeconds > 0) {
         setState(() {
           _timeLeft -= const Duration(seconds: 1);
         });
       } else {
-        _timer.cancel();
+        _timer?.cancel();
       }
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -105,6 +106,14 @@ class _CouponsDetailsFromBannerViewState
         final SingleBannerData banner =
             homeController.singleBannerDetails.first;
         final Coupon? coupon = banner.coupon;
+
+        // check if coupon is null
+        if (coupon == null) {
+          return Scaffold(
+            backgroundColor: AppColors.mainColor,
+            body: Center(child: Text('No coupon available for this banner')),
+          );
+        }
 
         return SingleChildScrollView(
           padding: EdgeInsets.all(16.w),
@@ -232,11 +241,7 @@ class _CouponsDetailsFromBannerViewState
                       ),
                       sh12,
                       Text(
-                        {
-                                  DateHelper.timeRemaining(
-                                      coupon?.validity.toString())
-                                } !=
-                                null
+                        coupon?.validity != null
                             ? "Valid till ${DateHelper.formatDate(coupon!.validity.toString())}"
                             : '',
                         style: h6.copyWith(color: AppColors.white),

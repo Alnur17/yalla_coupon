@@ -29,6 +29,14 @@ class Api {
   static const allCoupons = "$baseUrl/coupons"; //done
   static singleCoupons(String id) => "$baseUrl/coupons/single/$id"; //done
 
+  ///Categories
+  static const allCategory = "$baseUrl/categories"; //done
+  //static singleCategory(String id) => "$baseUrl/categories/$id"; //
+
+  ///Categories
+  static allStores(String categoryId) => "$baseUrl/stores?categories=$categoryId"; //done
+  static singleStore(String id) => "$baseUrl/stores/$id"; //
+
   ///Notifications
   static const notification = "$baseUrl/notifications"; //
 }

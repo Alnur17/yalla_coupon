@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:yalla_coupon/app/data/dummy_data.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
@@ -12,9 +11,23 @@ import '../../../../common/widgets/search_filed.dart';
 import '../../coupons/views/single_store_coupons_view.dart';
 import '../controllers/store_controller.dart';
 
-class StoreView extends GetView<StoreController> {
+class StoreView extends StatefulWidget {
   final String categoryName;
-  const StoreView( {super.key, required this.categoryName,});
+  final String categoryId;
+ const StoreView( {super.key, required this.categoryName, required this.categoryId,});
+
+  @override
+  State<StoreView> createState() => _StoreViewState();
+}
+
+class _StoreViewState extends State<StoreView> {
+  final StoreController storeController = Get.put(StoreController());
+
+  @override
+  void initState() {
+    super.initState();
+    storeController.fetchStores(widget.categoryId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +39,7 @@ class StoreView extends GetView<StoreController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '$categoryName Stores',
+              '${widget.categoryName} Stores',
               style: appBarStyle,
             ),
             Text(
@@ -44,24 +57,43 @@ class StoreView extends GetView<StoreController> {
             child: SearchFiled(onChanged: (value) {}),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              itemCount: DummyData.stores.length,
-              itemBuilder: (context, index) {
-                final store = DummyData.stores[index];
-                return Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: StoreCard(
-                    storeName: store['storeName'],
-                    couponCount: store['couponCount'],
-                    imagePath: store['imagePath'],
-                    onTap: () {
-                      Get.to(() => SingleStoreCouponsView(store['storeName'],store['imagePath'],));
-                      print("${store['storeName']} tapped");
-                    },
-                  ),
+            child: Obx(
+               () {
+                 if (storeController.isLoading.value) {
+                   return Center(
+                     child: CircularProgressIndicator(
+                       color: AppColors.bottomBarText,
+                     ),
+                   );
+                 }
+                 if (storeController.storeList.isEmpty) {
+                   return Center(
+                     child: Text(
+                       "No category available",
+                       style: h5,
+                     ),
+                   );
+                 }
+                return ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  itemCount: storeController.storeList.length,
+                  itemBuilder: (context, index) {
+                    final store = storeController.storeList[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: StoreCard(
+                        storeName: store.name ?? 'Unknown',
+                        couponCount: store.couponCount.toString(),
+                        imagePath: store.image ?? '',
+                        onTap: () {
+                          Get.to(() => SingleStoreCouponsView(store.name ?? 'Unknown',store.image ?? '',));
+                          print("${store.name ?? 'Unknown'} tapped");
+                        },
+                      ),
+                    );
+                  },
                 );
-              },
+              }
             ),
           ),
         ],

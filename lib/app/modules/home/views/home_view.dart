@@ -9,7 +9,6 @@ import 'package:yalla_coupon/app/modules/activity_log/controllers/activity_log_c
 import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/controllers/coupons_controller.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_details_view.dart';
-import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/single_store_coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/notifications_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
@@ -22,7 +21,6 @@ import 'package:yalla_coupon/common/widgets/search_filed.dart';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/category_container.dart';
-import '../../../../common/helper/date_helper.dart';
 import '../../../../common/helper/my_activity_card.dart';
 import '../../../../common/helper/offer_card.dart';
 import '../../../../common/helper/trending_offer_card.dart';
@@ -43,7 +41,8 @@ class _HomeViewState extends State<HomeView> {
   final HomeController homeController = Get.put(HomeController());
   final FavoriteController favoriteController = Get.put(FavoriteController());
   final CouponsController couponsController = Get.put(CouponsController());
-  final ActivityLogController activityLogController = Get.put(ActivityLogController());
+  final ActivityLogController activityLogController =
+      Get.put(ActivityLogController());
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +89,10 @@ class _HomeViewState extends State<HomeView> {
               if (homeController.isBannerLoading.value) {
                 return SizedBox(
                   height: 100.h,
-                  child: Center(child: CircularProgressIndicator(color: AppColors.bottomBarText,)),
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    color: AppColors.bottomBarText,
+                  )),
                 );
               }
 
@@ -156,9 +158,12 @@ class _HomeViewState extends State<HomeView> {
                                   CustomButton(
                                     text: 'Get Offer',
                                     onPressed: () {
-                                      Clipboard.setData(ClipboardData(text: "${banner.coupon?.code}"));
-                                      Get.to(
-                                          () => CouponsDetailsFromBannerView(bannerId: banner.id ?? '',));
+                                      if (banner.coupon != null && banner.coupon!.code!.isNotEmpty) {
+                                        Clipboard.setData(ClipboardData(text: banner.coupon!.code!));
+                                      }
+                                      Get.to(() => CouponsDetailsFromBannerView(
+                                        bannerId: banner.id ?? '',
+                                      ));
                                     },
                                     gradientColors: AppColors.buttonColor,
                                     width: 120.w,
@@ -266,8 +271,11 @@ class _HomeViewState extends State<HomeView> {
                     subtitle: offer['subtitle'],
                     imagePath: offer['image'],
                     usageText: offer['usageCount'],
+                    onButtonTap: () {},
                     onTap: () {
-                      Get.to(() => CouponsDetailsView(couponId: offer['id'],));
+                      Get.to(() => CouponsDetailsView(
+                            couponId: offer['id'],
+                          ));
                     },
                   ),
                 );
@@ -309,10 +317,11 @@ class _HomeViewState extends State<HomeView> {
             ),
             sh16,
             CustomRowHeader(
-                title: 'Featured Deals',
-                onTap: () {
-                  Get.to(() => CouponsView());
-                }),
+              title: 'Featured Deals',
+              // onTap: () {
+              //   Get.to(() => CouponsView());
+              // },
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -331,7 +340,9 @@ class _HomeViewState extends State<HomeView> {
                     isFavorite: offer['isFavorite'],
                     onFavoriteTap: () {},
                     onButtonTap: () {
-                      Get.to(() => CouponsDetailsView(couponId: '',));
+                      Get.to(() => CouponsDetailsView(
+                            couponId: '',
+                          ));
                     },
                   ),
                 );

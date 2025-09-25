@@ -87,7 +87,7 @@ class SignUpController extends GetxController {
 
       final body = {
         "phone": phoneTEController.text.trim(),
-        "country": countryCode.value,
+        "country": countryCode.value.toUpperCase(),
         "email": emailTEController.text.trim(),
         "password": passwordTEController.text.trim(),
       };

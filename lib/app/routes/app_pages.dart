@@ -75,7 +75,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.STORE,
-      page: () => const StoreView(categoryName: ''),
+      page: () =>  StoreView(categoryName: '', categoryId: '',),
       binding: StoreBinding(),
     ),
     GetPage(
@@ -90,7 +90,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CATEGORY,
-      page: () => const CategoryView(),
+      page: () => CategoryView(),
       binding: CategoryBinding(),
     ),
   ];

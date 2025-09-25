@@ -18,7 +18,7 @@ class DashboardView extends GetView<DashboardController> {
     return [
       const HomeView(),
       //const StoreView(),
-      const CategoryView(),
+      CategoryView(),
       CouponsView(),
       ActivityLogView(),
       ProfileView(),

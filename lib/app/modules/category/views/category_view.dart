@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/category/controllers/category_controller.dart';
 
 import '../../../../common/app_color/app_colors.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/all_category_container.dart';
-import '../../../../common/helper/store_card.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/search_filed.dart';
-import '../../../data/dummy_data.dart';
-import '../../coupons/views/single_store_coupons_view.dart';
 import '../../store/views/store_view.dart';
-import '../controllers/category_controller.dart';
 
-class CategoryView extends GetView<CategoryController> {
-  const CategoryView({super.key});
+class CategoryView extends StatelessWidget {
+  CategoryView({super.key});
+
+  final CategoryController categoryController = Get.put(CategoryController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,25 +44,45 @@ class CategoryView extends GetView<CategoryController> {
             child: SearchFiled(onChanged: (value) {}),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              itemCount: DummyData.category.length,
-              itemBuilder: (context, index) {
-                final category = DummyData.category[index];
-                return Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: AllCategoryContainer(
-                    categoryName: category['categoryName'],
-                    storeCount: category['storeCount'],
-                    imagePath: category['imagePath'],
-                    onTap: () {
-                      Get.to(() => StoreView(categoryName: category['categoryName'], ));
-                      print("${category['categoryName']} tapped");
-                    },
+            child: Obx(() {
+              if (categoryController.isLoading.value) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.bottomBarText,
                   ),
                 );
-              },
-            ),
+              }
+              if (categoryController.categoryList.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No category available",
+                    style: h5,
+                  ),
+                );
+              }
+              return ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                itemCount: categoryController.categoryList.length,
+                itemBuilder: (context, index) {
+                  final category = categoryController.categoryList[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: AllCategoryContainer(
+                      categoryName: category.name ?? 'Unknown',
+                      storeCount: category.storeCount.toString(),
+                      imagePath: category.image ?? '',
+                      onTap: () {
+                        Get.to(() => StoreView(
+                              categoryName: category.name ?? 'Unknown',
+                          categoryId: category.id ?? '',
+                            ));
+                        print("${category.name ?? 'Unknown'} tapped");
+                      },
+                    ),
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
