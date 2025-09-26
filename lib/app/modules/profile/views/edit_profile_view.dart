@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:yalla_coupon/common/widgets/custom_loader.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -21,28 +22,23 @@ class EditProfileView extends StatefulWidget {
 }
 
 class _EditProfileViewState extends State<EditProfileView> {
-
   final ProfileController profileController = Get.find();
 
   @override
   void initState() {
     super.initState();
-    //_loadProfileData();
+    _loadProfileData();
   }
 
-  // void _loadProfileData() {
-  //   profileController.nameTEController.text =
-  //       profileController..profileData.value?.name ?? '';
-  //   profileController.emailTEController.text =
-  //       profileController..profileData.value?.email ?? '';
-  //   profileController.contactTEController.text =
-  //       profileController..profileData.value?.contactNumber ?? '';
-  // }
-
+  void _loadProfileData() {
+    final user = profileController.profileData.value?.data?.user;
+    profileController.nameTEController.text = user?.name ?? '';
+    profileController.emailTEController.text = user?.email ?? '';
+    profileController.contactTEController.text = user?.phone ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -75,18 +71,21 @@ class _EditProfileViewState extends State<EditProfileView> {
                         child: ClipOval(
                           child: profileController.selectedImage.value != null
                               ? Image.file(
-                            profileController.selectedImage.value!,
+                                  profileController.selectedImage.value!,
                                   height: Get.height.h,
                                   width: Get.width.w,
                                   fit: BoxFit.cover,
                                 )
                               : CachedNetworkImage(
-                                  imageUrl: AppImages.profileImage,
+                                  imageUrl:
+                                      profileController.profileImageUrl.value,
                                   height: Get.height.h,
                                   width: Get.width.w,
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.bottomBarText,
+                                    ),
                                   ),
                                   errorWidget: (context, url, error) =>
                                       const Icon(Icons.error,
@@ -164,13 +163,16 @@ class _EditProfileViewState extends State<EditProfileView> {
                 },
               ),
               sh20,
-              CustomButton(
-                text: 'Save Changes',
-                onPressed: () {
-                  profileController.saveProfileChanges(); // save image to controller
-                  Get.back();
-                },
-                gradientColors: AppColors.buttonColor,
+              Obx(
+                () => profileController.isLoading.value == true
+                    ? CustomLoader(color: AppColors.white)
+                    : CustomButton(
+                        text: 'Save Changes',
+                        onPressed: () {
+                          profileController.updateProfile();
+                        },
+                        gradientColors: AppColors.buttonColor,
+                      ),
               ),
               sh20,
             ],

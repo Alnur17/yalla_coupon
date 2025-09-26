@@ -98,7 +98,7 @@ class _HomeViewState extends State<HomeView> {
 
               if (homeController.banners.isEmpty) {
                 return SizedBox(
-                  height: 100.h,
+                  height: 50.h,
                   child: Center(child: Text('No banners available')),
                 );
               }
@@ -243,6 +243,7 @@ class _HomeViewState extends State<HomeView> {
                             () => SingleStoreCouponsView(
                               brand['name']!,
                               brand['image']!,
+                              brand["id"]!,
                             ),
                           );
                         },

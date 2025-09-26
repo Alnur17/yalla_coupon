@@ -136,7 +136,7 @@ class _CouponsDetailsFromBannerViewState
                           style: h3.copyWith(color: AppColors.darkRed)),
                       sh5,
                       Text(
-                          "Only ${DateHelper.timeRemaining(coupon?.validity.toString())} to grab this deal",
+                          "Only ${DateHelper.timeRemaining(coupon.validity.toString())} to grab this deal",
                           style: h5.copyWith(color: AppColors.darkRed)),
                       sh12,
                       Row(
@@ -181,18 +181,18 @@ class _CouponsDetailsFromBannerViewState
                           ),
                           sw8,
                           Text(
-                            coupon?.store?.name ?? 'Store',
+                            coupon.store?.name ?? 'Store',
                             style: h5.copyWith(color: AppColors.white),
                           ),
                         ],
                       ),
                       sh12,
                       Text(
-                        coupon?.title ?? '',
+                        coupon.title ?? '',
                         style: h2.copyWith(color: AppColors.white),
                       ),
                       Text(
-                        coupon?.subtitle ?? '',
+                        coupon.subtitle ?? '',
                         style: h6.copyWith(color: AppColors.white),
                       ),
                       sh16,
@@ -215,7 +215,7 @@ class _CouponsDetailsFromBannerViewState
                                     style: h5.copyWith(color: AppColors.white)),
                                 sh5,
                                 Text(
-                                  coupon?.code ?? '',
+                                  coupon.code ?? '',
                                   style: h3.copyWith(
                                       color: AppColors.white, fontSize: 18),
                                 ),
@@ -227,9 +227,9 @@ class _CouponsDetailsFromBannerViewState
                                 foregroundColor: AppColors.black,
                               ),
                               onPressed: () {
-                                if (coupon?.code != null) {
+                                if (coupon.code != null) {
                                   Clipboard.setData(
-                                      ClipboardData(text: "${coupon!.code}"));
+                                      ClipboardData(text: "${coupon.code}"));
                                   Get.snackbar("Copied",
                                       "${coupon.code} already copied to clipboard");
                                 }
@@ -241,8 +241,8 @@ class _CouponsDetailsFromBannerViewState
                       ),
                       sh12,
                       Text(
-                        coupon?.validity != null
-                            ? "Valid till ${DateHelper.formatDate(coupon!.validity.toString())}"
+                        coupon.validity != null
+                            ? "Valid till ${DateHelper.formatDate(coupon.validity.toString())}"
                             : '',
                         style: h6.copyWith(color: AppColors.white),
                       ),
@@ -256,7 +256,7 @@ class _CouponsDetailsFromBannerViewState
               CustomButton(
                 text: "Continue To Store",
                 onPressed: () async {
-                  final url = Uri.parse(coupon!.link!);
+                  final url = Uri.parse(coupon.link!);
                   if (await canLaunchUrl(url)) {
                     await launchUrl(
                       url,
@@ -276,7 +276,7 @@ class _CouponsDetailsFromBannerViewState
               /// How to Use
               sectionTitle("How to Use"),
               sh8,
-              for (int i = 0; i < coupon!.howToUse.length; i++)
+              for (int i = 0; i < coupon.howToUse.length; i++)
                 stepItem(coupon.howToUse[i], i + 1),
 
               sh20,

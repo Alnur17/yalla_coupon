@@ -58,15 +58,26 @@ class OfferCard extends StatelessWidget {
                 ),
               ),
               sw8,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: h3.copyWith(fontWeight: FontWeight.w700)),
-                  Text(subtitle,
-                      style: h6.copyWith(color: AppColors.greyMedium)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: h3.copyWith(fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      subtitle,
+                      style: h6.copyWith(color: AppColors.greyMedium),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
               ),
-              const Spacer(),
+              sw12,
               GestureDetector(
                 onTap: onFavoriteTap,
                 child: Image.asset(

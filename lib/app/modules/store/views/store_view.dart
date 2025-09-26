@@ -86,7 +86,7 @@ class _StoreViewState extends State<StoreView> {
                         couponCount: store.couponCount.toString(),
                         imagePath: store.image ?? '',
                         onTap: () {
-                          Get.to(() => SingleStoreCouponsView(store.name ?? 'Unknown',store.image ?? '',));
+                          Get.to(() => SingleStoreCouponsView(store.name ?? 'Unknown',store.image ?? '',store.id ?? ''));
                           print("${store.name ?? 'Unknown'} tapped");
                         },
                       ),

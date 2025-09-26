@@ -85,13 +85,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> updateProfile({
-    //required BuildContext context,
-    required String name,
-    required String email,
-    required String age,
-    required String contactNumber,
-  })
+  Future<void> updateProfile()
   async {
     try {
       isLoading.value = true;
@@ -104,19 +98,18 @@ class ProfileController extends GetxController {
       var request = http.MultipartRequest('PUT', Uri.parse(Api.editProfile));
 
       request.headers.addAll({
-        'Authorization': accessToken,
+        'Authorization': "Bearer $accessToken",
         'Content-Type': 'multipart/form-data',
       });
 
       // Add JSON payload as text
       Map<String, dynamic> data = {
-        "name": name,
-        "email": email,
-        "age": age,
-        "contactNumber": contactNumber,
+        "name": nameTEController.text.trim(),
+        "email": emailTEController.text.trim(),
+        "phone": contactTEController.text.trim(),
       };
 
-      request.fields['data'] = jsonEncode(data);
+      request.fields['payload'] = jsonEncode(data);
 
       // Handle Image Upload
       if (selectedImage.value != null) {
