@@ -51,7 +51,7 @@ class OfferCard extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
+                  child: Image.network(
                     image,
                     scale: 4,
                   ),

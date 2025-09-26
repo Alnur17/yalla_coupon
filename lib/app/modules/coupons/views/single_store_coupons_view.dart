@@ -54,7 +54,7 @@ class _SingleStoreCouponsViewState extends State<SingleStoreCouponsView> {
                 borderRadius: BorderRadius.circular(16)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
+              child: Image.network(
                 widget.storeImage,
                 scale: 4,
               ),
@@ -77,10 +77,10 @@ class _SingleStoreCouponsViewState extends State<SingleStoreCouponsView> {
                       child: OfferCard(
                         title: offer.title ?? 'Unknown',
                         subtitle: offer.subtitle ?? 'Unknown',
-                        image: offer.store?.image ?? '',
+                        image: offer.store.first.image ?? '',
                         validTill: DateHelper.timeRemaining(offer.validity.toString()),
                         usageCount: offer.fakeUses.toString(),
-                        isFavorite: offer.isFeatured ?? false,
+                        isFavorite: offer.isFavorite ?? false,
                         onFavoriteTap: () {
                           // 🔹 Handle favorite toggle
                         },

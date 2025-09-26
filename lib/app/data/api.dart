@@ -25,10 +25,14 @@ class Api {
   static const allBanners = "$baseUrl/banners"; //done
   static singleBanners(String id) => "$baseUrl/banners/$id"; //done
 
+  ///home
+  static const trendingCoupons = "$baseUrl/coupons/trending"; //
+  static const featuredCoupons = "$baseUrl/coupons/featured"; //
+
   ///Coupons
   static const allCoupons = "$baseUrl/coupons"; //done
   static singleCoupons(String id) => "$baseUrl/coupons/single/$id"; //done
-  static couponsByStoreId(String id) => "$baseUrl/coupons/$id"; //
+  static couponsByStoreId(String id) => "$baseUrl/coupons?store=$id"; //done
 
   ///Categories
   static const allCategory = "$baseUrl/categories"; //done
@@ -39,5 +43,5 @@ class Api {
   static singleStore(String id) => "$baseUrl/stores/$id"; //
 
   ///Notifications
-  static const notification = "$baseUrl/notifications"; //
+  static const notification = "$baseUrl/notifications"; //done
 }

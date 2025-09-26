@@ -158,12 +158,14 @@ class _HomeViewState extends State<HomeView> {
                                   CustomButton(
                                     text: 'Get Offer',
                                     onPressed: () {
-                                      if (banner.coupon != null && banner.coupon!.code!.isNotEmpty) {
-                                        Clipboard.setData(ClipboardData(text: banner.coupon!.code!));
+                                      if (banner.coupon != null &&
+                                          banner.coupon!.code!.isNotEmpty) {
+                                        Clipboard.setData(ClipboardData(
+                                            text: banner.coupon!.code!));
                                       }
                                       Get.to(() => CouponsDetailsFromBannerView(
-                                        bannerId: banner.id ?? '',
-                                      ));
+                                            bannerId: banner.id ?? '',
+                                          ));
                                     },
                                     gradientColors: AppColors.buttonColor,
                                     width: 120.w,
@@ -258,29 +260,53 @@ class _HomeViewState extends State<HomeView> {
               title: '🔥Top Trending Coupons',
             ),
             sh16,
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                final offer = DummyData.offers[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: TrendingOfferCard(
-                    title: offer['title'],
-                    subtitle: offer['subtitle'],
-                    imagePath: offer['image'],
-                    usageText: offer['usageCount'],
-                    onButtonTap: () {},
-                    onTap: () {
-                      Get.to(() => CouponsDetailsView(
-                            couponId: offer['id'],
-                          ));
-                    },
-                  ),
+            Obx(() {
+              if (couponsController.isTrendingCouponLoading.value) {
+                return SizedBox(
+                  height: 100.h,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.bottomBarText,
+                      )),
                 );
-              },
+              }
+
+              if (couponsController.trendingCoupons.isEmpty) {
+                return SizedBox(
+                  height: 50.h,
+                  child: Center(child: Text('No Trending Coupons available')),
+                );
+              }
+
+              return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: couponsController.trendingCoupons.length,
+                  itemBuilder: (context, index) {
+                    final offer = couponsController.trendingCoupons[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: TrendingOfferCard(
+                        title: offer.title ?? 'Unknown',
+                        subtitle: offer.subtitle ?? 'Unknown',
+                        imagePath: offer.store.first.image ?? '',
+                        usageText: offer.fakeUses.toString(),
+                        onButtonTap: () {
+                          Get.to(() => CouponsDetailsView(
+                            couponId: offer.id ?? '',
+                          ));
+                        },
+                        onTap: () {
+                          Get.to(() => CouponsDetailsView(
+                                couponId: offer.id ?? '',
+                              ));
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
             ),
             sh16,
             CustomRowHeader(
@@ -335,7 +361,7 @@ class _HomeViewState extends State<HomeView> {
                   child: OfferCard(
                     title: offer['title'],
                     subtitle: offer['subtitle'],
-                    image: offer['image'],
+                    image: offer['image'] ?? AppImages.offerImage,
                     validTill: offer['validTill'],
                     usageCount: offer['usageCount'],
                     isFavorite: offer['isFavorite'],
