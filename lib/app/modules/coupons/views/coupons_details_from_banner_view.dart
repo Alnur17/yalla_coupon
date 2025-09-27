@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,6 +56,7 @@ class _CouponsDetailsFromBannerViewState
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft.inSeconds > 0) {
+        if (!mounted) return; // safety check
         setState(() {
           _timeLeft -= const Duration(seconds: 1);
         });
@@ -172,12 +174,22 @@ class _CouponsDetailsFromBannerViewState
                           CircleAvatar(
                             radius: 24,
                             backgroundColor: AppColors.white,
-                            backgroundImage: banner.image != null
-                                ? NetworkImage(banner.image!)
-                                : null,
-                            child: banner.image == null
-                                ? Image.asset(AppImages.offerImage, scale: 4)
-                                : null,
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: banner.image ?? '',
+                                fit: BoxFit.contain,
+                                // shows whole image inside circle
+                                placeholder: (context, url) => Image.asset(
+                                  AppImages.offerImage,
+                                  scale: 4,
+                                  fit: BoxFit.cover,
+                                ),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.error,
+                                  color: AppColors.red,
+                                ),
+                              ),
+                            ),
                           ),
                           sw8,
                           Text(

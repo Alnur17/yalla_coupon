@@ -45,6 +45,7 @@ class OfferCard extends StatelessWidget {
               Container(
                 height: 50.h,
                 width: 50.w,
+                padding: EdgeInsets.all(4).r,
                 decoration: BoxDecoration(
                   color: AppColors.silver,
                   borderRadius: BorderRadius.circular(8),

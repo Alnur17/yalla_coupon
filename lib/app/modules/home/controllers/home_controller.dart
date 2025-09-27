@@ -7,6 +7,7 @@ import '../../../../common/helper/local_store.dart';
 import '../../../data/api.dart';
 import '../../../data/base_client.dart';
 import '../model/all_banner_model.dart';
+import '../model/currently_sales_model.dart';
 
 class HomeController extends GetxController {
   var selectedIndex = 0.obs;
@@ -14,17 +15,13 @@ class HomeController extends GetxController {
   /// banners state
   var isBannerLoading = false.obs;
   var isBannerDetailsLoading = false.obs;
+  var isLoading = false.obs;
   var banners = <AllBannerDatum>[].obs;
   var singleBannerDetails = <SingleBannerData>[].obs;
+  var currentlySalesList = <CurrentlySalesDatum>[].obs;
 
   void setSelectedIndex(int index) {
     selectedIndex.value = index;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    fetchBanners();
   }
 
   Future<void> fetchBanners() async {
@@ -36,7 +33,7 @@ class HomeController extends GetxController {
         headers: {
           "Content-Type": "application/json",
           'Authorization':
-              'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+          'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
         },
       );
 
@@ -60,7 +57,7 @@ class HomeController extends GetxController {
         headers: {
           "Content-Type": "application/json",
           'Authorization':
-              'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+          'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
         },
       );
 
@@ -68,11 +65,35 @@ class HomeController extends GetxController {
 
       final singleBannerModel = SingleBannerDetailsModel.fromJson(data);
       singleBannerDetails.value =
-          singleBannerModel.data == null ? [] : [singleBannerModel.data!];
+      singleBannerModel.data == null ? [] : [singleBannerModel.data!];
     } catch (e) {
       debugPrint("Banner fetch error: $e");
     } finally {
       isBannerDetailsLoading.value = false;
+    }
+  }
+
+  Future<void> fetchCurrentlySales() async {
+    try {
+      isLoading.value = true;
+
+      final response = await BaseClient.getRequest(
+        api: Api.thumbnails,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization':
+          'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        },
+      );
+
+      final data = await BaseClient.handleResponse(response);
+
+      final currentlySalesModel = CurrentlySalesModel.fromJson(data);
+      currentlySalesList.value = currentlySalesModel.data;
+    } catch (e) {
+      debugPrint("Banner fetch error: $e");
+    } finally {
+      isLoading.value = false;
     }
   }
 }

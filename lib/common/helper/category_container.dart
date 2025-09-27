@@ -5,14 +5,14 @@ import 'package:yalla_coupon/common/app_text_style/styles.dart';
 
 class CategoryContainer extends StatelessWidget {
   final String image;
-  final String title;
+  final String name;
   final VoidCallback? onTap;
   final bool isSelected;
 
   const CategoryContainer({
     super.key,
     required this.image,
-    required this.title,
+    required this.name,
     this.onTap,
     this.isSelected = false,
   });
@@ -35,7 +35,7 @@ class CategoryContainer extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
+              child: Image.network(
                 image,
                 scale: 4,
               ),
@@ -44,7 +44,7 @@ class CategoryContainer extends StatelessWidget {
           SizedBox(
             width: 70.w,
             child: Text(
-              title,
+              name,
               style: h5.copyWith(
                 color: isSelected ? Colors.pink : Colors.black,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,

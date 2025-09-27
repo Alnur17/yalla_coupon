@@ -12,7 +12,6 @@ import '../../../../common/app_images/app_images.dart';
 import '../../../../common/helper/notification_card.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_circular_container.dart';
-import '../../../data/dummy_data.dart';
 
 class NotificationsView extends StatelessWidget {
   NotificationsView({super.key});
@@ -63,7 +62,7 @@ class NotificationsView extends StatelessWidget {
               }
 
               if (notificationsController.notificationList.isEmpty) {
-                return const Center(child: Text('No favorites yet'));
+                return const Center(child: Text('No Notification yet'));
               }
 
               return ListView.builder(

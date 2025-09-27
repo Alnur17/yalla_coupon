@@ -33,6 +33,7 @@ class StoreCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
+              padding: EdgeInsets.all(4).r,
               height: 50.h,
               width: 50.w,
               decoration: BoxDecoration(

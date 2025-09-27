@@ -59,6 +59,7 @@ class ActivityLogCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              padding: EdgeInsets.all(4),
               height: 50.h,
               width: 50.w,
               decoration: BoxDecoration(
@@ -67,7 +68,7 @@ class ActivityLogCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
+                child: Image.network(
                   imagePath,
                   scale: 4,
                 ),

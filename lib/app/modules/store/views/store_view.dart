@@ -26,7 +26,9 @@ class _StoreViewState extends State<StoreView> {
   @override
   void initState() {
     super.initState();
-    storeController.fetchStores(widget.categoryId);
+    WidgetsBinding.instance.addPostFrameCallback((__) {
+       storeController.fetchStores(widget.categoryId);
+    },);
   }
 
   @override

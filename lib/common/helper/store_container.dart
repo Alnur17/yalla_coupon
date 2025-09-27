@@ -7,13 +7,13 @@ import '../size_box/custom_sizebox.dart';
 
 class StoreContainer extends StatelessWidget {
   final String image;
-  final String title;
+  final String name;
   final VoidCallback? onTap;
 
   const StoreContainer({
     super.key,
     required this.image,
-    required this.title,
+    required this.name,
     this.onTap,
   });
 
@@ -32,7 +32,7 @@ class StoreContainer extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
+              child: Image.network(
                 image,
                 scale: 4,
               ),
@@ -42,7 +42,7 @@ class StoreContainer extends StatelessWidget {
           SizedBox(
             width: 70.w, // give a width so text wraps nicely
             child: Text(
-              title,
+              name,
               style: h5,
               maxLines: 2, // allow up to 2 lines
               overflow: TextOverflow.ellipsis, // optional

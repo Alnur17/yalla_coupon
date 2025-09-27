@@ -27,7 +27,10 @@ class StoreController extends GetxController {
 
       final data = await BaseClient.handleResponse(response);
       final storeModel = AllStoreModel.fromJson(data);
-      storeList.value = storeModel.data?.data ?? [];
+      // Defer the update after current frame
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+        storeList.assignAll(storeModel.data?.data ?? []);
+      // });
     } catch (e) {
       debugPrint("Banner fetch error: $e");
     } finally {

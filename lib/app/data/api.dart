@@ -28,6 +28,7 @@ class Api {
   ///home
   static const trendingCoupons = "$baseUrl/coupons/trending"; //
   static const featuredCoupons = "$baseUrl/coupons/featured"; //
+  static const thumbnails = "$baseUrl/thumbnails"; //
 
   ///Coupons
   static const allCoupons = "$baseUrl/coupons"; //done

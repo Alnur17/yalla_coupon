@@ -1,5 +1,5 @@
-class SingleCouponsDetailsModel {
-  SingleCouponsDetailsModel({
+class FeaturedCouponsModel {
+  FeaturedCouponsModel({
     required this.success,
     required this.message,
     required this.data,
@@ -7,20 +7,35 @@ class SingleCouponsDetailsModel {
 
   final bool? success;
   final String? message;
-  final SingleCouponData? data;
+  final Data? data;
 
-  factory SingleCouponsDetailsModel.fromJson(Map<String, dynamic> json){
-    return SingleCouponsDetailsModel(
+  factory FeaturedCouponsModel.fromJson(Map<String, dynamic> json){
+    return FeaturedCouponsModel(
       success: json["success"],
       message: json["message"],
-      data: json["data"] == null ? null : SingleCouponData.fromJson(json["data"]),
+      data: json["data"] == null ? null : Data.fromJson(json["data"]),
     );
   }
 
 }
 
-class SingleCouponData {
-  SingleCouponData({
+class Data {
+  Data({
+    required this.data,
+  });
+
+  final List<FeaturedCouponsDatum> data;
+
+  factory Data.fromJson(Map<String, dynamic> json){
+    return Data(
+      data: json["data"] == null ? [] : List<FeaturedCouponsDatum>.from(json["data"]!.map((x) => FeaturedCouponsDatum.fromJson(x))),
+    );
+  }
+
+}
+
+class FeaturedCouponsDatum {
+  FeaturedCouponsDatum({
     required this.id,
     required this.store,
     required this.countries,
@@ -40,10 +55,13 @@ class SingleCouponData {
     required this.createdAt,
     required this.updatedAt,
     required this.v,
+    required this.categories,
+    required this.favoriteDocs,
+    required this.isFavorite,
   });
 
   final String? id;
-  final Store? store;
+  final List<Store> store;
   final List<String> countries;
   final String? link;
   final int? fakeUses;
@@ -61,11 +79,14 @@ class SingleCouponData {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? v;
+  final List<dynamic> categories;
+  final List<dynamic> favoriteDocs;
+  final bool? isFavorite;
 
-  factory SingleCouponData.fromJson(Map<String, dynamic> json){
-    return SingleCouponData(
+  factory FeaturedCouponsDatum.fromJson(Map<String, dynamic> json){
+    return FeaturedCouponsDatum(
       id: json["_id"],
-      store: json["store"] == null ? null : Store.fromJson(json["store"]),
+      store: json["store"] == null ? [] : List<Store>.from(json["store"]!.map((x) => Store.fromJson(x))),
       countries: json["countries"] == null ? [] : List<String>.from(json["countries"]!.map((x) => x)),
       link: json["link"],
       fakeUses: json["fakeUses"],
@@ -83,6 +104,9 @@ class SingleCouponData {
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
       v: json["__v"],
+      categories: json["categories"] == null ? [] : List<dynamic>.from(json["categories"]!.map((x) => x)),
+      favoriteDocs: json["favoriteDocs"] == null ? [] : List<dynamic>.from(json["favoriteDocs"]!.map((x) => x)),
+      isFavorite: json["isFavorite"],
     );
   }
 
@@ -93,17 +117,32 @@ class Store {
     required this.id,
     required this.name,
     required this.image,
+    required this.thumbnail,
+    required this.categories,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
   });
 
   final String? id;
   final String? name;
   final String? image;
+  final String? thumbnail;
+  final List<String> categories;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? v;
 
   factory Store.fromJson(Map<String, dynamic> json){
     return Store(
       id: json["_id"],
       name: json["name"],
       image: json["image"],
+      thumbnail: json["thumbnail"],
+      categories: json["categories"] == null ? [] : List<String>.from(json["categories"]!.map((x) => x)),
+      createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
+      updatedAt: DateTime.tryParse(json["updatedAt"] ?? ""),
+      v: json["__v"],
     );
   }
 

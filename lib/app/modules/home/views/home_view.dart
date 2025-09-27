@@ -1,17 +1,22 @@
+import 'dart:io';
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:yalla_coupon/app/modules/activity_log/controllers/activity_log_controller.dart';
+import 'package:yalla_coupon/app/modules/category/controllers/category_controller.dart';
 import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/controllers/coupons_controller.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_details_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/single_store_coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/notifications_view.dart';
+import 'package:yalla_coupon/app/modules/profile/controllers/profile_controller.dart';
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
+import 'package:yalla_coupon/app/modules/store/controllers/store_controller.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
 import 'package:yalla_coupon/common/helper/store_container.dart';
@@ -21,11 +26,11 @@ import 'package:yalla_coupon/common/widgets/search_filed.dart';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/category_container.dart';
+import '../../../../common/helper/date_helper.dart';
 import '../../../../common/helper/my_activity_card.dart';
 import '../../../../common/helper/offer_card.dart';
 import '../../../../common/helper/trending_offer_card.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
-import '../../../data/dummy_data.dart';
 import '../../coupons/views/coupons_details_from_banner_view.dart';
 import '../../profile/controllers/favorite_controller.dart';
 import '../controllers/home_controller.dart';
@@ -43,6 +48,26 @@ class _HomeViewState extends State<HomeView> {
   final CouponsController couponsController = Get.put(CouponsController());
   final ActivityLogController activityLogController =
       Get.put(ActivityLogController());
+  final CategoryController categoryController = Get.find();
+
+  final StoreController storeController = Get.put(StoreController());
+  final ProfileController profileController = Get.put(ProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+
+    homeController.fetchBanners();
+    homeController.fetchCurrentlySales();
+
+    ever(categoryController.categoryList, (_) {
+      if (categoryController.categoryList.isNotEmpty) {
+        final firstCategory =
+            categoryController.categoryList[homeController.selectedIndex.value];
+        storeController.fetchStores(firstCategory.id ?? '');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +93,38 @@ class _HomeViewState extends State<HomeView> {
                     showBackButton: true,
                   ));
             },
-            child: CircleAvatar(
-              radius: 18,
-              backgroundImage: NetworkImage(AppImages.profileImage, scale: 4),
-            ),
+            child: Obx(() {
+              final imagePath = profileController.profileImageUrl.value;
+              return CircleAvatar(
+                radius: 20,
+                backgroundColor: AppColors.whiteDark,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: imagePath.startsWith("http")
+                      ? CachedNetworkImage(
+                          imageUrl: imagePath,
+                          height: Get.height.h,
+                          width: Get.width.w,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.orange,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                        )
+                      : Image.file(
+                          File(imagePath),
+                          height: Get.height.h,
+                          width: Get.width.w,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              );
+            }),
           ),
           sw20,
         ],
@@ -107,7 +160,7 @@ class _HomeViewState extends State<HomeView> {
                 options: CarouselOptions(
                   height: 180.h,
                   autoPlay: true,
-                  onPageChanged: (index, reason) {},
+                  // onPageChanged: (index, reason) {},
                 ),
                 items: homeController.banners.map((banner) {
                   return Builder(
@@ -200,58 +253,121 @@ class _HomeViewState extends State<HomeView> {
                   sh12,
                   SizedBox(
                     height: 90.h,
-                    child: ListView.separated(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: DummyData.category.length,
-                      separatorBuilder: (_, __) => SizedBox(width: 16.w),
-                      itemBuilder: (context, index) {
-                        final category = DummyData.category[index];
-                        return Obx(() => CategoryContainer(
-                              image: category['imagePath']!,
-                              title: category['categoryName']!,
-                              isSelected:
-                                  homeController.selectedIndex.value == index,
-                              onTap: () {
-                                homeController.setSelectedIndex(index);
-                              },
-                            ));
-                      },
-                    ),
+                    child: Obx(() {
+                      if (categoryController.isLoading.value) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.bottomBarText,
+                          ),
+                        );
+                      }
+                      if (categoryController.categoryList.isEmpty) {
+                        return Center(
+                          child: Text(
+                            "No category available",
+                            style: h5,
+                          ),
+                        );
+                      }
+
+                      return ListView.separated(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: categoryController.categoryList.length,
+                        separatorBuilder: (_, __) => SizedBox(width: 16.w),
+                        itemBuilder: (context, index) {
+                          final category =
+                              categoryController.categoryList[index];
+                          return Obx(() => CategoryContainer(
+                                image: category.image ?? '',
+                                name: category.name ?? 'Unknown',
+                                isSelected:
+                                    homeController.selectedIndex.value == index,
+                                onTap: () {
+                                  homeController.setSelectedIndex(index);
+
+                                  final category =
+                                      categoryController.categoryList[index];
+                                  storeController
+                                      .fetchStores(category.id ?? '');
+                                },
+                              ));
+                        },
+                      );
+                    }),
                   ),
                   Divider(
                     indent: 20,
                     endIndent: 20,
                   ),
                   sh12,
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    // will show at most 9 items, or less if list is shorter
-                    itemCount: min(9, DummyData.brands.length),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 1,
-                    ),
-                    itemBuilder: (context, index) {
-                      final brand = DummyData.brands[index];
-                      return StoreContainer(
-                        image: brand['image']!,
-                        title: brand['name']!,
-                        onTap: () {
-                          Get.to(
-                            () => SingleStoreCouponsView(
-                              brand['name']!,
-                              brand['image']!,
-                              brand["id"]!,
-                            ),
-                          );
-                        },
+                  Obx(() {
+                    if (storeController.isLoading.value) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.bottomBarText,
+                        ),
                       );
-                    },
-                  ),
+                    }
+                    if (storeController.storeList.isEmpty) {
+                      return Center(
+                        child: Text(
+                          "No category available",
+                          style: h5,
+                        ),
+                      );
+                    }
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      // will show at most 9 items, or less if list is shorter
+                      itemCount: min(9, storeController.storeList.length),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 16,
+                        childAspectRatio: 1,
+                      ),
+                      itemBuilder: (context, index) {
+                        final store = storeController.storeList[index];
+                        return StoreContainer(
+                          image: store.image ?? '',
+                          name: store.name ?? 'Unknown',
+                          onTap: () {
+                            Get.to(
+                              () => SingleStoreCouponsView(
+                                  store.name ?? 'Unknown',
+                                  store.image ?? '',
+                                  store.id ?? ''),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }),
+                  // GridView.builder(
+                  //   shrinkWrap: true,
+                  //   physics: NeverScrollableScrollPhysics(),
+                  //   // will show at most 9 items, or less if list is shorter
+                  //   itemCount: min(9, DummyData.brands.length),
+                  //   gridDelegate:
+                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: 3,
+                  //     mainAxisSpacing: 16,
+                  //     childAspectRatio: 1,
+                  //   ),
+                  //   itemBuilder: (context, index) {
+                  //     final brand = DummyData.brands[index];
+                  //     return StoreContainer(
+                  //       image: brand['image']!,
+                  //       name: brand['name']!,
+                  //       onTap: () {
+                  //         Get.to(() => SingleStoreCouponsView(brand['name']!,
+                  //             brand['image']!, brand["id"] ?? ''));
+                  //       },
+                  //     );
+                  //   },
+                  // ),
                 ],
               ),
             ),
@@ -266,8 +382,8 @@ class _HomeViewState extends State<HomeView> {
                   height: 100.h,
                   child: Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.bottomBarText,
-                      )),
+                    color: AppColors.bottomBarText,
+                  )),
                 );
               }
 
@@ -279,69 +395,95 @@ class _HomeViewState extends State<HomeView> {
               }
 
               return ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: couponsController.trendingCoupons.length,
-                  itemBuilder: (context, index) {
-                    final offer = couponsController.trendingCoupons[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: TrendingOfferCard(
-                        title: offer.title ?? 'Unknown',
-                        subtitle: offer.subtitle ?? 'Unknown',
-                        imagePath: offer.store.first.image ?? '',
-                        usageText: offer.fakeUses.toString(),
-                        onButtonTap: () {
-                          Get.to(() => CouponsDetailsView(
-                            couponId: offer.id ?? '',
-                          ));
-                        },
-                        onTap: () {
-                          Get.to(() => CouponsDetailsView(
-                                couponId: offer.id ?? '',
-                              ));
-                        },
-                      ),
-                    );
-                  },
-                );
-              }
-            ),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: couponsController.trendingCoupons.length,
+                itemBuilder: (context, index) {
+                  final offer = couponsController.trendingCoupons[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: TrendingOfferCard(
+                      title: offer.title ?? 'Unknown',
+                      subtitle: offer.subtitle ?? 'Unknown',
+                      imagePath: offer.store.first.image ?? '',
+                      usageText: offer.fakeUses.toString(),
+                      onButtonTap: () {
+                        Get.to(() => CouponsDetailsView(
+                              couponId: offer.id ?? '',
+                            ));
+                      },
+                      onTap: () {
+                        Get.to(() => CouponsDetailsView(
+                              couponId: offer.id ?? '',
+                            ));
+                      },
+                    ),
+                  );
+                },
+              );
+            }),
             sh16,
             CustomRowHeader(
               title: 'Sales Currently',
             ),
             sh12,
-            CarouselSlider(
-              options: CarouselOptions(
-                height: 150.0,
-                autoPlay: true,
-                onPageChanged: (index, reason) {},
-              ),
-              items: DummyData.currentSales.map<Widget>((item) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.asset(
-                          item['image_url']!,
-                          scale: 4,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
+            Obx(() {
+              if (homeController.isLoading.value) {
+                return SizedBox(
+                  height: 100.h,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.bottomBarText,
+                    ),
+                  ),
                 );
-              }).toList(),
-            ),
+              }
+
+              if (homeController.currentlySalesList.isEmpty) {
+                return SizedBox(
+                  height: 50.h,
+                  child: Center(child: Text('No Sales available')),
+                );
+              }
+
+              return CarouselSlider(
+                options: CarouselOptions(
+                  height: 150.0,
+                  autoPlay: true,
+                ),
+                items: homeController.currentlySalesList.map<Widget>((sale) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(() => CouponsDetailsView(
+                                couponId: sale.coupon?.id ?? '',
+                              ));
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.network(
+                              sale.image ?? '', // adjust field if different
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) =>
+                                  const Icon(Icons.image_not_supported),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+              );
+            }),
             sh16,
             CustomRowHeader(
               title: 'Featured Deals',
@@ -349,95 +491,98 @@ class _HomeViewState extends State<HomeView> {
               //   Get.to(() => CouponsView());
               // },
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(16),
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                final offer = DummyData.offers[index];
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: OfferCard(
-                    title: offer['title'],
-                    subtitle: offer['subtitle'],
-                    image: offer['image'] ?? AppImages.offerImage,
-                    validTill: offer['validTill'],
-                    usageCount: offer['usageCount'],
-                    isFavorite: offer['isFavorite'],
-                    onFavoriteTap: () {},
-                    onButtonTap: () {
-                      Get.to(() => CouponsDetailsView(
-                            couponId: '',
-                          ));
-                    },
-                  ),
+            Obx(() {
+              if (couponsController.isFeaturedCouponLoading.value) {
+                return SizedBox(
+                  height: 100.h,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    color: AppColors.bottomBarText,
+                  )),
                 );
-              },
-            ),
-            // Obx(() {
-            //   if (couponsController.isLoading.value) {
-            //     return const Center(
-            //       child: CircularProgressIndicator(
-            //         color: AppColors.bottomBarText,
-            //       ),
-            //     );
-            //   }
-            //
-            //   if (couponsController.allCoupons.isEmpty) {
-            //     return const Center(child: Text("No coupons found"));
-            //   }
-            //
-            //   return ListView.builder(
-            //       shrinkWrap: true,
-            //       physics: NeverScrollableScrollPhysics(),
-            //     padding: EdgeInsets.all(16.sp),
-            //     itemCount: 2,
-            //     itemBuilder: (context, index) {
-            //       final coupon = couponsController.allCoupons[index];
-            //
-            //       return Padding(
-            //         padding: const EdgeInsets.only(bottom: 8.0),
-            //         child: OfferCard(
-            //           title: coupon.title ?? '',
-            //           subtitle: coupon.store.first.name ?? '',
-            //           image: coupon.store.first.image ?? '',
-            //           validTill:
-            //           DateHelper.formatDate(coupon.validity.toString()),
-            //           usageCount: coupon.fakeUses.toString(),
-            //           isFavorite: coupon.isFavorite ?? false,
-            //           onFavoriteTap: () {
-            //             favoriteController.addOrRemoveFavorites(coupon.id ?? '');
-            //           },
-            //           onButtonTap: () {
-            //             Get.to(() => CouponsDetailsView(couponId: coupon.id ?? ''));
-            //           },
-            //         ),
-            //       );
-            //     },
-            //   );
-            // }),
-            //sh8,
-            CustomRowHeader(title: 'Your Activity'),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.silver)),
-              child: ListView.builder(
+              }
+
+              if (couponsController.featuredCoupons.isEmpty) {
+                return SizedBox(
+                  height: 50.h,
+                  child: Center(child: Text('No Featured Coupons available')),
+                );
+              }
+
+              return ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: DummyData.activityHome.length,
+                padding: const EdgeInsets.all(16),
+                itemCount: couponsController.featuredCoupons.length,
                 itemBuilder: (context, index) {
-                  final item = DummyData.activityHome[index];
-                  return MyActivityCard(
-                    imageType: item["type"]!,
-                    title: item["title"]!,
-                    subtitle: item["subtitle"]!,
+                  final coupon = couponsController.featuredCoupons[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: OfferCard(
+                      title: coupon.title ?? '',
+                      subtitle: coupon.store.first.name ?? '',
+                      image: coupon.store.first.image ?? '',
+                      validTill:
+                          DateHelper.formatDate(coupon.validity.toString()),
+                      usageCount: coupon.fakeUses.toString(),
+                      isFavorite: coupon.isFavorite ?? false,
+                      onFavoriteTap: () {
+                        favoriteController
+                            .addOrRemoveFavorites(coupon.id ?? '');
+                      },
+                      onButtonTap: () {
+                        Get.to(() =>
+                            CouponsDetailsView(couponId: coupon.id ?? ''));
+                      },
+                    ),
                   );
                 },
-              ),
-            ),
+              );
+            }),
+            CustomRowHeader(title: 'Your Activity'),
+            Obx(() {
+              if (activityLogController.isLoading.value) {
+                return SizedBox(
+                  height: 100.h,
+                  child: const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColors.bottomBarText,
+                  )),
+                );
+              }
+
+              if (activityLogController.activityList.isEmpty) {
+                return Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text("No activity yet"),
+                );
+              }
+
+              final allItems = activityLogController.activityList
+                  .expand((activity) => activity.items)
+                  .toList();
+
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.silver),
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: allItems.length,
+                  itemBuilder: (context, index) {
+                    final item = allItems[index];
+                    return MyActivityCard(
+                      imageType: item.type ?? '',
+                      subtitle: DateHelper.timeAgo(item.createdAt.toString()),
+                      title: item.couponCode ?? '',
+                    );
+                  },
+                ),
+              );
+            }),
           ],
         ),
       ),

@@ -73,6 +73,7 @@ class FavoriteController extends GetxController {
         );
         fetchFavorites();
         await couponsController.fetchAllCoupons();
+        await couponsController.fetchFeaturedCoupons();
       }
     } catch (e) {
       print('Error on add or remove favorites: $e');

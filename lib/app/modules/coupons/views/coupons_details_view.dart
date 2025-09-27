@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,6 +54,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
   void _startCountdown() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft.inSeconds > 0) {
+        if (!mounted) return; // <-- safety check
         setState(() {
           _timeLeft -= const Duration(seconds: 1);
         });
@@ -149,7 +151,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                     ],
                   ),
                 ),
-              SizedBox(height: 16.h),
+              sh16,
 
               // Coupon Card
               Container(
@@ -165,13 +167,27 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Logo + Title
                     Row(
                       children: [
                         CircleAvatar(
                           radius: 24,
                           backgroundColor: AppColors.white,
-                          child: Image.asset(AppImages.offerImage, scale: 4),
+                          child: ClipOval(
+                            child:
+                            CachedNetworkImage(
+                              imageUrl: coupon.store?.image ?? '',
+                              fit: BoxFit.contain,
+                              placeholder: (context, url) => Image.asset(
+                                AppImages.offerImage,
+                                scale: 4,
+                                fit: BoxFit.cover,
+                                ),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.error,
+                                color: AppColors.red,
+                              ),
+                            ),
+                          ),
                         ),
                         sw8,
                         Text(storeName,

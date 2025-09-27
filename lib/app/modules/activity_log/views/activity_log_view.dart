@@ -42,15 +42,13 @@ class ActivityLogView extends StatelessWidget {
               onChanged: (value) => searchQuery.value = value,
             ),
           ),
-          // Expanded content inside Obx
+
           Expanded(
             child: Obx(() {
-              // loading state
               if (activityLogController.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator(color: AppColors.bottomBarText,));
               }
 
-              // filter activity list
               final filteredList = activityLogController.activityList
                   .where((log) =>
                   log.items.any((item) =>
@@ -62,12 +60,10 @@ class ActivityLogView extends StatelessWidget {
                           .contains(searchQuery.value.toLowerCase())))
                   .toList();
 
-              // empty state
               if (filteredList.isEmpty) {
                 return const Center(child: Text('No activity found.'));
               }
 
-              // list
               return ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 itemCount: filteredList.length,
@@ -77,7 +73,7 @@ class ActivityLogView extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //if you want to show the label/date group heading
+                      //Label/date group heading
                       if (log.label != null)
                         Padding(
                           padding: EdgeInsets.only(top: 20.h),
@@ -87,7 +83,7 @@ class ActivityLogView extends StatelessWidget {
                           ),
                         ),
 
-                      // now list of all items in this group
+                      //List of all items in this group
                       ...log.items.map((item) {
                         return Padding(
                           padding: EdgeInsets.only(top: 8.h),
