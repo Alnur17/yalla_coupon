@@ -26,9 +26,6 @@ void main() async {
   // Initialize LocalizationController before GetMaterialApp
   Get.put(LocalizationController());
 
-  // Wait for saved language to load
-  //await localizationController.loadSavedLanguage();
-
   final NotificationServices notificationServices = NotificationServices();
 
   notificationServices.requestNotificationPermission();
