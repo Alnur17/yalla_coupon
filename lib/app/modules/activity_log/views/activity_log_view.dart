@@ -28,8 +28,8 @@ class ActivityLogView extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Activity Log', style: appBarStyle),
-            Text('Your Activity Log', style: h5),
+            Text('activity_log'.tr, style: appBarStyle), // Dynamic translation for "Activity Log"
+            Text('your_activity_log'.tr, style: h5), // Dynamic translation for "Your Activity Log"
           ],
         ),
       ),
@@ -61,7 +61,7 @@ class ActivityLogView extends StatelessWidget {
                   .toList();
 
               if (filteredList.isEmpty) {
-                return const Center(child: Text('No activity found.'));
+                return Center(child: Text('no_activity_found'.tr)); // Dynamic translation for "No activity found."
               }
 
               return ListView.builder(
@@ -103,7 +103,6 @@ class ActivityLogView extends StatelessWidget {
                   );
                 },
               );
-
             }),
           ),
         ],

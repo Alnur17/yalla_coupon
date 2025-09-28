@@ -57,29 +57,29 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 sh20,
                 Text(
-                  'Login to your Account',
+                  'login_to_account'.tr, // Dynamic translation for "Login to your Account"
                   style: h2.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 sh12,
                 Text(
-                  'It is quick and easy to log in. Enter your email and password below.',
+                  'quick_easy_login'.tr, // Dynamic translation for "It is quick and easy to log in. Enter your email and password below."
                   style: h4,
                 ),
                 sh40,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Email', style: h4),
+                    Text('email'.tr, style: h4), // Dynamic translation for "Email"
                     sh8,
                     CustomTextField(
-                      hintText: 'Your email',
+                      hintText: 'your_email'.tr, // Dynamic translation for "Your email"
                       containerColor: AppColors.white,
                       controller: loginController.emailTEController,
                     ),
                     sh12,
-                    Text('Password', style: h4),
+                    Text('password'.tr, style: h4), // Dynamic translation for "Password"
                     sh8,
                     CustomTextField(
                       sufIcon: Image.asset(
@@ -98,7 +98,7 @@ class _LoginViewState extends State<LoginView> {
                     Get.to(() => const ForgotPasswordView());
                   },
                   child: Text(
-                    'Forgot password?',
+                    'forgot_password'.tr, // Dynamic translation for "Forgot password?"
                     style: h4.copyWith(color: AppColors.blue),
                   ),
                 ),
@@ -109,27 +109,27 @@ class _LoginViewState extends State<LoginView> {
                   },
                   child: Center(
                     child: Text(
-                      'I don\'t have an account',
+                      'dont_have_account'.tr, // Dynamic translation for "I don’t have an account"
                       style: h4.copyWith(color: AppColors.grey),
                     ),
                   ),
                 ),
                 sh24,
                 Obx(
-                  () {
+                      () {
                     return loginController.isLoading.value == true
                         ? CustomLoader(color: AppColors.white)
                         : CustomButton(
-                            text: 'Login',
-                            onPressed: () {
-                              loginController.userLogin(
-                                  // email: emailTEController.text,
-                                  // password: passwordTEController.text,
-                                  );
-                            },
-                            imageAssetPath: AppImages.arrowRightNormal,
-                            gradientColors: AppColors.buttonColor,
-                          );
+                      text: 'login'.tr, // Dynamic translation for "Login"
+                      onPressed: () {
+                        loginController.userLogin(
+                          // email: emailTEController.text,
+                          // password: passwordTEController.text,
+                        );
+                      },
+                      imageAssetPath: AppImages.arrowRightNormal,
+                      gradientColors: AppColors.buttonColor,
+                    );
                   },
                 ),
               ],

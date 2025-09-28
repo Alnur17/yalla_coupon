@@ -44,7 +44,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
           final now = DateTime.now();
           final validity = coupon.validity!;
           _timeLeft =
-              validity.isAfter(now) ? validity.difference(now) : Duration.zero;
+          validity.isAfter(now) ? validity.difference(now) : Duration.zero;
           _startCountdown();
         }
       }
@@ -89,18 +89,18 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
             child: Image.asset(AppImages.back, scale: 4),
           ),
         ),
-        title: Text("Coupons Details", style: appBarStyle),
+        title: Text("coupons_details".tr, style: appBarStyle), // Dynamic translation for "Coupons Details"
       ),
       body: Obx(() {
         if (couponsController.isCouponDetailsLoading.value) {
           return const Center(
               child: CircularProgressIndicator(
-            color: AppColors.bottomBarText,
-          ));
+                color: AppColors.bottomBarText,
+              ));
         }
 
         if (couponsController.singleCoupons.isEmpty) {
-          return const Center(child: Text("Coupon not found"));
+          return Center(child: Text("coupon_not_found".tr));
         }
 
         final coupon = couponsController.singleCoupons.first;
@@ -109,8 +109,8 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
         final subtitle = coupon.subtitle ?? "";
         final title = coupon.title ?? "";
         final validityText = coupon.validity != null
-            ? "Valid till ${coupon.validity!.day}-${coupon.validity!.month}-${coupon.validity!.year}"
-            : "No expiry";
+            ? "valid_till".trParams({'date': DateHelper.formatDate(coupon.validity.toString())})
+            : "no_expiry".tr; // Dynamic translation for "No expiry"
 
         return SingleChildScrollView(
           padding: EdgeInsets.all(16.w),
@@ -129,12 +129,12 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("🔥 Limited Time Offer!",
+                      Text("🔥 ${'limited_time_offer'.tr}!",
                           style: h3.copyWith(color: AppColors.darkRed)),
                       sh5,
                       Text(
-                          "Hurry! ${DateHelper.timeRemaining(coupon.validity.toString())} Grab this deal before it expires",
-                          style: h5.copyWith(color: AppColors.darkRed)),
+                          "${'hurry'.tr} ${DateHelper.timeRemaining(coupon.validity.toString())} ${'grab_this_deal'.tr}",
+                          style: h5.copyWith(color: AppColors.darkRed)), // Dynamic translation for "Hurry! {time} Grab this deal"
                       sh12,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -172,19 +172,24 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                         CircleAvatar(
                           radius: 24,
                           backgroundColor: AppColors.white,
-                          child: ClipOval(
-                            child:
-                            CachedNetworkImage(
-                              imageUrl: coupon.store?.image ?? '',
-                              fit: BoxFit.contain,
-                              placeholder: (context, url) => Image.asset(
-                                AppImages.offerImage,
-                                scale: 4,
-                                fit: BoxFit.cover,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: CachedNetworkImage(
+                                imageUrl: coupon.store?.image ?? '',
+                                fit: BoxFit.contain,
+                                height: Get.height,
+                                width: Get.width,
+                                placeholder: (context, url) => Image.network(
+                                  AppImages.imageNotAvailable,
+                                  scale: 4,
+                                  fit: BoxFit.cover,
                                 ),
-                              errorWidget: (context, url, error) => Icon(
-                                Icons.error,
-                                color: AppColors.red,
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.error,
+                                  color: AppColors.red,
+                                ),
                               ),
                             ),
                           ),
@@ -213,7 +218,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Coupon Code", style: h5),
+                              Text("coupon_code".tr, style: h5), // Dynamic translation for "Coupon Code"
                               sh5,
                               Text(code, style: h3.copyWith(fontSize: 18)),
                             ],
@@ -225,8 +230,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                             ),
                             onPressed: () {
                               Clipboard.setData(ClipboardData(text: code));
-                              Get.snackbar(
-                                  "Copied", "Coupon code copied to clipboard");
+                              Get.snackbar("copied".tr, "coupon_code_copied".tr); // Dynamic translation for "Coupon code copied"
                             },
                             child: const Text("COPY CODE"),
                           ),
@@ -234,8 +238,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                       ),
                     ),
                     sh12,
-                    Text(validityText,
-                        style: h6.copyWith(color: AppColors.white)),
+                    Text(validityText, style: h6.copyWith(color: AppColors.white)),
                   ],
                 ),
               ),
@@ -243,7 +246,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
 
               // Copy & Go button
               CustomButton(
-                text: "COPY & GO TO STORE",
+                text: "copy_and_go_to_store".tr, // Dynamic translation for "COPY & GO TO STORE"
                 onPressed: () async {
                   Clipboard.setData(ClipboardData(text: code));
                   final url = Uri.parse(coupon.link!);
@@ -265,7 +268,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
 
               // How to Use
               if (coupon.howToUse.isNotEmpty) ...[
-                sectionTitle("How to Use"),
+                sectionTitle("how_to_use".tr), // Dynamic translation for "How to Use"
                 sh8,
                 for (var i = 0; i < coupon.howToUse.length; i++)
                   stepItem(coupon.howToUse[i], i + 1),
@@ -274,7 +277,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
 
               // Terms & Conditions
               if (coupon.terms.isNotEmpty) ...[
-                sectionTitle("Terms & Conditions"),
+                sectionTitle("terms_conditions".tr), // Dynamic translation for "Terms & Conditions"
                 for (var i = 0; i < coupon.terms.length; i++)
                   stepItem(coupon.terms[i], i + 1),
                 sh20,
@@ -292,11 +295,9 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('User Rate',
-                        style: h3.copyWith(color: AppColors.darkGreen)),
+                    Text('user_rate'.tr, style: h3.copyWith(color: AppColors.darkGreen)), // Dynamic translation for "User Rate"
                     sh12,
-                    Text("${coupon.fakeUses ?? 0} Times copied this coupon",
-                        style: h5.copyWith(color: AppColors.green)),
+                    Text("${coupon.fakeUses ?? 0} ${'times_copied'.tr}", style: h5.copyWith(color: AppColors.green)), // Dynamic translation for "{number} Times copied"
                   ],
                 ),
               ),
@@ -337,12 +338,12 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
             height: 24.h,
             width: 24.w,
             decoration: ShapeDecoration(
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
               gradient: LinearGradient(colors: AppColors.buttonColor),
             ),
             child: Center(
               child:
-                  Text("$number", style: h6.copyWith(color: AppColors.white)),
+              Text("$number", style: h6.copyWith(color: AppColors.white)),
             ),
           ),
           sw10,

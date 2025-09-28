@@ -12,7 +12,7 @@ class TermsAndConditionsView extends GetView {
   TermsAndConditionsView({super.key});
 
   final ConditionsController conditionsController =
-      Get.put(ConditionsController());
+  Get.put(ConditionsController());
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class TermsAndConditionsView extends GetView {
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
         title: Text(
-          'Terms and Conditions',
+          'terms_conditions'.tr, // Dynamic translation for "Terms and Conditions"
           style: appBarStyle,
         ),
         leading: GestureDetector(
@@ -41,8 +41,8 @@ class TermsAndConditionsView extends GetView {
           if (conditionsController.isLoading.value) {
             return Center(
                 child: CircularProgressIndicator(
-              color: AppColors.bottomBarText,
-            ));
+                  color: AppColors.bottomBarText,
+                ));
           } else if (conditionsController.errorMessage.isNotEmpty) {
             return Center(
               child: Text(

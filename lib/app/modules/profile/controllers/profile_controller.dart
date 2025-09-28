@@ -21,7 +21,7 @@ class ProfileController extends GetxController {
 
   // For profile image
   Rx<File?> selectedImage = Rx<File?>(null);
-  RxString profileImageUrl = AppImages.profileImage.obs;
+  RxString profileImageUrl = AppImages.imageNotAvailable.obs;
 
   // For user profile data
   Rx<ProfileModel?> profileData = Rx<ProfileModel?>(null);

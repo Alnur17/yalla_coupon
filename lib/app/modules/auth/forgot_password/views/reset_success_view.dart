@@ -27,12 +27,12 @@ class ResetSuccessView extends GetView {
             ),
             sh20,
             Text(
-              'Success',
+              'success'.tr, // Dynamic translation for "Success"
               style: h2,
             ),
             sh5,
             Text(
-              'Your password has been successfully reset',
+              'password_reset_success'.tr, // Dynamic translation for "Your password has been successfully reset"
               style: h3.copyWith(
                 fontWeight: FontWeight.w400,
               ),
@@ -40,7 +40,7 @@ class ResetSuccessView extends GetView {
             ),
             sh20,
             CustomButton(
-              text: 'Back to Log In',
+              text: 'back_to_login'.tr, // Dynamic translation for "Back to Log In"
               onPressed: () {
                 Get.offAll(()=> LoginView());
               },

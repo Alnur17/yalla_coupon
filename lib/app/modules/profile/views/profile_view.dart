@@ -38,7 +38,10 @@ class ProfileView extends GetView<ProfileController> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
-        title: const Text('Profile'),
+        title: Text(
+          'profile'.tr, // Dynamic translation for "Profile"
+          style: appBarStyle,
+        ),
         automaticallyImplyLeading: showBackButton,
         leading: showBackButton
             ? GestureDetector(
@@ -76,7 +79,8 @@ class ProfileView extends GetView<ProfileController> {
                               height: Get.height.h,
                               width: Get.width.w,
                               fit: BoxFit.cover,
-                              placeholder: (context, url) => const Center(
+                              placeholder: (context, url) =>
+                              const Center(
                                 child: CircularProgressIndicator(
                                   color: AppColors.bottomBarText,
                                 ),
@@ -95,11 +99,11 @@ class ProfileView extends GetView<ProfileController> {
                       }),
                       sh12,
                       Text(
-                        user?.name?.toString() ?? 'Your Name',
+                        user?.name?.toString() ?? 'your_name'.tr, // Dynamic translation for "Your Name"
                         style: h3.copyWith(fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        user?.email ?? 'your.email@example.com',
+                        user?.email ?? 'your_email@example.com'.tr, // Dynamic translation for "your.email@example.com"
                         style: h5.copyWith(
                             fontWeight: FontWeight.w500, color: AppColors.grey),
                       ),
@@ -107,8 +111,8 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                 ),
                 sh30,
-                Text('Account', style: h3),
-                Text('Update your info to your account',
+                Text('account'.tr, style: h3), // Dynamic translation for "Account"
+                Text('update_info_account'.tr, // Dynamic translation for "Update your info to your account"
                     style: h5.copyWith(color: AppColors.grey)),
                 sh12,
                 Container(
@@ -121,27 +125,27 @@ class ProfileView extends GetView<ProfileController> {
                       CustomListTile(
                         onTap: () => Get.to(() => EditProfileView()),
                         leadingImage: AppImages.accountInfo,
-                        title: 'Account Information',
+                        title: 'account_information'.tr, // Dynamic translation for "Account Information"
                         trailingImage: AppImages.arrowRight,
                       ),
                       CustomListTile(
                         onTap: () => Get.to(() => LanguageView()),
                         leadingImage: AppImages.languageTwo,
-                        title: 'Language',
+                        title: 'language'.tr, // Dynamic translation for "Language"
                         trailingImage: AppImages.arrowRight,
                       ),
                       CustomListTile(
                         onTap: () => Get.to(() => FavouriteView()),
                         leadingImage: AppImages.favoriteFilled,
-                        title: 'Favorite',
+                        title: 'favorite'.tr, // Dynamic translation for "Favorite"
                         trailingImage: AppImages.arrowRight,
                       ),
                     ],
                   ),
                 ),
                 sh16,
-                Text('Privacy', style: h3),
-                Text('View your privacy',
+                Text('privacy'.tr, style: h3), // Dynamic translation for "Privacy"
+                Text('view_privacy'.tr, // Dynamic translation for "View your privacy"
                     style: h5.copyWith(color: AppColors.grey)),
                 sh12,
                 Container(
@@ -154,19 +158,19 @@ class ProfileView extends GetView<ProfileController> {
                       CustomListTile(
                         onTap: () => Get.to(() => ChangePasswordView()),
                         leadingImage: AppImages.changePass,
-                        title: 'Change Password',
+                        title: 'change_password'.tr, // Dynamic translation for "Change Password"
                         trailingImage: AppImages.arrowRight,
                       ),
                       CustomListTile(
                         onTap: () => Get.to(() => TermsAndConditionsView()),
                         leadingImage: AppImages.terms,
-                        title: 'Terms and conditions',
+                        title: 'terms_conditions'.tr, // Dynamic translation for "Terms and conditions"
                         trailingImage: AppImages.arrowRight,
                       ),
                       CustomListTile(
                         onTap: () => Get.to(() => PrivacyAndPolicyView()),
                         leadingImage: AppImages.privacy,
-                        title: 'Privacy and Policies',
+                        title: 'privacy_policies'.tr, // Dynamic translation for "Privacy and Policies"
                         trailingImage: AppImages.arrowRight,
                       ),
                     ],
@@ -183,13 +187,13 @@ class ProfileView extends GetView<ProfileController> {
                       CustomListTile(
                         onTap: () => Get.to(() => ContactUsView()),
                         leadingImage: AppImages.feedback,
-                        title: 'Contact Us',
+                        title: 'contact_us'.tr, // Dynamic translation for "Contact Us"
                         trailingImage: AppImages.arrowRight,
                       ),
                       CustomListTile(
                         onTap: () => Get.to(() => FaqView()),
                         leadingImage: AppImages.faq,
-                        title: 'FAQ',
+                        title: 'faq'.tr, // Dynamic translation for "FAQ"
                         trailingImage: AppImages.arrowRight,
                       ),
                     ],
@@ -199,7 +203,7 @@ class ProfileView extends GetView<ProfileController> {
                 CustomListTile(
                   onTap: () => _showLogoutDialog(context),
                   leadingImage: AppImages.logout,
-                  title: 'Log Out',
+                  title: 'log_out'.tr, // Dynamic translation for "Log Out"
                   trailingImage: AppImages.arrowRight,
                 ),
                 sh40,
@@ -223,24 +227,24 @@ class ProfileView extends GetView<ProfileController> {
               Image.asset(AppImages.logoutBig, height: 60, width: 60),
               sh16,
               Text(
-                "Are you sure you want to log out of your account?",
+                "are_you_sure_log_out".tr, // Dynamic translation for "Are you sure you want to log out of your account?"
                 textAlign: TextAlign.center,
                 style: h3.copyWith(fontWeight: FontWeight.w500),
               ),
               sh20,
               CustomButton(
-                text: "Confirm Log Out",
-                borderRadius: 12,
-                backgroundColor: AppColors.red,
-                textColor: AppColors.white,
-                onPressed: () {
-                  LocalStorage.removeData(key: AppConstant.token);
-                  Get.offAll(() => LoginView());
-                }
+                  text: "confirm_log_out".tr, // Dynamic translation for "Confirm Log Out"
+                  borderRadius: 12,
+                  backgroundColor: AppColors.red,
+                  textColor: AppColors.white,
+                  onPressed: () {
+                    LocalStorage.removeData(key: AppConstant.token);
+                    Get.offAll(() => LoginView());
+                  }
               ),
               sh12,
               CustomButton(
-                text: "Cancel",
+                text: "cancel".tr, // Dynamic translation for "Cancel"
                 borderRadius: 12,
                 backgroundColor: AppColors.silver,
                 textColor: AppColors.black,

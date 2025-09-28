@@ -17,7 +17,7 @@ class ChangePasswordView extends GetView {
   ChangePasswordView({super.key});
 
   final ChangePasswordController changePasswordController =
-      Get.put(ChangePasswordController());
+  Get.put(ChangePasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ChangePasswordView extends GetView {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'Change Password',
+          'change_password'.tr, // Dynamic translation for "Change Password"
         ),
         leading: Padding(
           padding: EdgeInsets.only(left: 12.w),
@@ -46,7 +46,7 @@ class ChangePasswordView extends GetView {
           children: [
             sh16,
             Text(
-              'Current password',
+              'current_password'.tr, // Dynamic translation for "Current password"
               style: h4,
             ),
             sh12,
@@ -60,7 +60,7 @@ class ChangePasswordView extends GetView {
             ),
             sh16,
             Text(
-              'New Password',
+              'new_password'.tr, // Dynamic translation for "New Password"
               style: h4,
             ),
             sh12,
@@ -74,7 +74,7 @@ class ChangePasswordView extends GetView {
             ),
             sh16,
             Text(
-              'Confirm New Password',
+              'confirm_new_password'.tr, // Dynamic translation for "Confirm New Password"
               style: h4,
             ),
             sh12,
@@ -88,32 +88,20 @@ class ChangePasswordView extends GetView {
             ),
             sh30,
             Obx(
-              () => changePasswordController.isLoading.value == true
+                  () => changePasswordController.isLoading.value == true
                   ? CustomLoader(
-                      color: AppColors.white,
-                    )
+                color: AppColors.white,
+              )
                   : CustomButton(
-                      // imageAssetPath: AppImages.arrowFlyWhite,
-                      text: "Save",
-                      gradientColors: AppColors.buttonColor,
-                      //backgroundColor: AppColors.textColorBlue,
-                      onPressed: () {
-                        changePasswordController.changePassword(
-                          context: context,
-                        );
-                      },
-                    ),
+                text: "save".tr, // Dynamic translation for "Save"
+                gradientColors: AppColors.buttonColor,
+                onPressed: () {
+                  changePasswordController.changePassword(
+                    context: context,
+                  );
+                },
+              ),
             ),
-            // Center(
-            //   child: CustomContainer(
-            //     text: 'Update Password',
-            //     imagePath: AppImages.arrowFlyWhite,
-            //     onTap: () {},
-            //     height: 35,
-            //     width: 170,
-            //     backgroundColor: AppColors.textColorBlue,
-            //   ),
-            // ),
           ],
         ),
       ),

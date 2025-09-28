@@ -66,17 +66,17 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
               children: [
                 sh20,
                 Text(
-                  'OTP Verification',
+                  'otp_verification'.tr, // Dynamic translation for "OTP Verification"
                   style: h2.copyWith(fontWeight: FontWeight.w700),
                 ),
                 sh12,
                 Text(
-                  'Enter 6-digit Code',
+                  'enter_otp_code'.tr, // Dynamic translation for "Enter 6-digit Code"
                   style: h4,
                 ),
                 sh8,
                 Text(
-                  'Your code was sent to your given email',
+                  'otp_sent_to_email'.tr, // Dynamic translation for "Your code was sent to your given email"
                   style: h5,
                 ),
                 const SizedBox(height: 30),
@@ -113,66 +113,52 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                   appContext: context,
                 ),
                 sh20,
-                // Row(
-                //   children: [
-                //     Text(
-                //       'Resent Code',
-                //       style: h5,
-                //     ),
-                //     sw5,
-                //     Text(
-                //       '59s',
-                //       style: h4.copyWith(color: Colors.cyan),
-                //     )
-                //   ],
-                // ),
                 Obx(
-                  () {
+                      () {
                     return forgotPassController.countdown.value > 0
                         ? Text(
-                            // 'Resend Code In'.trParams({
-                            //   '0': forgotPassController.countdown.value
-                            //       .toString()
-                            // }),
-                            'Resend Code In ${forgotPassController.countdown.value} s',
-                            style: h3,
-                          )
+                      'resend_code_in'.trParams({
+                        '0': forgotPassController.countdown.value
+                            .toString()
+                      }), // Dynamic translation for "Resend Code In ${countdown} s"
+                      style: h3,
+                    )
                         : GestureDetector(
-                            onTap: forgotPassController.countdown.value == 0
-                                ? () {
-                                    forgotPassController.forgotPassword(
-                                        email: widget.email);
-                                  }
-                                : null,
-                            child: Text(
-                              'Resend Code',
-                              style: h4.copyWith(
-                                color: AppColors.black,
-                                decoration: TextDecoration.underline,
-                                decorationColor: AppColors.black,
-                                decorationThickness: 2,
-                                decorationStyle: TextDecorationStyle.dashed,
-                              ),
-                            ),
-                          );
+                      onTap: forgotPassController.countdown.value == 0
+                          ? () {
+                        forgotPassController.forgotPassword(
+                            email: widget.email);
+                      }
+                          : null,
+                      child: Text(
+                        'resend_code'.tr, // Dynamic translation for "Resend Code"
+                        style: h4.copyWith(
+                          color: AppColors.black,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.black,
+                          decorationThickness: 2,
+                          decorationStyle: TextDecorationStyle.dashed,
+                        ),
+                      ),
+                    );
                   },
                 ),
                 sh30,
                 Obx(
-                  () {
+                      () {
                     return forgotPassController.isLoading.value == true
                         ? CustomLoader(color: AppColors.white)
                         : CustomButton(
-                            text: 'Verify',
-                            onPressed: () {
-                              forgotPassController.verifyOtp(
-                                email: widget.email,
-                                isSignupVerify: widget.isSignupVerify,
-                              );
-                            },
-                            imageAssetPath: AppImages.arrowRightNormal,
-                            gradientColors: AppColors.buttonColor,
-                          );
+                      text: 'verify'.tr, // Dynamic translation for "Verify"
+                      onPressed: () {
+                        forgotPassController.verifyOtp(
+                          email: widget.email,
+                          isSignupVerify: widget.isSignupVerify,
+                        );
+                      },
+                      imageAssetPath: AppImages.arrowRightNormal,
+                      gradientColors: AppColors.buttonColor,
+                    );
                   },
                 ),
               ],

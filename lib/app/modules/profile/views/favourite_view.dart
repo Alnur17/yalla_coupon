@@ -10,9 +10,9 @@ import '../../../../common/widgets/custom_circular_container.dart';
 import '../controllers/favorite_controller.dart';
 
 class FavouriteView extends StatelessWidget {
-   FavouriteView({super.key});
+  FavouriteView({super.key});
 
-   final FavoriteController favoriteController = Get.put(FavoriteController());
+  final FavoriteController favoriteController = Get.put(FavoriteController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class FavouriteView extends StatelessWidget {
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
-        title: Text('Favorite', style: appBarStyle),
+        title: Text('favorite'.tr, style: appBarStyle), // Dynamic translation for "Favorite"
         leading: Padding(
           padding: EdgeInsets.only(left: 12.w),
           child: CustomCircularContainer(
@@ -35,7 +35,7 @@ class FavouriteView extends StatelessWidget {
           return const Center(child: CircularProgressIndicator(color: AppColors.bottomBarText,));
         }
         if (favoriteController.favorites.isEmpty) {
-          return const Center(child: Text('No favorites yet'));
+          return Center(child: Text('no_favorites_yet'.tr)); // Dynamic translation for "No favorites yet"
         }
         return ListView.builder(
           padding: const EdgeInsets.all(16),
@@ -45,8 +45,8 @@ class FavouriteView extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: OfferCard(
-                title: fav.coupon?.title ?? 'Unknown',
-                subtitle: fav.coupon?.store?.name ?? 'Unknown',
+                title: fav.coupon?.title ?? 'Unknown'.tr,
+                subtitle: fav.coupon?.store?.name ?? 'Unknown'.tr,
                 image: fav.coupon?.store?.image ?? AppImages.offerImage,
                 validTill: DateHelper.formatDate(fav.coupon?.validity.toString()),
                 usageCount: fav.coupon?.fakeUses.toString() ?? '0',

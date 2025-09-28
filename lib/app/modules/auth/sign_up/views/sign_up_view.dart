@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:yalla_coupon/app/modules/dashboard/views/dashboard_view.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -59,14 +60,14 @@ class _SignUpViewState extends State<SignUpView> {
               children: [
                 sh16,
                 Text(
-                  'Join us & Make Use of The best Available Discounts',
+                  'join_us'.tr, // Use dynamic translation for "Join us & Make Use of The best Available Discounts"
                   style: h4,
                 ),
                 sh24,
-                Text('Phone', style: h4),
+                Text('phone'.tr, style: h4), // Use dynamic translation for "Phone"
                 sh8,
                 Obx(
-                  () {
+                      () {
                     if (signUpController.countryCode.value.isEmpty) {
                       return Center(
                         child: CircularProgressIndicator(
@@ -87,7 +88,7 @@ class _SignUpViewState extends State<SignUpView> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                              const BorderSide(color: AppColors.borderColor),
+                          const BorderSide(color: AppColors.borderColor),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -108,15 +109,15 @@ class _SignUpViewState extends State<SignUpView> {
                     );
                   },
                 ),
-                Text('Email', style: h4),
+                Text('email'.tr, style: h4), // Use dynamic translation for "Email"
                 sh8,
                 CustomTextField(
                   controller: signUpController.emailTEController,
-                  hintText: 'Your email',
+                  hintText: 'your_email'.tr, // Use dynamic translation for "Your email"
                   containerColor: AppColors.white,
                 ),
                 sh12,
-                Text('Password', style: h4),
+                Text('password'.tr, style: h4), // Use dynamic translation for "Password"
                 sh8,
                 CustomTextField(
                   controller: signUpController.passwordTEController,
@@ -128,7 +129,7 @@ class _SignUpViewState extends State<SignUpView> {
                   containerColor: AppColors.white,
                 ),
                 sh12,
-                Text('Confirm Password', style: h4),
+                Text('confirm_password'.tr, style: h4), // Use dynamic translation for "Confirm Password"
                 sh8,
                 CustomTextField(
                   controller: signUpController.confirmPassTEController,
@@ -141,17 +142,17 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
                 sh24,
                 Obx(
-                  () {
+                      () {
                     return signUpController.isLoading.value == true
                         ? CustomLoader(color: AppColors.white)
                         : CustomButton(
-                            text: 'Sign Up',
-                            onPressed: () {
-                              signUpController.registerUser();
-                            },
-                            imageAssetPath: AppImages.arrowRightNormal,
-                            gradientColors: AppColors.buttonColor,
-                          );
+                      text: 'sign_up'.tr, // Use dynamic translation for "Sign Up"
+                      onPressed: () {
+                        signUpController.registerUser();
+                      },
+                      imageAssetPath: AppImages.arrowRightNormal,
+                      gradientColors: AppColors.buttonColor,
+                    );
                   },
                 ),
                 sh12,
@@ -161,7 +162,7 @@ class _SignUpViewState extends State<SignUpView> {
                     const Expanded(child: Divider()),
                     sw10,
                     Text(
-                      'Or sign in with',
+                      'or_sign_in'.tr, // Use dynamic translation for "Or sign in with"
                       style: h4.copyWith(color: AppColors.grey),
                     ),
                     sw10,
@@ -222,7 +223,7 @@ class _SignUpViewState extends State<SignUpView> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Already have an Account? ',
+                    'already_have_account'.tr, // Use dynamic translation for "Already have an Account?"
                     style: h3,
                   ),
                 ),
@@ -233,13 +234,13 @@ class _SignUpViewState extends State<SignUpView> {
                     GestureDetector(
                       onTap: () {
                         Get.to(
-                          () => const LoginView(),
+                              () => const LoginView(),
                           transition: Transition.fadeIn,
                           duration: Duration(milliseconds: 500),
                         );
                       },
                       child: Text(
-                        'Sign In Now',
+                        'sign_in_now'.tr, // Use dynamic translation for "Sign In Now"
                         style: h4.copyWith(
                           color: AppColors.bottomBarText,
                         ),
@@ -247,9 +248,11 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     sw20,
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.offAll(() => DashboardView());
+                      },
                       child: Text(
-                        'Maybe Later',
+                        'maybe_later'.tr, // Use dynamic translation for "Maybe Later"
                         style: h4.copyWith(
                           color: AppColors.blue,
                         ),

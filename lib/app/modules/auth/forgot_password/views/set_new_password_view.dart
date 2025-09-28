@@ -57,17 +57,17 @@ class _SetNewPasswordViewState extends State<SetNewPasswordView> {
               children: [
                 sh20,
                 Text(
-                  'Set new password',
+                  'set_new_password'.tr, // Dynamic translation for "Set new password"
                   style: h2.copyWith(fontWeight: FontWeight.w700),
                 ),
                 sh12,
                 Text(
-                  'Enter your new password and make sure you remember it',
+                  'new_password_instruction'.tr, // Dynamic translation for "Enter your new password and make sure you remember it"
                   style: h5,
                 ),
                 sh16,
                 Text(
-                  'New password',
+                  'new_password'.tr, // Dynamic translation for "New password"
                   style: h4,
                 ),
                 sh12,
@@ -81,13 +81,13 @@ class _SetNewPasswordViewState extends State<SetNewPasswordView> {
                 ),
                 sh16,
                 Text(
-                  'Re-type New Password',
+                  'retype_new_password'.tr, // Dynamic translation for "Re-type New Password"
                   style: h4,
                 ),
                 sh12,
                 CustomTextField(
                   controller:
-                      forgotPasswordController.confirmNewPasswordTEController,
+                  forgotPasswordController.confirmNewPasswordTEController,
                   sufIcon: Image.asset(
                     AppImages.eyeClose,
                     scale: 4,
@@ -96,17 +96,17 @@ class _SetNewPasswordViewState extends State<SetNewPasswordView> {
                 ),
                 sh16,
                 Obx(
-                  () {
+                      () {
                     return forgotPasswordController.isLoading.value == true
                         ? CustomLoader(color: AppColors.white)
                         : CustomButton(
-                            text: 'Save changes',
-                            onPressed: () {
-                              forgotPasswordController.resetPass();
-                            },
-                            imageAssetPath: AppImages.arrowRightNormal,
-                            gradientColors: AppColors.buttonColor,
-                          );
+                      text: 'save_changes'.tr, // Dynamic translation for "Save changes"
+                      onPressed: () {
+                        forgotPasswordController.resetPass();
+                      },
+                      imageAssetPath: AppImages.arrowRightNormal,
+                      gradientColors: AppColors.buttonColor,
+                    );
                   },
                 ),
               ],

@@ -26,11 +26,11 @@ class CategoryView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'All Category',
+              'all_category'.tr, // Dynamic translation for "All Category"
               style: appBarStyle,
             ),
             Text(
-              'View All Category',
+              'view_all_category'.tr, // Dynamic translation for "View All Category"
               style: h5,
             ),
           ],
@@ -55,7 +55,7 @@ class CategoryView extends StatelessWidget {
               if (categoryController.categoryList.isEmpty) {
                 return Center(
                   child: Text(
-                    "No category available",
+                    'no_category_available'.tr, // Dynamic translation for "No category available"
                     style: h5,
                   ),
                 );
@@ -73,9 +73,9 @@ class CategoryView extends StatelessWidget {
                       imagePath: category.image ?? '',
                       onTap: () {
                         Get.to(() => StoreView(
-                              categoryName: category.name ?? 'Unknown',
+                          categoryName: category.name ?? 'Unknown',
                           categoryId: category.id ?? '',
-                            ));
+                        ));
                         print("${category.name ?? 'Unknown'} tapped");
                       },
                     ),

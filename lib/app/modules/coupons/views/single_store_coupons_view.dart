@@ -39,7 +39,7 @@ class _SingleStoreCouponsViewState extends State<SingleStoreCouponsView> {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         title: Text(
-          '${widget.storeName} Coupons',
+          '${widget.storeName} ${'coupons'.tr}', // Dynamic translation for "Coupons"
           style: appBarStyle,
         ),
       ),
@@ -64,37 +64,35 @@ class _SingleStoreCouponsViewState extends State<SingleStoreCouponsView> {
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: SearchFiled(onChanged: (value) {}),
           ),
-          //sh12,
           Expanded(
-            child: Obx( () {
-                return ListView.builder(
-                  padding: EdgeInsets.all(16.sp),
-                  itemCount: couponsController.singleStoreCoupons.length,
-                  itemBuilder: (context, index) {
-                    final offer = couponsController.singleStoreCoupons[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: OfferCard(
-                        title: offer.title ?? 'Unknown',
-                        subtitle: offer.subtitle ?? 'Unknown',
-                        image: offer.store.first.image ?? '',
-                        validTill: DateHelper.timeRemaining(offer.validity.toString()),
-                        usageCount: offer.fakeUses.toString(),
-                        isFavorite: offer.isFavorite ?? false,
-                        onFavoriteTap: () {
-                          // 🔹 Handle favorite toggle
-                        },
-                        onButtonTap: () {
-                          Get.to(() => CouponsDetailsView(
-                                couponId: offer.id ?? '',
-                              ));
-                        },
-                      ),
-                    );
-                  },
-                );
-              }
-            ),
+            child: Obx(() {
+              return ListView.builder(
+                padding: EdgeInsets.all(16.sp),
+                itemCount: couponsController.singleStoreCoupons.length,
+                itemBuilder: (context, index) {
+                  final offer = couponsController.singleStoreCoupons[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: OfferCard(
+                      title: offer.title ?? 'Unknown',
+                      subtitle: offer.subtitle ?? 'Unknown',
+                      image: offer.store.first.image ?? '',
+                      validTill: DateHelper.timeRemaining(offer.validity.toString()),
+                      usageCount: offer.fakeUses.toString(),
+                      isFavorite: offer.isFavorite ?? false,
+                      onFavoriteTap: () {
+                        // 🔹 Handle favorite toggle
+                      },
+                      onButtonTap: () {
+                        Get.to(() => CouponsDetailsView(
+                          couponId: offer.id ?? '',
+                        ));
+                      },
+                    ),
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),

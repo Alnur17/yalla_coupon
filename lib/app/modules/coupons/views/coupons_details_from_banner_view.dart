@@ -45,7 +45,7 @@ class _CouponsDetailsFromBannerViewState
           final now = DateTime.now();
           final validity = coupon!.validity!;
           _timeLeft =
-              validity.isAfter(now) ? validity.difference(now) : Duration.zero;
+          validity.isAfter(now) ? validity.difference(now) : Duration.zero;
           _startCountdown();
         }
       }
@@ -91,18 +91,18 @@ class _CouponsDetailsFromBannerViewState
             child: Image.asset(AppImages.back, scale: 4),
           ),
         ),
-        title: Text("Coupons Details", style: appBarStyle),
+        title: Text("coupons_details".tr, style: appBarStyle), // Dynamic translation for "Coupons Details"
       ),
       body: Obx(() {
         if (homeController.isBannerDetailsLoading.value) {
           return const Center(
               child: CircularProgressIndicator(
-            color: AppColors.bottomBarText,
-          ));
+                color: AppColors.bottomBarText,
+              ));
         }
 
         if (homeController.singleBannerDetails.isEmpty) {
-          return const Center(child: Text('No banner details found'));
+          return Center(child: Text('no_banner_details'.tr)); // Dynamic translation for "No banner details found"
         }
 
         final SingleBannerData banner =
@@ -113,7 +113,7 @@ class _CouponsDetailsFromBannerViewState
         if (coupon == null) {
           return Scaffold(
             backgroundColor: AppColors.mainColor,
-            body: Center(child: Text('No coupon available for this banner')),
+            body: Center(child: Text('no_coupon_available'.tr)), // Dynamic translation for "No coupon available for this banner"
           );
         }
 
@@ -134,12 +134,12 @@ class _CouponsDetailsFromBannerViewState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("🔥 Limited Time Offer!",
+                      Text("🔥 ${'limited_time_offer'.tr}!", // Dynamic translation for "Limited Time Offer"
                           style: h3.copyWith(color: AppColors.darkRed)),
                       sh5,
                       Text(
-                          "Only ${DateHelper.timeRemaining(coupon.validity.toString())} to grab this deal",
-                          style: h5.copyWith(color: AppColors.darkRed)),
+                          "${'only'.tr} ${DateHelper.timeRemaining(coupon.validity.toString())} ${'to_grab_this_deal'.tr}",
+                          style: h5.copyWith(color: AppColors.darkRed)), // Dynamic translation for "Only {time} to grab this deal"
                       sh12,
                       Row(
                         children: [
@@ -174,19 +174,25 @@ class _CouponsDetailsFromBannerViewState
                           CircleAvatar(
                             radius: 24,
                             backgroundColor: AppColors.white,
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: banner.image ?? '',
-                                fit: BoxFit.contain,
-                                // shows whole image inside circle
-                                placeholder: (context, url) => Image.asset(
-                                  AppImages.offerImage,
-                                  scale: 4,
-                                  fit: BoxFit.cover,
-                                ),
-                                errorWidget: (context, url, error) => Icon(
-                                  Icons.error,
-                                  color: AppColors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: CachedNetworkImage(
+                                  imageUrl: banner.image ?? '',
+                                  fit: BoxFit.contain,
+                                  height: Get.height,
+                                  width: Get.width,
+                                  // shows whole image inside circle
+                                  placeholder: (context, url) => Image.network(
+                                    AppImages.imageNotAvailable,
+                                    scale: 4,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  errorWidget: (context, url, error) => Icon(
+                                    Icons.error,
+                                    color: AppColors.red,
+                                  ),
                                 ),
                               ),
                             ),
@@ -223,7 +229,7 @@ class _CouponsDetailsFromBannerViewState
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Coupon Code",
+                                Text("coupon_code".tr, // Dynamic translation for "Coupon Code"
                                     style: h5.copyWith(color: AppColors.white)),
                                 sh5,
                                 Text(
@@ -254,7 +260,7 @@ class _CouponsDetailsFromBannerViewState
                       sh12,
                       Text(
                         coupon.validity != null
-                            ? "Valid till ${DateHelper.formatDate(coupon.validity.toString())}"
+                            ? "${'valid_till'.tr} ${DateHelper.formatDate(coupon.validity.toString())}" // Dynamic translation for "Valid till"
                             : '',
                         style: h6.copyWith(color: AppColors.white),
                       ),
@@ -266,7 +272,7 @@ class _CouponsDetailsFromBannerViewState
 
               /// Continue To Store button
               CustomButton(
-                text: "Continue To Store",
+                text: "continue_to_store".tr, // Dynamic translation for "Continue To Store"
                 onPressed: () async {
                   final url = Uri.parse(coupon.link!);
                   if (await canLaunchUrl(url)) {
@@ -286,7 +292,7 @@ class _CouponsDetailsFromBannerViewState
               sh20,
 
               /// How to Use
-              sectionTitle("How to Use"),
+              sectionTitle("how_to_use".tr), // Dynamic translation for "How to Use"
               sh8,
               for (int i = 0; i < coupon.howToUse.length; i++)
                 stepItem(coupon.howToUse[i], i + 1),
@@ -294,7 +300,7 @@ class _CouponsDetailsFromBannerViewState
               sh20,
 
               /// Terms & Conditions
-              sectionTitle("Terms & Conditions"),
+              sectionTitle("terms_conditions".tr), // Dynamic translation for "Terms & Conditions"
               sh8,
               for (int i = 0; i < coupon.terms.length; i++)
                 stepItem(coupon.terms[i], i + 1),
@@ -312,11 +318,11 @@ class _CouponsDetailsFromBannerViewState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('User Rate',
+                    Text('user_rate'.tr, // Dynamic translation for "User Rate"
                         style: h3.copyWith(color: AppColors.darkGreen)),
                     sh12,
                     Text(
-                      "${coupon.fakeUses ?? 0} Times copied this coupon",
+                      "${coupon.fakeUses ?? 0} ${'times_copied'.tr}", // Dynamic translation for "{number} Times copied"
                       style: h5.copyWith(color: AppColors.green),
                     ),
                   ],
@@ -366,7 +372,7 @@ class _CouponsDetailsFromBannerViewState
             ),
             child: Center(
               child:
-                  Text("$number", style: h6.copyWith(color: AppColors.white)),
+              Text("$number", style: h6.copyWith(color: AppColors.white)),
             ),
           ),
           sw10,

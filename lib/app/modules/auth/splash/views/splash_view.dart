@@ -9,6 +9,7 @@ import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/helper/local_store.dart';
 import '../../../../../common/widgets/custom_background_color.dart';
 import '../../../dashboard/views/dashboard_view.dart';
+import '../../onboarding/views/onboarding_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -30,7 +31,7 @@ class _SplashViewState extends State<SplashView> {
     var userToken = LocalStorage.getData(key: AppConstant.token);
     debugPrint("Token :::::::::::::: $userToken");
 
-    //var  onboardingDone = LocalStorage.getData(key: AppConstant.onboardingDone);
+    var  onboardingDone = LocalStorage.getData(key: AppConstant.onboardingDone);
 
     if (userToken != null) {
       Get.offAll(
@@ -38,22 +39,17 @@ class _SplashViewState extends State<SplashView> {
         transition: Transition.rightToLeft,
       );
     } else {
-      Get.offAll(
-        () => LoginView(),
-        transition: Transition.rightToLeft,
-      );
-
-      // if(onboardingDone != null){
-      //   Get.offAll(
-      //         () => LoginView(),
-      //     transition: Transition.rightToLeft,
-      //   );
-      // }else{
-      //   Get.offAll(
-      //         () => OnboardingView(),
-      //     transition: Transition.rightToLeft,
-      //   );
-      // }
+      if(onboardingDone != null){
+        Get.offAll(
+              () => LoginView(),
+          transition: Transition.rightToLeft,
+        );
+      }else{
+        Get.offAll(
+              () => OnboardingView(),
+          transition: Transition.rightToLeft,
+        );
+      }
     }
   }
 

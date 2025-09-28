@@ -51,7 +51,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             child: Image.asset(AppImages.back, scale: 4),
           ),
         ),
-        title: const Text('Edit Profile'),
+        title: Text('edit_profile'.tr), // Dynamic translation for "Edit Profile"
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -71,26 +71,26 @@ class _EditProfileViewState extends State<EditProfileView> {
                         child: ClipOval(
                           child: profileController.selectedImage.value != null
                               ? Image.file(
-                                  profileController.selectedImage.value!,
-                                  height: Get.height.h,
-                                  width: Get.width.w,
-                                  fit: BoxFit.cover,
-                                )
+                            profileController.selectedImage.value!,
+                            height: Get.height.h,
+                            width: Get.width.w,
+                            fit: BoxFit.cover,
+                          )
                               : CachedNetworkImage(
-                                  imageUrl:
-                                      profileController.profileImageUrl.value,
-                                  height: Get.height.h,
-                                  width: Get.width.w,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.bottomBarText,
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error,
-                                          color: Colors.red),
-                                ),
+                            imageUrl:
+                            profileController.profileImageUrl.value,
+                            height: Get.height.h,
+                            width: Get.width.w,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.bottomBarText,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error,
+                                color: Colors.red),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -114,30 +114,30 @@ class _EditProfileViewState extends State<EditProfileView> {
                 }),
               ),
               sh40,
-              Text('Full Name', style: h5),
+              Text('full_name'.tr, style: h5), // Dynamic translation for "Full Name"
               sh8,
               CustomTextField(
                 controller: profileController.nameTEController,
-                hintText: 'Enter your name',
+                hintText: 'enter_your_name'.tr, // Dynamic translation for "Enter your name"
               ),
               sh12,
               Text(
-                'Email',
+                'email'.tr, // Dynamic translation for "Email"
                 style: h6.copyWith(fontWeight: FontWeight.w700),
               ),
               sh8,
               CustomTextField(
                 controller: profileController.emailTEController,
-                hintText: 'Enter your email',
+                hintText: 'enter_your_email'.tr, // Dynamic translation for "Enter your email"
               ),
               sh12,
-              Text('Contact', style: h5),
+              Text('contact'.tr, style: h5), // Dynamic translation for "Contact"
               sh8,
               IntlPhoneField(
                 controller: profileController.contactTEController,
                 decoration: InputDecoration(
                   contentPadding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   fillColor: AppColors.white,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
@@ -164,15 +164,15 @@ class _EditProfileViewState extends State<EditProfileView> {
               ),
               sh20,
               Obx(
-                () => profileController.isLoading.value == true
+                    () => profileController.isLoading.value == true
                     ? CustomLoader(color: AppColors.white)
                     : CustomButton(
-                        text: 'Save Changes',
-                        onPressed: () {
-                          profileController.updateProfile();
-                        },
-                        gradientColors: AppColors.buttonColor,
-                      ),
+                  text: 'save_changes'.tr, // Dynamic translation for "Save Changes"
+                  onPressed: () {
+                    profileController.updateProfile();
+                  },
+                  gradientColors: AppColors.buttonColor,
+                ),
               ),
               sh20,
             ],

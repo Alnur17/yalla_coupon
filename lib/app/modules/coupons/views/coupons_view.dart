@@ -26,8 +26,8 @@ class CouponsView extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('All Coupons', style: appBarStyle),
-            Text('Top Deals Just for You', style: h5),
+            Text('all_coupons'.tr, style: appBarStyle), // Dynamic translation for "All Coupons"
+            Text('top_deals_just_for_you'.tr, style: h5), // Dynamic translation for "Top Deals Just for You"
           ],
         ),
       ),
@@ -50,7 +50,7 @@ class CouponsView extends StatelessWidget {
               }
 
               if (couponsController.allCoupons.isEmpty) {
-                return const Center(child: Text("No coupons found"));
+                return Center(child: Text('no_coupons_found'.tr)); // Dynamic translation for "No coupons found"
               }
 
               return ListView.builder(
@@ -65,8 +65,7 @@ class CouponsView extends StatelessWidget {
                       title: coupon.title ?? '',
                       subtitle: coupon.store.isNotEmpty ? (coupon.store.first.name ?? '') : '',
                       image: coupon.store.isNotEmpty ? (coupon.store.first.image ?? '') : '',
-                      validTill:
-                          DateHelper.formatDate(coupon.validity.toString()),
+                      validTill: DateHelper.formatDate(coupon.validity.toString()),
                       usageCount: coupon.fakeUses.toString(),
                       isFavorite: coupon.isFavorite ?? false,
                       onFavoriteTap: () {

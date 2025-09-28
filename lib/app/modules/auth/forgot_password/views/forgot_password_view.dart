@@ -22,7 +22,7 @@ class ForgotPasswordView extends StatefulWidget {
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final ForgotPasswordController forgotPasswordController =
-      Get.put(ForgotPasswordController());
+  Get.put(ForgotPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,43 +56,43 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
               children: [
                 sh20,
                 Text(
-                  'Forgot Password',
+                  'forgot_password_title'.tr, // Dynamic translation for "Forgot Password"
                   style: h2.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 sh12,
                 Text(
-                  'We will send the OTP code to your email for security in forgetting your password',
+                  'forgot_password_message'.tr, // Dynamic translation for "We will send the OTP code to your email for security in forgetting your password"
                   style: h5,
                 ),
                 sh30,
                 Text(
-                  'Email',
+                  'email'.tr, // Dynamic translation for "Email"
                   style: h4,
                 ),
                 sh8,
                 CustomTextField(
                   controller: forgotPasswordController.emailTEController,
-                  hintText: 'Enter your email',
+                  hintText: 'enter_email'.tr, // Dynamic translation for "Enter your email"
                 ),
                 sh30,
                 Obx(
-                  () {
+                      () {
                     return forgotPasswordController.isLoading.value == true
                         ? CustomLoader(color: AppColors.white)
                         : CustomButton(
-                            text: 'Send Code',
-                            onPressed: () {
-                              forgotPasswordController.forgotPassword(
-                                email: forgotPasswordController
-                                    .emailTEController.text
-                                    .trim(),
-                              );
-                            },
-                            imageAssetPath: AppImages.arrowRightNormal,
-                            gradientColors: AppColors.buttonColor,
-                          );
+                      text: 'send_code'.tr, // Dynamic translation for "Send Code"
+                      onPressed: () {
+                        forgotPasswordController.forgotPassword(
+                          email: forgotPasswordController
+                              .emailTEController.text
+                              .trim(),
+                        );
+                      },
+                      imageAssetPath: AppImages.arrowRightNormal,
+                      gradientColors: AppColors.buttonColor,
+                    );
                   },
                 ),
               ],

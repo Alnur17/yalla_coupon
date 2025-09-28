@@ -12,7 +12,7 @@ class PrivacyAndPolicyView extends GetView {
   PrivacyAndPolicyView({super.key});
 
   final ConditionsController conditionsController =
-      Get.put(ConditionsController());
+  Get.put(ConditionsController());
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class PrivacyAndPolicyView extends GetView {
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'Privacy and Policy',
+          'privacy_and_policy'.tr, // Dynamic translation for "Privacy and Policy"
           style: appBarStyle,
         ),
         leading: GestureDetector(
@@ -41,8 +41,8 @@ class PrivacyAndPolicyView extends GetView {
           if (conditionsController.isLoading.value) {
             return Center(
                 child: CircularProgressIndicator(
-              color: AppColors.bottomBarText,
-            ));
+                  color: AppColors.bottomBarText,
+                ));
           } else if (conditionsController.errorMessage.isNotEmpty) {
             return Center(
               child: Text(

@@ -14,7 +14,8 @@ import '../controllers/store_controller.dart';
 class StoreView extends StatefulWidget {
   final String categoryName;
   final String categoryId;
- const StoreView( {super.key, required this.categoryName, required this.categoryId,});
+
+  const StoreView({super.key, required this.categoryName, required this.categoryId});
 
   @override
   State<StoreView> createState() => _StoreViewState();
@@ -27,8 +28,8 @@ class _StoreViewState extends State<StoreView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((__) {
-       storeController.fetchStores(widget.categoryId);
-    },);
+      storeController.fetchStores(widget.categoryId);
+    });
   }
 
   @override
@@ -41,11 +42,11 @@ class _StoreViewState extends State<StoreView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${widget.categoryName} Stores',
+              '${widget.categoryName} ${'stores'.tr}', // Dynamic translation for "Stores"
               style: appBarStyle,
             ),
             Text(
-              'View Category wise Stores',
+              'view_category_stores'.tr, // Dynamic translation for "View Category wise Stores"
               style: h5,
             ),
           ],
@@ -60,42 +61,42 @@ class _StoreViewState extends State<StoreView> {
           ),
           Expanded(
             child: Obx(
-               () {
-                 if (storeController.isLoading.value) {
-                   return Center(
-                     child: CircularProgressIndicator(
-                       color: AppColors.bottomBarText,
-                     ),
-                   );
-                 }
-                 if (storeController.storeList.isEmpty) {
-                   return Center(
-                     child: Text(
-                       "No category available",
-                       style: h5,
-                     ),
-                   );
-                 }
-                return ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  itemCount: storeController.storeList.length,
-                  itemBuilder: (context, index) {
-                    final store = storeController.storeList[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: StoreCard(
-                        storeName: store.name ?? 'Unknown',
-                        couponCount: store.couponCount.toString(),
-                        imagePath: store.image ?? '',
-                        onTap: () {
-                          Get.to(() => SingleStoreCouponsView(store.name ?? 'Unknown',store.image ?? '',store.id ?? ''));
-                          print("${store.name ?? 'Unknown'} tapped");
-                        },
+                    () {
+                  if (storeController.isLoading.value) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.bottomBarText,
                       ),
                     );
-                  },
-                );
-              }
+                  }
+                  if (storeController.storeList.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'no_category_available'.tr, // Dynamic translation for "No category available"
+                        style: h5,
+                      ),
+                    );
+                  }
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    itemCount: storeController.storeList.length,
+                    itemBuilder: (context, index) {
+                      final store = storeController.storeList[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: StoreCard(
+                          storeName: store.name ?? 'unknown'.tr, // Dynamic translation for "Unknown"
+                          couponCount: store.couponCount.toString(),
+                          imagePath: store.image ?? '',
+                          onTap: () {
+                            Get.to(() => SingleStoreCouponsView(store.name ?? 'unknown'.tr, store.image ?? '', store.id ?? ''));
+                            print("${store.name ?? 'unknown'.tr} tapped");
+                          },
+                        ),
+                      );
+                    },
+                  );
+                }
             ),
           ),
         ],

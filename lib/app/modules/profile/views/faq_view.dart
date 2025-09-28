@@ -40,7 +40,7 @@ class FaqView extends GetView {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'FAQ',
+          'faq'.tr,
         ),
         leading: Padding(
           padding: EdgeInsets.only(left: 12.w),
