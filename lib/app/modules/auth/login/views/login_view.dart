@@ -57,39 +57,49 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 sh20,
                 Text(
-                  'login_to_account'.tr, // Dynamic translation for "Login to your Account"
+                  'login_to_account'.tr,
                   style: h2.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 sh12,
                 Text(
-                  'quick_easy_login'.tr, // Dynamic translation for "It is quick and easy to log in. Enter your email and password below."
+                  'quick_easy_login'.tr,
                   style: h4,
                 ),
                 sh40,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('email'.tr, style: h4), // Dynamic translation for "Email"
+                    Text('email'.tr, style: h4),
                     sh8,
                     CustomTextField(
-                      hintText: 'your_email'.tr, // Dynamic translation for "Your email"
+                      hintText: 'your_email'.tr,
                       containerColor: AppColors.white,
                       controller: loginController.emailTEController,
                     ),
                     sh12,
-                    Text('password'.tr, style: h4), // Dynamic translation for "Password"
+                    Text('password'.tr, style: h4),
                     sh8,
-                    CustomTextField(
-                      sufIcon: Image.asset(
-                        AppImages.eyeClose,
-                        scale: 4,
-                      ),
-                      hintText: '**********',
-                      containerColor: AppColors.white,
-                      controller: loginController.passwordTEController,
-                    ),
+                    Obx(() {
+                      return CustomTextField(
+                        sufIcon: GestureDetector(
+                          onTap: () {
+                            loginController.togglePasswordVisibility();
+                          },
+                          child: Image.asset(
+                            loginController.isPasswordVisible.value
+                                ? AppImages.eyeOpen
+                                : AppImages.eyeClose,
+                            scale: 4,
+                          ),
+                        ),
+                        obscureText: !loginController.isPasswordVisible.value,
+                        hintText: '**********',
+                        containerColor: AppColors.white,
+                        controller: loginController.passwordTEController,
+                      );
+                    }),
                   ],
                 ),
                 sh16,
@@ -98,7 +108,7 @@ class _LoginViewState extends State<LoginView> {
                     Get.to(() => const ForgotPasswordView());
                   },
                   child: Text(
-                    'forgot_password'.tr, // Dynamic translation for "Forgot password?"
+                    'forgot_password'.tr,
                     style: h4.copyWith(color: AppColors.blue),
                   ),
                 ),
@@ -107,29 +117,39 @@ class _LoginViewState extends State<LoginView> {
                   onTap: () {
                     Get.to(() => const SignUpView());
                   },
-                  child: Center(
-                    child: Text(
-                      'dont_have_account'.tr, // Dynamic translation for "I don’t have an account"
-                      style: h4.copyWith(color: AppColors.grey),
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'dont_have_account'.tr,
+                        style: h4.copyWith(color: AppColors.grey),
+                      ),
+                      sw8,
+                      Text(
+                        'sign_up'.tr,
+                        style: h4.copyWith(
+                          color: AppColors.bottomBarText,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 sh24,
                 Obx(
-                      () {
+                  () {
                     return loginController.isLoading.value == true
                         ? CustomLoader(color: AppColors.white)
                         : CustomButton(
-                      text: 'login'.tr, // Dynamic translation for "Login"
-                      onPressed: () {
-                        loginController.userLogin(
-                          // email: emailTEController.text,
-                          // password: passwordTEController.text,
-                        );
-                      },
-                      imageAssetPath: AppImages.arrowRightNormal,
-                      gradientColors: AppColors.buttonColor,
-                    );
+                            text: 'login'.tr, // Dynamic translation for "Login"
+                            onPressed: () {
+                              loginController.userLogin(
+                                  // email: emailTEController.text,
+                                  // password: passwordTEController.text,
+                                  );
+                            },
+                            imageAssetPath: AppImages.arrowRightNormal,
+                            gradientColors: AppColors.buttonColor,
+                          );
                   },
                 ),
               ],

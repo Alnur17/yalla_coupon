@@ -22,7 +22,7 @@ class AppTranslations extends Translations {
           'quick_easy_login':
               'It is quick and easy to log in. Enter your email and password below.',
           'forgot_password': 'Forgot password?',
-          'dont_have_account': 'I don’t have an account',
+          'dont_have_account': 'Don’t have any account?',
           'login': 'Login',
 
           // New translations for ForgotPasswordView
@@ -101,10 +101,14 @@ class AppTranslations extends Translations {
           // Translations for HomeView
           'no_banners_available': 'No banners available',
           'get_offer': 'Get Offer',
+          'get_code': 'Get Code',
+          'copy_code': 'Copy Code',
+          'code_copied': 'Code Copied',
           'categories': 'Categories',
           'no_sales_available': 'No Sales available',
           'no_featured_coupons': 'No Featured Coupons available',
           'top_trending_coupons': 'Top Trending Coupons',
+          'no_trending_coupons': 'No trending coupons',
           'sales_currently': 'Sales Currently',
           'featured_deals': 'Feature Deals',
           'your_activity': 'Your Activity',
@@ -267,10 +271,14 @@ class AppTranslations extends Translations {
           // Translations for HomeView
           'no_banners_available': 'لا توجد بانرات متاحة',
           'get_offer': 'احصل على العرض',
+          'get_code': 'احصل على الرمز',
+          'copy_code': 'نسخ الرمز',
+          'code_copied': 'تم نسخ الرمز',
           'categories': 'الفئات',
           'no_sales_available': 'لا توجد مبيعات متاحة',
           'no_featured_coupons': 'لا توجد قسائم مميزة',
           'top_trending_coupons': 'أشهر القسائم',
+          'no_trending_coupons': 'لا توجد قسائم رائجة',
           'sales_currently': 'المبيعات الحالية',
           'featured_deals': 'عروض مميزة',
           'your_activity': 'أنشطتك',

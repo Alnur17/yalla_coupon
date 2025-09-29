@@ -27,14 +27,17 @@ class HomeController extends GetxController {
   Future<void> fetchBanners() async {
     try {
       isBannerLoading.value = true;
+      final token = LocalStorage.getData(key: AppConstant.token);
 
+      // always include Content-Type
+      final headers = {
+        "Content-Type": "application/json",
+        if (token != null && token.isNotEmpty)
+          'Authorization': 'Bearer $token', // only added if token exists
+      };
       final response = await BaseClient.getRequest(
         api: Api.allBanners,
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-          'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        },
+        headers: headers,
       );
 
       final data = await BaseClient.handleResponse(response);
@@ -51,14 +54,18 @@ class HomeController extends GetxController {
   Future<void> fetchSingleBanner(String bannerId) async {
     try {
       isBannerDetailsLoading.value = true;
+      final token = LocalStorage.getData(key: AppConstant.token);
+
+      // always include Content-Type
+      final headers = {
+        "Content-Type": "application/json",
+        if (token != null && token.isNotEmpty)
+          'Authorization': 'Bearer $token', // only added if token exists
+      };
 
       final response = await BaseClient.getRequest(
         api: Api.singleBanners(bannerId),
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-          'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        },
+        headers: headers,
       );
 
       final data = await BaseClient.handleResponse(response);

@@ -5,11 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:yalla_coupon/app/modules/auth/login/views/login_view.dart';
 
 import '../../../../common/app_color/app_colors.dart';
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/date_helper.dart';
+import '../../../../common/helper/local_store.dart';
 import '../../../../common/size_box/custom_sizebox.dart';
 import '../../../../common/widgets/custom_button.dart';
 import '../../home/controllers/home_controller.dart';
@@ -45,7 +48,7 @@ class _CouponsDetailsFromBannerViewState
           final now = DateTime.now();
           final validity = coupon!.validity!;
           _timeLeft =
-          validity.isAfter(now) ? validity.difference(now) : Duration.zero;
+              validity.isAfter(now) ? validity.difference(now) : Duration.zero;
           _startCountdown();
         }
       }
@@ -91,18 +94,21 @@ class _CouponsDetailsFromBannerViewState
             child: Image.asset(AppImages.back, scale: 4),
           ),
         ),
-        title: Text("coupons_details".tr, style: appBarStyle), // Dynamic translation for "Coupons Details"
+        title: Text("coupons_details".tr,
+            style: appBarStyle), // Dynamic translation for "Coupons Details"
       ),
       body: Obx(() {
         if (homeController.isBannerDetailsLoading.value) {
           return const Center(
               child: CircularProgressIndicator(
-                color: AppColors.bottomBarText,
-              ));
+            color: AppColors.bottomBarText,
+          ));
         }
 
         if (homeController.singleBannerDetails.isEmpty) {
-          return Center(child: Text('no_banner_details'.tr)); // Dynamic translation for "No banner details found"
+          return Center(
+              child: Text('no_banner_details'
+                  .tr)); // Dynamic translation for "No banner details found"
         }
 
         final SingleBannerData banner =
@@ -113,7 +119,9 @@ class _CouponsDetailsFromBannerViewState
         if (coupon == null) {
           return Scaffold(
             backgroundColor: AppColors.mainColor,
-            body: Center(child: Text('no_coupon_available'.tr)), // Dynamic translation for "No coupon available for this banner"
+            body: Center(
+                child: Text('no_coupon_available'
+                    .tr)), // Dynamic translation for "No coupon available for this banner"
           );
         }
 
@@ -134,12 +142,14 @@ class _CouponsDetailsFromBannerViewState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("🔥 ${'limited_time_offer'.tr}!", // Dynamic translation for "Limited Time Offer"
+                      Text("🔥 ${'limited_time_offer'.tr}!",
+                          // Dynamic translation for "Limited Time Offer"
                           style: h3.copyWith(color: AppColors.darkRed)),
                       sh5,
                       Text(
                           "${'only'.tr} ${DateHelper.timeRemaining(coupon.validity.toString())} ${'to_grab_this_deal'.tr}",
-                          style: h5.copyWith(color: AppColors.darkRed)), // Dynamic translation for "Only {time} to grab this deal"
+                          style: h5.copyWith(color: AppColors.darkRed)),
+                      // Dynamic translation for "Only {time} to grab this deal"
                       sh12,
                       Row(
                         children: [
@@ -229,14 +239,33 @@ class _CouponsDetailsFromBannerViewState
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("coupon_code".tr, // Dynamic translation for "Coupon Code"
-                                    style: h5.copyWith(color: AppColors.white)),
-                                sh5,
                                 Text(
-                                  coupon.code ?? '',
-                                  style: h3.copyWith(
-                                      color: AppColors.white, fontSize: 18),
+                                  "coupon_code".tr,
+                                  // Dynamic translation for "Coupon Code"
+                                  style: h5.copyWith(color: AppColors.white),
                                 ),
+                                sh5,
+                                Builder(builder: (_) {
+                                  final String? token = LocalStorage.getData(
+                                      key: AppConstant.token);
+                                  final bool isPremium =
+                                      coupon.type?.toLowerCase() == 'premium';
+
+                                  // Determine display code
+                                  final String displayCode = (token == null ||
+                                              token.isEmpty) &&
+                                          isPremium
+                                      ? (coupon.code != null
+                                          ? '${coupon.code!.substring(0, 2)}****'
+                                          : '')
+                                      : coupon.code ?? '';
+
+                                  return Text(
+                                    displayCode,
+                                    style: h3.copyWith(
+                                        color: AppColors.white, fontSize: 18),
+                                  );
+                                }),
                               ],
                             ),
                             ElevatedButton(
@@ -245,18 +274,86 @@ class _CouponsDetailsFromBannerViewState
                                 foregroundColor: AppColors.black,
                               ),
                               onPressed: () {
-                                if (coupon.code != null) {
-                                  Clipboard.setData(
-                                      ClipboardData(text: "${coupon.code}"));
-                                  Get.snackbar("Copied",
-                                      "${coupon.code} already copied to clipboard");
+                                final String? token = LocalStorage.getData(
+                                    key: AppConstant.token);
+                                final bool isPremium =
+                                    coupon.type?.toLowerCase() == 'premium';
+
+                                if ((token != null && token.isNotEmpty) ||
+                                    !isPremium) {
+                                  if (coupon.code != null) {
+                                    Clipboard.setData(
+                                        ClipboardData(text: coupon.code!));
+                                    Get.snackbar("Copied",
+                                        "Coupon already copied to clipboard");
+                                  }
+                                } else {
+                                  Get.to(() => const LoginView());
+                                  Get.snackbar(
+                                    "Premium Coupon",
+                                    "Sign in to view full coupon code",
+                                    backgroundColor: AppColors.white,
+                                  );
                                 }
                               },
-                              child: const Text("Code Copied"),
+                              child: Builder(builder: (_) {
+                                final String? token = LocalStorage.getData(
+                                    key: AppConstant.token);
+                                final bool isPremium =
+                                    coupon.type?.toLowerCase() == 'premium';
+
+                                return Text(
+                                  (token == null || token.isEmpty) && isPremium
+                                      ? "get_code".tr
+                                      : "code_copied".tr,
+                                );
+                              }),
                             ),
                           ],
                         ),
                       ),
+
+                      // Container(
+                      //   padding: EdgeInsets.symmetric(
+                      //       horizontal: 12.w, vertical: 10.h),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.white.withOpacity(0.2),
+                      //     borderRadius: BorderRadius.circular(8),
+                      //   ),
+                      //   child: Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Column(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           Text("coupon_code".tr, // Dynamic translation for "Coupon Code"
+                      //               style: h5.copyWith(color: AppColors.white)),
+                      //           sh5,
+                      //           Text(
+                      //             coupon.code ?? '',
+                      //             style: h3.copyWith(
+                      //                 color: AppColors.white, fontSize: 18),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       ElevatedButton(
+                      //         style: ElevatedButton.styleFrom(
+                      //           backgroundColor: AppColors.white,
+                      //           foregroundColor: AppColors.black,
+                      //         ),
+                      //         onPressed: () {
+                      //           if (coupon.code != null) {
+                      //             Clipboard.setData(
+                      //                 ClipboardData(text: "${coupon.code}"));
+                      //             Get.snackbar("Copied",
+                      //                 "Coupon already copied to clipboard");
+                      //           }
+                      //         },
+                      //         child: const Text("Code Copied"),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       sh12,
                       Text(
                         coupon.validity != null
@@ -272,7 +369,8 @@ class _CouponsDetailsFromBannerViewState
 
               /// Continue To Store button
               CustomButton(
-                text: "continue_to_store".tr, // Dynamic translation for "Continue To Store"
+                text: "continue_to_store".tr,
+                // Dynamic translation for "Continue To Store"
                 onPressed: () async {
                   final url = Uri.parse(coupon.link!);
                   if (await canLaunchUrl(url)) {
@@ -292,7 +390,8 @@ class _CouponsDetailsFromBannerViewState
               sh20,
 
               /// How to Use
-              sectionTitle("how_to_use".tr), // Dynamic translation for "How to Use"
+              sectionTitle("how_to_use".tr),
+              // Dynamic translation for "How to Use"
               sh8,
               for (int i = 0; i < coupon.howToUse.length; i++)
                 stepItem(coupon.howToUse[i], i + 1),
@@ -300,7 +399,8 @@ class _CouponsDetailsFromBannerViewState
               sh20,
 
               /// Terms & Conditions
-              sectionTitle("terms_conditions".tr), // Dynamic translation for "Terms & Conditions"
+              sectionTitle("terms_conditions".tr),
+              // Dynamic translation for "Terms & Conditions"
               sh8,
               for (int i = 0; i < coupon.terms.length; i++)
                 stepItem(coupon.terms[i], i + 1),
@@ -322,7 +422,8 @@ class _CouponsDetailsFromBannerViewState
                         style: h3.copyWith(color: AppColors.darkGreen)),
                     sh12,
                     Text(
-                      "${coupon.fakeUses ?? 0} ${'times_copied'.tr}", // Dynamic translation for "{number} Times copied"
+                      "${coupon.fakeUses ?? 0} ${'times_copied'.tr}",
+                      // Dynamic translation for "{number} Times copied"
                       style: h5.copyWith(color: AppColors.green),
                     ),
                   ],
@@ -372,7 +473,7 @@ class _CouponsDetailsFromBannerViewState
             ),
             child: Center(
               child:
-              Text("$number", style: h6.copyWith(color: AppColors.white)),
+                  Text("$number", style: h6.copyWith(color: AppColors.white)),
             ),
           ),
           sw10,

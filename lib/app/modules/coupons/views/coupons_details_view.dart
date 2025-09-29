@@ -14,7 +14,10 @@ import 'package:yalla_coupon/common/helper/date_helper.dart';
 import 'package:yalla_coupon/common/size_box/custom_sizebox.dart';
 import 'package:yalla_coupon/common/widgets/custom_button.dart';
 
+import '../../../../common/app_constant/app_constant.dart';
 import '../../../../common/app_images/app_images.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../auth/login/views/login_view.dart';
 
 class CouponsDetailsView extends StatefulWidget {
   final String couponId;
@@ -44,7 +47,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
           final now = DateTime.now();
           final validity = coupon.validity!;
           _timeLeft =
-          validity.isAfter(now) ? validity.difference(now) : Duration.zero;
+              validity.isAfter(now) ? validity.difference(now) : Duration.zero;
           _startCountdown();
         }
       }
@@ -89,14 +92,15 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
             child: Image.asset(AppImages.back, scale: 4),
           ),
         ),
-        title: Text("coupons_details".tr, style: appBarStyle), // Dynamic translation for "Coupons Details"
+        title: Text("coupons_details".tr,
+            style: appBarStyle), // Dynamic translation for "Coupons Details"
       ),
       body: Obx(() {
         if (couponsController.isCouponDetailsLoading.value) {
           return const Center(
               child: CircularProgressIndicator(
-                color: AppColors.bottomBarText,
-              ));
+            color: AppColors.bottomBarText,
+          ));
         }
 
         if (couponsController.singleCoupons.isEmpty) {
@@ -108,9 +112,10 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
         final code = coupon.code ?? "";
         final subtitle = coupon.subtitle ?? "";
         final title = coupon.title ?? "";
-        final validityText = coupon.validity != null
-            ? "valid_till".trParams({'date': DateHelper.formatDate(coupon.validity.toString())})
-            : "no_expiry".tr; // Dynamic translation for "No expiry"
+        // final validityText = coupon.validity != null
+        //     ? "valid_till".trParams(
+        //         {'date': DateHelper.formatDate(coupon.validity.toString())})
+        //     : "no_expiry".tr;
 
         return SingleChildScrollView(
           padding: EdgeInsets.all(16.w),
@@ -134,7 +139,8 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                       sh5,
                       Text(
                           "${'hurry'.tr} ${DateHelper.timeRemaining(coupon.validity.toString())} ${'grab_this_deal'.tr}",
-                          style: h5.copyWith(color: AppColors.darkRed)), // Dynamic translation for "Hurry! {time} Grab this deal"
+                          style: h5.copyWith(color: AppColors.darkRed)),
+                      // Dynamic translation for "Hurry! {time} Grab this deal"
                       sh12,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -218,9 +224,31 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("coupon_code".tr, style: h5), // Dynamic translation for "Coupon Code"
+                              Text("coupon_code".tr, style: h5),
+                              // Dynamic translation for "Coupon Code"
                               sh5,
-                              Text(code, style: h3.copyWith(fontSize: 18)),
+                              Builder(builder: (_) {
+                                final String? token = LocalStorage.getData(
+                                    key: AppConstant.token);
+                                final bool isPremium =
+                                    coupon.type?.toLowerCase() == 'premium';
+
+                                // Determine display code
+                                final String displayCode = (token == null ||
+                                            token.isEmpty) &&
+                                        isPremium
+                                    ? (coupon.code != null
+                                        ? '${coupon.code!.substring(0, 2)}****'
+                                        : '')
+                                    : coupon.code ?? '';
+
+                                return Text(
+                                  displayCode,
+                                  style: h3.copyWith(
+                                      color: AppColors.black, fontSize: 18),
+                                );
+                              }),
+                              //Text(code, style: h3.copyWith(fontSize: 18)),
                             ],
                           ),
                           ElevatedButton(
@@ -229,16 +257,50 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                               foregroundColor: AppColors.white,
                             ),
                             onPressed: () {
-                              Clipboard.setData(ClipboardData(text: code));
-                              Get.snackbar("copied".tr, "coupon_code_copied".tr); // Dynamic translation for "Coupon code copied"
+                              final String? token =
+                                  LocalStorage.getData(key: AppConstant.token);
+                              final bool isPremium =
+                                  coupon.type?.toLowerCase() == 'premium';
+
+                              if ((token != null && token.isNotEmpty) ||
+                                  !isPremium) {
+                                if (coupon.code != null) {
+                                  Clipboard.setData(
+                                      ClipboardData(text: coupon.code!));
+                                  Get.snackbar("Copied",
+                                      "Coupon already copied to clipboard");
+                                }
+                              } else {
+                                Get.to(() => const LoginView());
+                                Get.snackbar("Premium",
+                                    "Sign in to view full coupon code");
+                              }
+                              // Clipboard.setData(ClipboardData(text: code));
+                              // Get.snackbar("copied".tr, "coupon_code_copied".tr); // Dynamic translation for "Coupon code copied"
                             },
-                            child: const Text("COPY CODE"),
+                            child: Builder(builder: (_) {
+                              final String? token =
+                                  LocalStorage.getData(key: AppConstant.token);
+                              final bool isPremium =
+                                  coupon.type?.toLowerCase() == 'premium';
+
+                              return Text(
+                                (token == null || token.isEmpty) && isPremium
+                                    ? "get_code".tr
+                                    : "copy_code".tr,
+                              );
+                            }),
                           ),
                         ],
                       ),
                     ),
                     sh12,
-                    Text(validityText, style: h6.copyWith(color: AppColors.white)),
+                    Text(
+                      coupon.validity != null
+                          ? "${'valid_till'.tr} ${DateHelper.formatDate(coupon.validity.toString())}" // Dynamic translation for "Valid till"
+                          : '',
+                      style: h6.copyWith(color: AppColors.white),
+                    ),
                   ],
                 ),
               ),
@@ -246,17 +308,28 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
 
               // Copy & Go button
               CustomButton(
-                text: "copy_and_go_to_store".tr, // Dynamic translation for "COPY & GO TO STORE"
+                text: "copy_and_go_to_store".tr,
+                // Dynamic translation for "COPY & GO TO STORE"
                 onPressed: () async {
-                  Clipboard.setData(ClipboardData(text: code));
-                  final url = Uri.parse(coupon.link!);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(
-                      url,
-                      mode: LaunchMode.externalApplication,
-                    );
+                  final String? token =
+                      LocalStorage.getData(key: AppConstant.token);
+                  final bool isPremium =
+                      coupon.type?.toLowerCase() == 'premium';
+
+                  if ((token != null && token.isNotEmpty) || !isPremium) {
+                    Clipboard.setData(ClipboardData(text: code));
+                    final url = Uri.parse(coupon.link!);
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(
+                        url,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    } else {
+                      Get.snackbar("Error", "Could not open the store link");
+                    }
                   } else {
-                    Get.snackbar("Error", "Could not open the store link");
+                    Get.to(() => const LoginView());
+                    Get.snackbar("Premium Coupon", "Sign in to view full coupon code",backgroundColor: AppColors.white,);
                   }
                 },
                 backgroundColor: AppColors.transparent,
@@ -268,7 +341,8 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
 
               // How to Use
               if (coupon.howToUse.isNotEmpty) ...[
-                sectionTitle("how_to_use".tr), // Dynamic translation for "How to Use"
+                sectionTitle("how_to_use".tr),
+                // Dynamic translation for "How to Use"
                 sh8,
                 for (var i = 0; i < coupon.howToUse.length; i++)
                   stepItem(coupon.howToUse[i], i + 1),
@@ -277,7 +351,8 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
 
               // Terms & Conditions
               if (coupon.terms.isNotEmpty) ...[
-                sectionTitle("terms_conditions".tr), // Dynamic translation for "Terms & Conditions"
+                sectionTitle("terms_conditions".tr),
+                // Dynamic translation for "Terms & Conditions"
                 for (var i = 0; i < coupon.terms.length; i++)
                   stepItem(coupon.terms[i], i + 1),
                 sh20,
@@ -295,9 +370,13 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('user_rate'.tr, style: h3.copyWith(color: AppColors.darkGreen)), // Dynamic translation for "User Rate"
+                    Text('user_rate'.tr,
+                        style: h3.copyWith(color: AppColors.darkGreen)),
+                    // Dynamic translation for "User Rate"
                     sh12,
-                    Text("${coupon.fakeUses ?? 0} ${'times_copied'.tr}", style: h5.copyWith(color: AppColors.green)), // Dynamic translation for "{number} Times copied"
+                    Text("${coupon.fakeUses ?? 0} ${'times_copied'.tr}",
+                        style: h5.copyWith(color: AppColors.green)),
+                    // Dynamic translation for "{number} Times copied"
                   ],
                 ),
               ),
@@ -343,7 +422,7 @@ class _CouponsDetailsViewState extends State<CouponsDetailsView> {
             ),
             child: Center(
               child:
-              Text("$number", style: h6.copyWith(color: AppColors.white)),
+                  Text("$number", style: h6.copyWith(color: AppColors.white)),
             ),
           ),
           sw10,

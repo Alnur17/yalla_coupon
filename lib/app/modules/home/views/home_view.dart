@@ -18,11 +18,12 @@ import 'package:yalla_coupon/app/modules/profile/controllers/profile_controller.
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
 import 'package:yalla_coupon/app/modules/store/controllers/store_controller.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
+import 'package:yalla_coupon/common/app_constant/app_constant.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
+import 'package:yalla_coupon/common/helper/local_store.dart';
 import 'package:yalla_coupon/common/helper/store_container.dart';
 import 'package:yalla_coupon/common/widgets/custom_button.dart';
 import 'package:yalla_coupon/common/widgets/custom_row_header.dart';
-import 'package:yalla_coupon/common/widgets/search_filed.dart';
 
 import '../../../../common/app_text_style/styles.dart';
 import '../../../../common/helper/category_container.dart';
@@ -47,7 +48,7 @@ class _HomeViewState extends State<HomeView> {
   final FavoriteController favoriteController = Get.put(FavoriteController());
   final CouponsController couponsController = Get.put(CouponsController());
   final ActivityLogController activityLogController =
-  Get.put(ActivityLogController());
+      Get.put(ActivityLogController());
   final CategoryController categoryController = Get.find();
 
   final StoreController storeController = Get.put(StoreController());
@@ -63,7 +64,7 @@ class _HomeViewState extends State<HomeView> {
     ever(categoryController.categoryList, (_) {
       if (categoryController.categoryList.isNotEmpty) {
         final firstCategory =
-        categoryController.categoryList[homeController.selectedIndex.value];
+            categoryController.categoryList[homeController.selectedIndex.value];
         storeController.fetchStores(firstCategory.id ?? '');
       }
     });
@@ -90,8 +91,8 @@ class _HomeViewState extends State<HomeView> {
           GestureDetector(
             onTap: () {
               Get.to(() => ProfileView(
-                showBackButton: true,
-              ));
+                    showBackButton: true,
+                  ));
             },
             child: Obx(() {
               final imagePath = profileController.profileImageUrl.value;
@@ -102,26 +103,26 @@ class _HomeViewState extends State<HomeView> {
                   borderRadius: BorderRadius.circular(20),
                   child: imagePath.startsWith("http")
                       ? CachedNetworkImage(
-                    imageUrl: imagePath,
-                    height: Get.height.h,
-                    width: Get.width.w,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.bottomBarText,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
-                  )
+                          imageUrl: imagePath,
+                          height: Get.height.h,
+                          width: Get.width.w,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.bottomBarText,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                        )
                       : Image.file(
-                    File(imagePath),
-                    height: Get.height.h,
-                    width: Get.width.w,
-                    fit: BoxFit.cover,
-                  ),
+                          File(imagePath),
+                          height: Get.height.h,
+                          width: Get.width.w,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               );
             }),
@@ -140,15 +141,17 @@ class _HomeViewState extends State<HomeView> {
                   height: 100.h,
                   child: Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.bottomBarText,
-                      )),
+                    color: AppColors.bottomBarText,
+                  )),
                 );
               }
 
               if (homeController.banners.isEmpty) {
                 return SizedBox(
                   height: 50.h,
-                  child: Center(child: Text('no_banners_available'.tr)), // Dynamic translation for "No banners available"
+                  child: Center(
+                      child: Text('no_banners_available'
+                          .tr)), // Dynamic translation for "No banners available"
                 );
               }
 
@@ -204,21 +207,44 @@ class _HomeViewState extends State<HomeView> {
                                   ),
                                   sh12,
                                   CustomButton(
-                                    text: 'get_offer'.tr, // Dynamic translation for "Get Offer"
+                                    text: 'get_offer'.tr,
                                     onPressed: () {
-                                      if (banner.coupon != null &&
-                                          banner.coupon!.code!.isNotEmpty) {
-                                        Clipboard.setData(ClipboardData(
-                                            text: banner.coupon!.code!));
+                                      final String token = LocalStorage.getData(
+                                              key: AppConstant.token) ??
+                                          '';
+                                      final coupon = banner.coupon;
+
+                                      // If premium and user not logged in → go to login
+                                      if (coupon != null &&
+                                          coupon.type?.toLowerCase() ==
+                                              'premium' &&
+                                          token.isEmpty) {
+                                        Get.to(
+                                            () => CouponsDetailsFromBannerView(
+                                                  bannerId: banner.id ?? '',
+                                                ));
+                                        print(
+                                            'Premium coupon, redirecting to login');
+                                        return; // stop here, don't copy
                                       }
+
+                                      // Copy coupon code if available
+                                      if (coupon != null &&
+                                          coupon.code != null &&
+                                          coupon.code!.isNotEmpty) {
+                                        Clipboard.setData(
+                                            ClipboardData(text: coupon.code!));
+                                      }
+
+                                      // Navigate to details page
                                       Get.to(() => CouponsDetailsFromBannerView(
-                                        bannerId: banner.id ?? '',
-                                      ));
+                                            bannerId: banner.id ?? '',
+                                          ));
                                     },
                                     gradientColors: AppColors.buttonColor,
                                     width: 140.w,
                                     height: 40.h,
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
@@ -241,7 +267,8 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                 children: [
                   CustomRowHeader(
-                      title: 'categories'.tr, // Dynamic translation for "Categories"
+                      title: 'categories'.tr,
+                      // Dynamic translation for "Categories"
                       onTap: () {
                         Get.to(() => CategoryView());
                       }),
@@ -259,7 +286,8 @@ class _HomeViewState extends State<HomeView> {
                       if (categoryController.categoryList.isEmpty) {
                         return Center(
                           child: Text(
-                            "no_category_available".tr, // Dynamic translation for "No category available"
+                            "no_category_available".tr,
+                            // Dynamic translation for "No category available"
                             style: h5,
                           ),
                         );
@@ -272,21 +300,21 @@ class _HomeViewState extends State<HomeView> {
                         separatorBuilder: (_, __) => SizedBox(width: 16.w),
                         itemBuilder: (context, index) {
                           final category =
-                          categoryController.categoryList[index];
-                          return Obx(() => CategoryContainer(
-                            image: category.image ?? '',
-                            name: category.name ?? 'Unknown',
-                            isSelected:
-                            homeController.selectedIndex.value == index,
-                            onTap: () {
-                              homeController.setSelectedIndex(index);
-
-                              final category =
                               categoryController.categoryList[index];
-                              storeController
-                                  .fetchStores(category.id ?? '');
-                            },
-                          ));
+                          return Obx(() => CategoryContainer(
+                                image: category.image ?? '',
+                                name: category.name ?? 'Unknown',
+                                isSelected:
+                                    homeController.selectedIndex.value == index,
+                                onTap: () {
+                                  homeController.setSelectedIndex(index);
+
+                                  final category =
+                                      categoryController.categoryList[index];
+                                  storeController
+                                      .fetchStores(category.id ?? '');
+                                },
+                              ));
                         },
                       );
                     }),
@@ -307,7 +335,8 @@ class _HomeViewState extends State<HomeView> {
                     if (storeController.storeList.isEmpty) {
                       return Center(
                         child: Text(
-                          "no_category_available".tr, // Dynamic translation for "No category available"
+                          "no_category_available".tr,
+                          // Dynamic translation for "No category available"
                           style: h5,
                         ),
                       );
@@ -318,7 +347,7 @@ class _HomeViewState extends State<HomeView> {
                       // will show at most 9 items, or less if list is shorter
                       itemCount: min(9, storeController.storeList.length),
                       gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         mainAxisSpacing: 16,
                         childAspectRatio: 1,
@@ -330,7 +359,7 @@ class _HomeViewState extends State<HomeView> {
                           name: store.name ?? 'Unknown',
                           onTap: () {
                             Get.to(
-                                  () => SingleStoreCouponsView(
+                              () => SingleStoreCouponsView(
                                   store.name ?? 'Unknown',
                                   store.image ?? '',
                                   store.id ?? ''),
@@ -345,7 +374,8 @@ class _HomeViewState extends State<HomeView> {
             ),
             sh20,
             CustomRowHeader(
-              title: "🔥 ${'top_trending_coupons'.tr}", // Dynamic translation for "Top Trending Coupons"
+              title:
+                  "🔥 ${'top_trending_coupons'.tr}", // Dynamic translation for "Top Trending Coupons"
             ),
             sh16,
             Obx(() {
@@ -354,15 +384,17 @@ class _HomeViewState extends State<HomeView> {
                   height: 100.h,
                   child: Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.bottomBarText,
-                      )),
+                    color: AppColors.bottomBarText,
+                  )),
                 );
               }
 
               if (couponsController.trendingCoupons.isEmpty) {
                 return SizedBox(
                   height: 50.h,
-                  child: Center(child: Text('no_trending_coupons'.tr)), // Dynamic translation for "No Trending Coupons available"
+                  child: Center(
+                      child: Text('no_trending_coupons'
+                          .tr)), // Dynamic translation for "No Trending Coupons available"
                 );
               }
 
@@ -382,13 +414,13 @@ class _HomeViewState extends State<HomeView> {
                       usageText: offer.fakeUses.toString(),
                       onButtonTap: () {
                         Get.to(() => CouponsDetailsView(
-                          couponId: offer.id ?? '',
-                        ));
+                              couponId: offer.id ?? '',
+                            ));
                       },
                       onTap: () {
                         Get.to(() => CouponsDetailsView(
-                          couponId: offer.id ?? '',
-                        ));
+                              couponId: offer.id ?? '',
+                            ));
                       },
                     ),
                   );
@@ -397,7 +429,8 @@ class _HomeViewState extends State<HomeView> {
             }),
             sh16,
             CustomRowHeader(
-              title: 'sales_currently'.tr, // Dynamic translation for "Sales Currently"
+              title: 'sales_currently'
+                  .tr, // Dynamic translation for "Sales Currently"
             ),
             sh12,
             Obx(() {
@@ -415,7 +448,9 @@ class _HomeViewState extends State<HomeView> {
               if (homeController.currentlySalesList.isEmpty) {
                 return SizedBox(
                   height: 50.h,
-                  child: Center(child: Text('no_sales_available'.tr)), // Dynamic translation for "No Sales available"
+                  child: Center(
+                      child: Text('no_sales_available'
+                          .tr)), // Dynamic translation for "No Sales available"
                 );
               }
 
@@ -430,8 +465,8 @@ class _HomeViewState extends State<HomeView> {
                       return GestureDetector(
                         onTap: () {
                           Get.to(() => CouponsDetailsView(
-                            couponId: sale.coupon?.id ?? '',
-                          ));
+                                couponId: sale.coupon?.id ?? '',
+                              ));
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -446,7 +481,7 @@ class _HomeViewState extends State<HomeView> {
                               sale.image ?? '', // adjust field if different
                               fit: BoxFit.cover,
                               errorBuilder: (_, __, ___) =>
-                              const Icon(Icons.image_not_supported),
+                                  const Icon(Icons.image_not_supported),
                             ),
                           ),
                         ),
@@ -458,7 +493,8 @@ class _HomeViewState extends State<HomeView> {
             }),
             sh16,
             CustomRowHeader(
-              title: 'featured_deals'.tr, // Dynamic translation for "Featured Deals"
+              title: 'featured_deals'
+                  .tr, // Dynamic translation for "Featured Deals"
               // onTap: () {
               //   Get.to(() => CouponsView());
               // },
@@ -469,15 +505,17 @@ class _HomeViewState extends State<HomeView> {
                   height: 100.h,
                   child: Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.bottomBarText,
-                      )),
+                    color: AppColors.bottomBarText,
+                  )),
                 );
               }
 
               if (couponsController.featuredCoupons.isEmpty) {
                 return SizedBox(
                   height: 50.h,
-                  child: Center(child: Text('no_featured_coupons'.tr)), // Dynamic translation for "No Featured Coupons available"
+                  child: Center(
+                      child: Text('no_featured_coupons'
+                          .tr)), // Dynamic translation for "No Featured Coupons available"
                 );
               }
 
@@ -495,7 +533,7 @@ class _HomeViewState extends State<HomeView> {
                       subtitle: coupon.store.first.name ?? '',
                       image: coupon.store.first.image ?? '',
                       validTill:
-                      DateHelper.formatDate(coupon.validity.toString()),
+                          DateHelper.formatDate(coupon.validity.toString()),
                       usageCount: coupon.fakeUses.toString(),
                       isFavorite: coupon.isFavorite ?? false,
                       onFavoriteTap: () {
@@ -511,22 +549,25 @@ class _HomeViewState extends State<HomeView> {
                 },
               );
             }),
-            CustomRowHeader(title: 'your_activity'.tr), // Dynamic translation for "Your Activity"
+            CustomRowHeader(title: 'your_activity'.tr),
+            // Dynamic translation for "Your Activity"
             Obx(() {
               if (activityLogController.isLoading.value) {
                 return SizedBox(
                   height: 100.h,
                   child: const Center(
                       child: CircularProgressIndicator(
-                        color: AppColors.bottomBarText,
-                      )),
+                    color: AppColors.bottomBarText,
+                  )),
                 );
               }
 
               if (activityLogController.activityList.isEmpty) {
                 return Padding(
                   padding: EdgeInsets.all(20).r,
-                  child: Center(child: Text("no_activity_yet".tr)), // Dynamic translation for "No activity yet"
+                  child: Center(
+                      child: Text("no_activity_yet"
+                          .tr)), // Dynamic translation for "No activity yet"
                 );
               }
 

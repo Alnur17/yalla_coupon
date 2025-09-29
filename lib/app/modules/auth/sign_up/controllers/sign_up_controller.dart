@@ -11,7 +11,6 @@ import '../../../../data/base_client.dart';
 
 class SignUpController extends GetxController {
   var isLoading = false.obs;
-  var isCheckboxVisible = false.obs;
   var isPasswordVisible = false.obs;
   var isConfirmPasswordVisible = false.obs;
 
@@ -66,7 +65,6 @@ class SignUpController extends GetxController {
     }
   }
 
-  void toggleCheckboxVisibility() => isCheckboxVisible.toggle();
   void togglePasswordVisibility() => isPasswordVisible.toggle();
   void toggleConfirmPasswordVisibility() => isConfirmPasswordVisible.toggle();
 

@@ -60,14 +60,16 @@ class _SignUpViewState extends State<SignUpView> {
               children: [
                 sh16,
                 Text(
-                  'join_us'.tr, // Use dynamic translation for "Join us & Make Use of The best Available Discounts"
+                  'join_us'.tr,
+                  // Use dynamic translation for "Join us & Make Use of The best Available Discounts"
                   style: h4,
                 ),
                 sh24,
-                Text('phone'.tr, style: h4), // Use dynamic translation for "Phone"
+                Text('phone'.tr, style: h4),
+                // Use dynamic translation for "Phone"
                 sh8,
                 Obx(
-                      () {
+                  () {
                     if (signUpController.countryCode.value.isEmpty) {
                       return Center(
                         child: CircularProgressIndicator(
@@ -78,8 +80,8 @@ class _SignUpViewState extends State<SignUpView> {
 
                     return IntlPhoneField(
                       controller: signUpController.phoneTEController,
-                      initialCountryCode: signUpController.countryCode.value.toUpperCase(),
-
+                      initialCountryCode:
+                          signUpController.countryCode.value.toUpperCase(),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 12, horizontal: 16),
@@ -88,7 +90,7 @@ class _SignUpViewState extends State<SignUpView> {
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          const BorderSide(color: AppColors.borderColor),
+                              const BorderSide(color: AppColors.borderColor),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -109,52 +111,76 @@ class _SignUpViewState extends State<SignUpView> {
                     );
                   },
                 ),
-                Text('email'.tr, style: h4), // Use dynamic translation for "Email"
+                Text('email'.tr, style: h4),
+                // Use dynamic translation for "Email"
                 sh8,
                 CustomTextField(
                   controller: signUpController.emailTEController,
-                  hintText: 'your_email'.tr, // Use dynamic translation for "Your email"
+                  hintText: 'your_email'.tr,
+                  // Use dynamic translation for "Your email"
                   containerColor: AppColors.white,
                 ),
                 sh12,
-                Text('password'.tr, style: h4), // Use dynamic translation for "Password"
+                Text('password'.tr, style: h4),
+                // Use dynamic translation for "Password"
                 sh8,
-                CustomTextField(
-                  controller: signUpController.passwordTEController,
-                  sufIcon: Image.asset(
-                    AppImages.eyeClose,
-                    scale: 4,
-                  ),
-                  hintText: '**********',
-                  containerColor: AppColors.white,
-                ),
-                sh12,
-                Text('confirm_password'.tr, style: h4), // Use dynamic translation for "Confirm Password"
-                sh8,
-                CustomTextField(
-                  controller: signUpController.confirmPassTEController,
-                  sufIcon: Image.asset(
-                    AppImages.eyeClose,
-                    scale: 4,
-                  ),
-                  hintText: '**********',
-                  containerColor: AppColors.white,
-                ),
-                sh24,
-                Obx(
-                      () {
-                    return signUpController.isLoading.value == true
-                        ? CustomLoader(color: AppColors.white)
-                        : CustomButton(
-                      text: 'sign_up'.tr, // Use dynamic translation for "Sign Up"
-                      onPressed: () {
-                        signUpController.registerUser();
+                Obx(() {
+                  return CustomTextField(
+                    controller: signUpController.passwordTEController,
+                    sufIcon: GestureDetector(
+                      onTap: () {
+                        signUpController.togglePasswordVisibility();
                       },
-                      imageAssetPath: AppImages.arrowRightNormal,
-                      gradientColors: AppColors.buttonColor,
-                    );
-                  },
-                ),
+                      child: Image.asset(
+                        signUpController.isPasswordVisible.value
+                            ? AppImages.eyeOpen
+                            : AppImages.eyeClose,
+                        scale: 4,
+                      ),
+                    ),
+                    obscureText: !signUpController.isPasswordVisible.value,
+                    hintText: '**********',
+                    containerColor: AppColors.white,
+                  );
+                }),
+                sh12,
+                Text('confirm_password'.tr, style: h4),
+                // Use dynamic translation for "Confirm Password"
+                sh8,
+                Obx(() {
+                  return CustomTextField(
+                    controller: signUpController.confirmPassTEController,
+                    sufIcon: GestureDetector(
+                      onTap: () {
+                        signUpController.toggleConfirmPasswordVisibility();
+                      },
+                      child: Image.asset(
+                        signUpController.isConfirmPasswordVisible.value
+                            ? AppImages.eyeOpen
+                            : AppImages.eyeClose,
+                        scale: 4,
+                      ),
+                    ),
+                    obscureText:
+                        !signUpController.isConfirmPasswordVisible.value,
+                    hintText: '**********',
+                    containerColor: AppColors.white,
+                  );
+                }),
+                sh24,
+                Obx(() {
+                  return signUpController.isLoading.value == true
+                      ? CustomLoader(color: AppColors.white)
+                      : CustomButton(
+                          text: 'sign_up'.tr,
+                          // Use dynamic translation for "Sign Up"
+                          onPressed: () {
+                            signUpController.registerUser();
+                          },
+                          imageAssetPath: AppImages.arrowRightNormal,
+                          gradientColors: AppColors.buttonColor,
+                        );
+                }),
                 sh12,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,7 +188,8 @@ class _SignUpViewState extends State<SignUpView> {
                     const Expanded(child: Divider()),
                     sw10,
                     Text(
-                      'or_sign_in'.tr, // Use dynamic translation for "Or sign in with"
+                      'or_sign_in'.tr,
+                      // Use dynamic translation for "Or sign in with"
                       style: h4.copyWith(color: AppColors.grey),
                     ),
                     sw10,
@@ -223,7 +250,8 @@ class _SignUpViewState extends State<SignUpView> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'already_have_account'.tr, // Use dynamic translation for "Already have an Account?"
+                    'already_have_account'.tr,
+                    // Use dynamic translation for "Already have an Account?"
                     style: h3,
                   ),
                 ),
@@ -234,13 +262,14 @@ class _SignUpViewState extends State<SignUpView> {
                     GestureDetector(
                       onTap: () {
                         Get.to(
-                              () => const LoginView(),
+                          () => const LoginView(),
                           transition: Transition.fadeIn,
                           duration: Duration(milliseconds: 500),
                         );
                       },
                       child: Text(
-                        'sign_in_now'.tr, // Use dynamic translation for "Sign In Now"
+                        'sign_in_now'.tr,
+                        // Use dynamic translation for "Sign In Now"
                         style: h4.copyWith(
                           color: AppColors.bottomBarText,
                         ),
@@ -252,7 +281,8 @@ class _SignUpViewState extends State<SignUpView> {
                         Get.offAll(() => DashboardView());
                       },
                       child: Text(
-                        'maybe_later'.tr, // Use dynamic translation for "Maybe Later"
+                        'maybe_later'.tr,
+                        // Use dynamic translation for "Maybe Later"
                         style: h4.copyWith(
                           color: AppColors.blue,
                         ),

@@ -77,15 +77,18 @@ class Coupon {
   Coupon({
     required this.id,
     required this.code,
+    required this.type,
   });
 
   final String? id;
   final String? code;
+  final String? type;
 
   factory Coupon.fromJson(Map<String, dynamic> json){
     return Coupon(
       id: json["_id"],
       code: json["code"],
+      type: json["type"],
     );
   }
 

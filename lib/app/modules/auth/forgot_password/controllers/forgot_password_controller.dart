@@ -16,6 +16,8 @@ import '../views/verify_otp_view.dart';
 class ForgotPasswordController extends GetxController {
   var isLoading = false.obs;
   var isResendLoading = false.obs;
+  var isPasswordVisible = false.obs;
+  var isConfirmPasswordVisible = false.obs;
 
   Rx<int> countdown = 59.obs;
 
@@ -24,6 +26,14 @@ class ForgotPasswordController extends GetxController {
   final TextEditingController newPasswordTEController = TextEditingController();
   final TextEditingController confirmNewPasswordTEController =
       TextEditingController();
+
+  void togglePasswordVisibility() {
+    isPasswordVisible.toggle();
+  }
+
+  void togglePasswordVisibility1() {
+    isConfirmPasswordVisible.toggle();
+  }
 
 
   @override
@@ -62,10 +72,7 @@ class ForgotPasswordController extends GetxController {
       if (responseBody != null) {
         String message = responseBody['message'].toString();
         kSnackBar(message: message, bgColor: AppColors.green);
-        // countdown.value = 59;
-        // startCountdown();
 
-        // Only navigate if you’re not already on VerifyOtpView
         if (Get.currentRoute != '/VerifyOtpView') {
           Get.to(() => VerifyOtpView(isSignupVerify: false, email: email));
         }
@@ -75,6 +82,7 @@ class ForgotPasswordController extends GetxController {
       }
     } catch (e) {
       debugPrint("Catch Error:::::: $e");
+      kSnackBar(message: e.toString(), bgColor: AppColors.orange);
     } finally {
       isLoading(false);
     }

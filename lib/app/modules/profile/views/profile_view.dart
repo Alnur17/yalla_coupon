@@ -31,6 +31,8 @@ class ProfileView extends GetView<ProfileController> {
 
   final ProfileController profileController = Get.put(ProfileController());
 
+  final token = LocalStorage.getData(key: AppConstant.token);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,21 +125,35 @@ class ProfileView extends GetView<ProfileController> {
                   child: Column(
                     children: [
                       CustomListTile(
-                        onTap: () => Get.to(() => EditProfileView()),
+                        onTap: (){
+                          if (token == null || token.toString().isEmpty) {
+                            // token is null or empty → go to login
+                            Get.offAll(() => LoginView());
+                          } else {
+                            Get.to(() => EditProfileView());
+                          }
+                        },
                         leadingImage: AppImages.accountInfo,
-                        title: 'account_information'.tr, // Dynamic translation for "Account Information"
+                        title: 'account_information'.tr,
                         trailingImage: AppImages.arrowRight,
                       ),
                       CustomListTile(
                         onTap: () => Get.to(() => LanguageView()),
                         leadingImage: AppImages.languageTwo,
-                        title: 'language'.tr, // Dynamic translation for "Language"
+                        title: 'language'.tr,
                         trailingImage: AppImages.arrowRight,
                       ),
                       CustomListTile(
-                        onTap: () => Get.to(() => FavouriteView()),
+                        onTap: () {
+                          if (token == null || token.toString().isEmpty) {
+                            // token is null or empty → go to login
+                            Get.offAll(() => LoginView());
+                          } else {
+                            Get.to(() => FavouriteView());
+                          }
+                        },
                         leadingImage: AppImages.favoriteFilled,
-                        title: 'favorite'.tr, // Dynamic translation for "Favorite"
+                        title: 'favorite'.tr,
                         trailingImage: AppImages.arrowRight,
                       ),
                     ],
@@ -156,7 +172,14 @@ class ProfileView extends GetView<ProfileController> {
                   child: Column(
                     children: [
                       CustomListTile(
-                        onTap: () => Get.to(() => ChangePasswordView()),
+                        onTap: () {
+                          if (token == null || token.toString().isEmpty) {
+                            // token is null or empty → go to login
+                            Get.offAll(() => LoginView());
+                          } else {
+                            Get.to(() => ChangePasswordView());
+                          }
+                        },
                         leadingImage: AppImages.changePass,
                         title: 'change_password'.tr, // Dynamic translation for "Change Password"
                         trailingImage: AppImages.arrowRight,
@@ -185,7 +208,14 @@ class ProfileView extends GetView<ProfileController> {
                   child: Column(
                     children: [
                       CustomListTile(
-                        onTap: () => Get.to(() => ContactUsView()),
+                        onTap: () {
+                          if (token == null || token.toString().isEmpty) {
+                            // token is null or empty → go to login
+                            Get.offAll(() => LoginView());
+                          } else {
+                            Get.to(() => ContactUsView());
+                          }
+                        },
                         leadingImage: AppImages.feedback,
                         title: 'contact_us'.tr, // Dynamic translation for "Contact Us"
                         trailingImage: AppImages.arrowRight,

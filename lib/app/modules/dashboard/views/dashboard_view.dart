@@ -17,7 +17,6 @@ class DashboardView extends GetView<DashboardController> {
   List<Widget> _buildScreens() {
     return [
       const HomeView(),
-      //const StoreView(),
       CategoryView(),
       CouponsView(),
       ActivityLogView(),

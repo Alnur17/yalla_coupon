@@ -35,14 +35,17 @@ class CouponsController extends GetxController {
   Future<void> fetchFeaturedCoupons() async {
     try {
       isFeaturedCouponLoading.value = true;
+      final token = LocalStorage.getData(key: AppConstant.token);
 
+      // always include Content-Type
+      final headers = {
+        "Content-Type": "application/json",
+        if (token != null && token.isNotEmpty)
+          'Authorization': 'Bearer $token', // only added if token exists
+      };
       final response = await BaseClient.getRequest(
         api: Api.featuredCoupons,
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-              'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        },
+        headers: headers,
       );
 
       final data = await BaseClient.handleResponse(response);
@@ -62,14 +65,18 @@ class CouponsController extends GetxController {
   Future<void> fetchTrendingCoupons() async {
     try {
       isTrendingCouponLoading.value = true;
+      final token = LocalStorage.getData(key: AppConstant.token);
+
+      // always include Content-Type
+      final headers = {
+        "Content-Type": "application/json",
+        if (token != null && token.isNotEmpty)
+          'Authorization': 'Bearer $token', // only added if token exists
+      };
 
       final response = await BaseClient.getRequest(
         api: Api.trendingCoupons,
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-              'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        },
+        headers: headers,
       );
 
       final data = await BaseClient.handleResponse(response);
@@ -88,14 +95,18 @@ class CouponsController extends GetxController {
   Future<void> fetchAllCoupons() async {
     try {
       isLoading.value = true;
+      final token = LocalStorage.getData(key: AppConstant.token);
+
+      // always include Content-Type
+      final headers = {
+        "Content-Type": "application/json",
+        if (token != null && token.isNotEmpty)
+          'Authorization': 'Bearer $token', // only added if token exists
+      };
 
       final response = await BaseClient.getRequest(
         api: Api.allCoupons,
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-              'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        },
+        headers: headers,
       );
 
       final data = await BaseClient.handleResponse(response);
@@ -114,13 +125,18 @@ class CouponsController extends GetxController {
     try {
       isCouponDetailsLoading.value = true;
 
+      final token = LocalStorage.getData(key: AppConstant.token);
+
+      // always include Content-Type
+      final headers = {
+        "Content-Type": "application/json",
+        if (token != null && token.isNotEmpty)
+          'Authorization': 'Bearer $token', // only added if token exists
+      };
+
       final response = await BaseClient.getRequest(
         api: Api.singleCoupons(couponId),
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-              'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        },
+        headers: headers,
       );
 
       final data = await BaseClient.handleResponse(response);
@@ -137,14 +153,17 @@ class CouponsController extends GetxController {
   Future<void> fetchCouponsByStoreId(String storeId) async {
     try {
       isSingleStoreCouponLoading.value = true;
+      final token = LocalStorage.getData(key: AppConstant.token);
 
+      // always include Content-Type
+      final headers = {
+        "Content-Type": "application/json",
+        if (token != null && token.isNotEmpty)
+          'Authorization': 'Bearer $token', // only added if token exists
+      };
       final response = await BaseClient.getRequest(
         api: Api.couponsByStoreId(storeId),
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization':
-              'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
-        },
+        headers: headers,
       );
 
       final data = await BaseClient.handleResponse(response);
