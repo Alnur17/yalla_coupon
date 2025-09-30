@@ -1,10 +1,96 @@
-import 'dart:convert';
+// import 'dart:convert';
+//
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+//
+// import '../../../../../common/app_color/app_colors.dart';
+// import '../../../../../common/app_constant/app_constant.dart';
+// import '../../../../../common/helper/local_store.dart';
+// import '../../../../../common/widgets/custom_snackbar.dart';
+// import '../../../../data/api.dart';
+// import '../../../../data/base_client.dart';
+// import '../../../dashboard/views/dashboard_view.dart';
+//
+// class LoginController extends GetxController {
+//   var isPasswordVisible = false.obs;
+//   var isLoading = false.obs;
+//
+//   final emailTEController = TextEditingController();
+//   final passwordTEController = TextEditingController();
+//
+//   void togglePasswordVisibility() {
+//     isPasswordVisible.toggle();
+//   }
+//
+//   Future<void> userLogin() async {
+//     if (emailTEController.text.trim().isEmpty) {
+//       kSnackBar(
+//           message: 'Please enter a valid email', bgColor: AppColors.orange);
+//       return;
+//     }
+//     if (passwordTEController.text.trim().isEmpty ||
+//         passwordTEController.text.length < 6) {
+//       kSnackBar(
+//           message: 'Password must be at least 6 characters',
+//           bgColor: AppColors.orange);
+//       return;
+//     }
+//
+//     try {
+//       isLoading.value = true;
+//
+//       final fcmToken = LocalStorage.getData(key: AppConstant.fcmToken);
+//
+//       var body = {
+//         'email': emailTEController.text.trim(),
+//         'password': passwordTEController.text.trim(),
+//         'fcmToken': fcmToken,
+//       };
+//
+//       var headers = {
+//         'Content-Type': 'application/json',
+//       };
+//
+//       final response = await BaseClient.postRequest(
+//         api: Api.login,
+//         body: jsonEncode(body),
+//         headers: headers,
+//       );
+//
+//       final result = await BaseClient.handleResponse(response);
+//
+//       if (result != null) {
+//         final String token = result['data']['accessToken'].toString();
+//         LocalStorage.saveData(key: AppConstant.token, data: token);
+//         String accessToken = LocalStorage.getData(key: AppConstant.token);
+//         debugPrint(accessToken);
+//         kSnackBar(
+//           message: result['message'] ?? 'Login successful!',
+//           bgColor: AppColors.green,
+//         );
+//
+//         Get.offAll(() => DashboardView());
+//       } else {
+//         kSnackBar(message: result['message'], bgColor: AppColors.red);
+//       }
+//     } catch (e) {
+//       kSnackBar(
+//         message: e.toString(),
+//         bgColor: AppColors.orange,
+//       );
+//     } finally {
+//       isLoading.value = false;
+//     }
+//   }
+// }
 
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_constant/app_constant.dart';
+import '../../../../../common/helper/auth_sevices.dart';
 import '../../../../../common/helper/local_store.dart';
 import '../../../../../common/widgets/custom_snackbar.dart';
 import '../../../../data/api.dart';
@@ -17,6 +103,14 @@ class LoginController extends GetxController {
 
   final emailTEController = TextEditingController();
   final passwordTEController = TextEditingController();
+  final AuthService _authService = AuthService(); // Instance of AuthService
+
+  @override
+  void onClose() {
+    emailTEController.dispose();
+    passwordTEController.dispose();
+    super.onClose();
+  }
 
   void togglePasswordVisibility() {
     isPasswordVisible.toggle();
@@ -77,6 +171,90 @@ class LoginController extends GetxController {
       kSnackBar(
         message: e.toString(),
         bgColor: AppColors.orange,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Handles Google Sign-In
+  Future<void> signInWithGoogle() async {
+    try {
+      isLoading.value = true;
+      final userCredential = await _authService.signInWithGoogle();
+      if (userCredential != null) {
+        final user = userCredential.user;
+        kSnackBar(
+          message: 'Google login successful! Welcome ${user?.displayName ?? ''}',
+          bgColor: AppColors.green,
+        );
+        Get.offAll(() => DashboardView());
+      } else {
+        kSnackBar(
+          message: 'Google login cancelled or failed',
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: 'Google login error: $e',
+        bgColor: AppColors.red,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Handles Facebook Sign-In
+  Future<void> signInWithFacebook() async {
+    try {
+      isLoading.value = true;
+      final userCredential = await _authService.signInWithFacebook();
+      if (userCredential != null) {
+        final user = userCredential.user;
+        kSnackBar(
+          message: 'Facebook login successful! Welcome ${user?.displayName ?? ''}',
+          bgColor: AppColors.green,
+        );
+        Get.offAll(() => DashboardView());
+      } else {
+        kSnackBar(
+          message: 'Facebook login cancelled or failed',
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: 'Facebook login error: $e',
+        bgColor: AppColors.red,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// Handles Apple Sign-In
+  Future<void> signInWithApple() async {
+    try {
+      isLoading.value = true;
+      final userCredential = await _authService.signInWithApple();
+      if (userCredential != null) {
+        final user = userCredential.user;
+        kSnackBar(
+          message: 'Apple login successful! Welcome ${user?.displayName ?? ''}',
+          bgColor: AppColors.green,
+        );
+        Get.offAll(() => DashboardView());
+      } else {
+        kSnackBar(
+          message: 'Apple login cancelled or failed',
+          bgColor: AppColors.orange,
+        );
+      }
+    } catch (e) {
+      kSnackBar(
+        message: 'Apple login error: $e',
+        bgColor: AppColors.red,
       );
     } finally {
       isLoading.value = false;
