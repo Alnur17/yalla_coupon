@@ -186,6 +186,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final LoginController loginController = Get.put(LoginController());
+ // final AuthService _authService = Get.put(AuthService());
 
   @override
   Widget build(BuildContext context) {
