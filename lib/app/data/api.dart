@@ -1,7 +1,7 @@
 class Api {
   /// base url
-  //static const baseUrl = "http://206.162.244.133:5006/api/v1";
-  static const baseUrl = "http://10.10.10.17:5004/api/v1";
+  static const baseUrl = "http://206.162.244.133:5006/api/v1";
+  //static const baseUrl = "http://10.10.10.17:5004/api/v1";
   static const socketUrl = "https://socket.gasdash.io";
 
   ///auth api

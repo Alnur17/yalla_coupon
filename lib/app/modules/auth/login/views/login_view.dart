@@ -276,28 +276,7 @@ class _LoginViewState extends State<LoginView> {
                     style: h4.copyWith(color: AppColors.blue),
                   ),
                 ),
-                sh16,
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => const SignUpView());
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'dont_have_account'.tr,
-                        style: h4.copyWith(color: AppColors.grey),
-                      ),
-                      sw8,
-                      Text(
-                        'sign_up'.tr,
-                        style: h4.copyWith(
-                          color: AppColors.bottomBarText,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+
                 sh24,
                 Obx(
                       () => loginController.isLoading.value
@@ -355,6 +334,28 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ],
+                ),
+                sh24,
+                GestureDetector(
+                  onTap: () {
+                    Get.to(() => const SignUpView());
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'dont_have_account'.tr,
+                        style: h4.copyWith(color: AppColors.grey),
+                      ),
+                      sw8,
+                      Text(
+                        'sign_up'.tr,
+                        style: h4.copyWith(
+                          color: AppColors.bottomBarText,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

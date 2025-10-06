@@ -24,7 +24,7 @@ class SignUpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    detectCountry(); // detect country automatically on init
+    detectCountry();
   }
 
   /// new: detect country code from device location
