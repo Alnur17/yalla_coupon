@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_constant/app_constant.dart';
 import '../../../../../common/helper/auth_sevices.dart';
@@ -13,16 +14,27 @@ import '../../../dashboard/views/dashboard_view.dart';
 class LoginController extends GetxController {
   var isPasswordVisible = false.obs;
   var isLoading = false.obs;
+  var isAppleAvailable = false.obs;
 
   final emailTEController = TextEditingController();
   final passwordTEController = TextEditingController();
   final AuthService _authService = AuthService(); // Instance of AuthService
 
   @override
+  void onInit() {
+    super.onInit();
+    checkAppleAvailability();
+  }
+
+  @override
   void onClose() {
     emailTEController.dispose();
     passwordTEController.dispose();
     super.onClose();
+  }
+
+  Future<void> checkAppleAvailability() async {
+    isAppleAvailable.value = await SignInWithApple.isAvailable();
   }
 
   void togglePasswordVisibility() {
@@ -33,12 +45,21 @@ class LoginController extends GetxController {
   /// EMAIL / PASSWORD LOGIN
   /// ---------------------------
   Future<void> userLogin() async {
-    if (emailTEController.text.trim().isEmpty) {
-      kSnackBar(message: 'Please enter a valid email', bgColor: AppColors.orange);
+    final email = emailTEController.text.trim();
+    final password = passwordTEController.text.trim();
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+    if (email.isEmpty) {
+      kSnackBar(message: 'Please enter your email address', bgColor: AppColors.orange);
       return;
     }
-    if (passwordTEController.text.trim().isEmpty ||
-        passwordTEController.text.length < 6) {
+
+    if (!emailRegex.hasMatch(email)) {
+      kSnackBar(message: 'Please enter a valid email (e.g. user@example.com)', bgColor: AppColors.orange);
+      return;
+    }
+
+    if (password.isEmpty || password.length < 6) {
       kSnackBar(message: 'Password must be at least 6 characters', bgColor: AppColors.orange);
       return;
     }

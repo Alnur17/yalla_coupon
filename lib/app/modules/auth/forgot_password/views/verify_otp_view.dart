@@ -120,10 +120,8 @@ class _VerifyOtpViewState extends State<VerifyOtpView> {
                   () {
                     return forgotPassController.countdown.value > 0
                         ? Text(
-                            'resend_code_in'.trParams({
-                              '0': forgotPassController.countdown.value
-                                  .toString()
-                            }),
+                            'resend_code_in'.trParams(
+                                {'0': forgotPassController.countdown.value.toString()}),
                             // Dynamic translation for "Resend Code In ${countdown} s"
                             style: h3,
                           )

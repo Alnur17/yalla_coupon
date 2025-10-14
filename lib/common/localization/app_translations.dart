@@ -24,7 +24,7 @@ class AppTranslations extends Translations {
           'forgot_password': 'Forgot password?',
           'dont_have_account': 'Don’t have any account?',
           'login': 'Login',
-          'or_login_with': 'Or Login With',
+          'or_login_with': 'Or login with',
 
           // New translations for ForgotPasswordView
           'forgot_password_title': 'Forgot Password',

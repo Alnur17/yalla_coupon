@@ -161,13 +161,13 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/app_text_style/styles.dart';
+import '../../../../../common/helper/social_button_circle.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../../common/widgets/custom_background_color.dart';
 import '../../../../../common/widgets/custom_button.dart';
@@ -186,7 +186,8 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final LoginController loginController = Get.put(LoginController());
- // final AuthService _authService = Get.put(AuthService());
+
+  // final AuthService _authService = Get.put(AuthService());
 
   @override
   Widget build(BuildContext context) {
@@ -276,31 +277,37 @@ class _LoginViewState extends State<LoginView> {
                     style: h4.copyWith(color: AppColors.blue),
                   ),
                 ),
-
                 sh24,
                 Obx(
-                      () => loginController.isLoading.value
+                  () => loginController.isLoading.value
                       ? CustomLoader(color: AppColors.white)
                       : Column(
-                    children: [
-                      CustomButton(
-                        text: 'login'.tr,
-                        onPressed: () {
-                          loginController.userLogin();
-                        },
-                        imageAssetPath: AppImages.arrowRightNormal,
-                        gradientColors: AppColors.buttonColor,
-                      ),
-                    ],
-                  ),
+                          children: [
+                            CustomButton(
+                              text: 'login'.tr,
+                              onPressed: () {
+                                loginController.userLogin();
+                              },
+                              imageAssetPath: AppImages.arrowRightNormal,
+                              gradientColors: AppColors.buttonColor,
+                            ),
+                          ],
+                        ),
                 ),
                 sh16,
-                Center(
-                  child: Text(
-                    'or_login_with'.tr, // Add translation for "Or login with"
-                    style: h4.copyWith(color: AppColors.grey),
-                    textAlign: TextAlign.center,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Expanded(child: Divider()),
+                    sw10,
+                    Text(
+                      'or_login_with'.tr,
+                      style: h4.copyWith(color: AppColors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                    sw10,
+                    const Expanded(child: Divider()),
+                  ],
                 ),
                 sh16,
                 Row(
@@ -308,31 +315,19 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     GestureDetector(
                       onTap: loginController.signInWithGoogle,
-                      child: Image.asset(
-                        AppImages.google, // Replace with your Google icon
-                        width: 40.w,
-                        height: 40.h,
-                      ),
+                      child: SocialButtonCircle(asset: AppImages.google),
                     ),
                     sw16,
                     GestureDetector(
                       onTap: loginController.signInWithFacebook,
-                      child: Image.asset(
-                        AppImages.facebook, // Replace with your Facebook icon
-                        width: 40.w,
-                        height: 40.h,
-                      ),
+                      child: SocialButtonCircle(asset: AppImages.facebook),
                     ),
                     sw16,
-                    //if (SignInWithApple.isAvailable()) // Show Apple button only on iOS
-                    GestureDetector(
-                      onTap: loginController.signInWithApple,
-                      child: Image.asset(
-                        AppImages.apple, // Replace with your Apple icon
-                        width: 40.w,
-                        height: 40.h,
+                    if (loginController.isAppleAvailable.value)
+                      GestureDetector(
+                        onTap: loginController.signInWithApple,
+                        child: SocialButtonCircle(asset: AppImages.apple),
                       ),
-                    ),
                   ],
                 ),
                 sh24,
