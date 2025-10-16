@@ -75,22 +75,22 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.STORE,
-      page: () => const StoreView(categoryName: ''),
+      page: () =>  StoreView(categoryName: '', categoryId: '',),
       binding: StoreBinding(),
     ),
     GetPage(
       name: _Paths.COUPONS,
-      page: () => const CouponsView(),
+      page: () => CouponsView(),
       binding: CouponsBinding(),
     ),
     GetPage(
       name: _Paths.ACTIVITY_LOG,
-      page: () => const ActivityLogView(),
+      page: () => ActivityLogView(),
       binding: ActivityLogBinding(),
     ),
     GetPage(
       name: _Paths.CATEGORY,
-      page: () => const CategoryView(),
+      page: () => CategoryView(),
       binding: CategoryBinding(),
     ),
   ];

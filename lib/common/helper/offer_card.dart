@@ -45,28 +45,40 @@ class OfferCard extends StatelessWidget {
               Container(
                 height: 50.h,
                 width: 50.w,
+                padding: EdgeInsets.all(4).r,
                 decoration: BoxDecoration(
                   color: AppColors.silver,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
+                  child: Image.network(
                     image,
                     scale: 4,
                   ),
                 ),
               ),
               sw8,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: h3.copyWith(fontWeight: FontWeight.w700)),
-                  Text(subtitle,
-                      style: h6.copyWith(color: AppColors.greyMedium)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: h3.copyWith(fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      subtitle,
+                      style: h6.copyWith(color: AppColors.greyMedium),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
               ),
-              const Spacer(),
+              sw12,
               GestureDetector(
                 onTap: onFavoriteTap,
                 child: Image.asset(
@@ -78,7 +90,7 @@ class OfferCard extends StatelessWidget {
           ),
           sh12,
           CustomButton(
-            text: 'Get Code',
+            text: 'Get Deal',
             onPressed: onButtonTap,
             backgroundColor: AppColors.silver,
             borderRadius: 12,

@@ -6,7 +6,6 @@ import 'package:yalla_coupon/app/modules/category/views/category_view.dart';
 import 'package:yalla_coupon/app/modules/coupons/views/coupons_view.dart';
 import 'package:yalla_coupon/app/modules/home/views/home_view.dart';
 import 'package:yalla_coupon/app/modules/profile/views/profile_view.dart';
-import 'package:yalla_coupon/app/modules/store/views/store_view.dart';
 import 'package:yalla_coupon/common/app_color/app_colors.dart';
 import 'package:yalla_coupon/common/app_images/app_images.dart';
 
@@ -18,10 +17,9 @@ class DashboardView extends GetView<DashboardController> {
   List<Widget> _buildScreens() {
     return [
       const HomeView(),
-      //const StoreView(),
-      const CategoryView(),
-      const CouponsView(),
-      const ActivityLogView(),
+      CategoryView(),
+      CouponsView(),
+      ActivityLogView(),
       ProfileView(),
     ];
   }
@@ -31,7 +29,7 @@ class DashboardView extends GetView<DashboardController> {
       PersistentBottomNavBarItem(
         icon: Image.asset(AppImages.homeFilled, scale: 4),
         inactiveIcon: Image.asset(AppImages.home, scale: 4),
-        title: ("Home"),
+        title: "home".tr, // Dynamic translation for "Home"
         contentPadding: 0,
         // 🔥 Reduce gap
         activeColorPrimary: AppColors.bottomBarText,
@@ -40,7 +38,7 @@ class DashboardView extends GetView<DashboardController> {
       PersistentBottomNavBarItem(
         icon: Image.asset(AppImages.categoryFilled, scale: 4),
         inactiveIcon: Image.asset(AppImages.category, scale: 4),
-        title: ("Category"),
+        title: "category".tr, // Dynamic translation for "Category"
         contentPadding: 0,
         activeColorPrimary: AppColors.bottomBarText,
         inactiveColorPrimary: AppColors.transparent,
@@ -48,7 +46,7 @@ class DashboardView extends GetView<DashboardController> {
       PersistentBottomNavBarItem(
         icon: Image.asset(AppImages.couponFilled, scale: 4),
         inactiveIcon: Image.asset(AppImages.coupon, scale: 4),
-        title: ("Coupons"),
+        title: "coupons".tr, // Dynamic translation for "Coupons"
         contentPadding: 0,
         activeColorPrimary: AppColors.bottomBarText,
         inactiveColorPrimary: AppColors.transparent,
@@ -56,7 +54,7 @@ class DashboardView extends GetView<DashboardController> {
       PersistentBottomNavBarItem(
         icon: Image.asset(AppImages.activityLogFilled, scale: 4),
         inactiveIcon: Image.asset(AppImages.activityLog, scale: 4),
-        title: ("Activity Log"),
+        title: "activity_log".tr, // Dynamic translation for "Activity Log"
         contentPadding: 0,
         activeColorPrimary: AppColors.bottomBarText,
         inactiveColorPrimary: AppColors.transparent,
@@ -64,7 +62,7 @@ class DashboardView extends GetView<DashboardController> {
       PersistentBottomNavBarItem(
         icon: Image.asset(AppImages.profileFilled, scale: 4),
         inactiveIcon: Image.asset(AppImages.profile, scale: 4),
-        title: ("Profile"),
+        title: "profile".tr, // Dynamic translation for "Profile"
         contentPadding: 0,
         activeColorPrimary: AppColors.bottomBarText,
         inactiveColorPrimary: AppColors.transparent,
@@ -75,7 +73,7 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     final PersistentTabController controller =
-        PersistentTabController(initialIndex: 0);
+    PersistentTabController(initialIndex: 0);
 
     return Scaffold(
       body: PersistentTabView(

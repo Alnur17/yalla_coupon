@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/profile/controllers/change_password_controller.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -10,9 +11,13 @@ import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../../common/widgets/custom_button.dart';
 import '../../../../../common/widgets/custom_circular_container.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
+import '../../../../common/widgets/custom_loader.dart';
 
 class ChangePasswordView extends GetView {
-  const ChangePasswordView({super.key});
+  ChangePasswordView({super.key});
+
+  final ChangePasswordController changePasswordController =
+  Get.put(ChangePasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class ChangePasswordView extends GetView {
       appBar: AppBar(
         backgroundColor: AppColors.mainColor,
         title: Text(
-          'Change Password',
+          'change_password'.tr, // Dynamic translation for "Change Password"
         ),
         leading: Padding(
           padding: EdgeInsets.only(left: 12.w),
@@ -35,19 +40,19 @@ class ChangePasswordView extends GetView {
         ),
       ),
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: Image.asset(AppImages.changePassBig,scale: 4,)),
-            sh30,
+            sh16,
             Text(
-              'Current Password',
-              style: h5,
+              'current_password'.tr, // Dynamic translation for "Current password"
+              style: h4,
             ),
-            sh8,
+            sh12,
             CustomTextField(
-              hintText: '***********',
+              controller: changePasswordController.currentPassTEController,
+              hintText: '**********',
               sufIcon: Image.asset(
                 AppImages.eyeClose,
                 scale: 4,
@@ -55,35 +60,47 @@ class ChangePasswordView extends GetView {
             ),
             sh16,
             Text(
-              'New Password',
-              style: h5,
+              'new_password'.tr, // Dynamic translation for "New Password"
+              style: h4,
             ),
-            sh8,
+            sh12,
             CustomTextField(
-              hintText: '***********',
+              controller: changePasswordController.newPassTEController,
               sufIcon: Image.asset(
                 AppImages.eyeClose,
                 scale: 4,
               ),
+              hintText: '**********',
             ),
             sh16,
             Text(
-              'Confirm Password',
-              style: h5,
+              'confirm_new_password'.tr, // Dynamic translation for "Confirm New Password"
+              style: h4,
             ),
-            sh8,
+            sh12,
             CustomTextField(
-              hintText: '***********',
+              controller: changePasswordController.confirmPassTEController,
               sufIcon: Image.asset(
                 AppImages.eyeClose,
                 scale: 4,
               ),
+              hintText: '**********',
             ),
             sh30,
-            CustomButton(
-              text: 'Save',
-              onPressed: () {},
-              gradientColors: AppColors.buttonColor,
+            Obx(
+                  () => changePasswordController.isLoading.value == true
+                  ? CustomLoader(
+                color: AppColors.white,
+              )
+                  : CustomButton(
+                text: "save".tr, // Dynamic translation for "Save"
+                gradientColors: AppColors.buttonColor,
+                onPressed: () {
+                  changePasswordController.changePassword(
+                    context: context,
+                  );
+                },
+              ),
             ),
           ],
         ),

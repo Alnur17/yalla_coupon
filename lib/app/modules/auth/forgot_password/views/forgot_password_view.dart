@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:yalla_coupon/app/modules/auth/forgot_password/views/verify_otp_view.dart';
 import 'package:yalla_coupon/common/widgets/custom_background_color.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
@@ -10,11 +9,20 @@ import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/app_text_style/styles.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../../common/widgets/custom_button.dart';
+import '../../../../../common/widgets/custom_loader.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
 import '../controllers/forgot_password_controller.dart';
 
-class ForgotPasswordView extends GetView<ForgotPasswordController> {
+class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});
+
+  @override
+  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
+}
+
+class _ForgotPasswordViewState extends State<ForgotPasswordView> {
+  final ForgotPasswordController forgotPasswordController =
+  Get.put(ForgotPasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -48,33 +56,44 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
               children: [
                 sh20,
                 Text(
-                  'Forgot Password',
+                  'forgot_password_title'.tr, // Dynamic translation for "Forgot Password"
                   style: h2.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 sh12,
                 Text(
-                  'We will send the OTP code to your email for security in forgetting your password',
+                  'forgot_password_message'.tr, // Dynamic translation for "We will send the OTP code to your email for security in forgetting your password"
                   style: h5,
                 ),
                 sh30,
                 Text(
-                  'Email',
+                  'email'.tr, // Dynamic translation for "Email"
                   style: h4,
                 ),
                 sh8,
                 CustomTextField(
-                  hintText: 'Enter your email',
+                  controller: forgotPasswordController.emailTEController,
+                  hintText: 'enter_email'.tr, // Dynamic translation for "Enter your email"
                 ),
                 sh30,
-                CustomButton(
-                  text: 'Send Code',
-                  onPressed: () {
-                    Get.to(() => VerifyOtpView());
+                Obx(
+                      () {
+                    return forgotPasswordController.isLoading.value == true
+                        ? CustomLoader(color: AppColors.white)
+                        : CustomButton(
+                      text: 'send_code'.tr, // Dynamic translation for "Send Code"
+                      onPressed: () {
+                        forgotPasswordController.forgotPassword(
+                          email: forgotPasswordController
+                              .emailTEController.text
+                              .trim(),
+                        );
+                      },
+                      imageAssetPath: AppImages.arrowRightNormal,
+                      gradientColors: AppColors.buttonColor,
+                    );
                   },
-                  imageAssetPath: AppImages.arrowRightNormal,
-                  gradientColors: AppColors.buttonColor,
                 ),
               ],
             ),

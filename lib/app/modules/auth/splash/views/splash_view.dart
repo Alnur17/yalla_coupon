@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:yalla_coupon/app/modules/auth/onboarding/views/onboarding_view.dart';
+import 'package:yalla_coupon/app/modules/auth/login/views/login_view.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
+import '../../../../../common/app_constant/app_constant.dart';
 import '../../../../../common/app_images/app_images.dart';
+import '../../../../../common/helper/local_store.dart';
 import '../../../../../common/widgets/custom_background_color.dart';
+import '../../../dashboard/views/dashboard_view.dart';
+import '../../onboarding/views/onboarding_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -19,12 +23,34 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      Get.to(
-        () => OnboardingView(),
-        transition: Transition.rightToLeft,
-        duration: Duration(milliseconds: 1500),
-      );
+      return chooseScreen();
     });
+  }
+
+  chooseScreen() {
+    var userToken = LocalStorage.getData(key: AppConstant.token);
+    debugPrint("Token :::::::::::::: $userToken");
+
+    var  onboardingDone = LocalStorage.getData(key: AppConstant.onboardingDone);
+
+    if (userToken != null) {
+      Get.offAll(
+        () => DashboardView(),
+        transition: Transition.rightToLeft,
+      );
+    } else {
+      if(onboardingDone != null){
+        Get.offAll(
+              () => LoginView(),
+          transition: Transition.rightToLeft,
+        );
+      }else{
+        Get.offAll(
+              () => OnboardingView(),
+          transition: Transition.rightToLeft,
+        );
+      }
+    }
   }
 
   @override

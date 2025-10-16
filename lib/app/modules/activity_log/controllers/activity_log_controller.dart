@@ -1,23 +1,43 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yalla_coupon/app/modules/activity_log/model/activity_log_model.dart';
+
+import '../../../../common/app_constant/app_constant.dart';
+import '../../../../common/helper/local_store.dart';
+import '../../../data/api.dart';
+import '../../../data/base_client.dart';
 
 class ActivityLogController extends GetxController {
-  //TODO: Implement ActivityLogController
+  final isLoading = false.obs;
 
-  final count = 0.obs;
+  var activityList = <ActivityDatum>[].obs;
+
   @override
   void onInit() {
     super.onInit();
+    fetchActivityLog();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  Future<void> fetchActivityLog() async {
+    try {
+      isLoading.value = true;
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+      final response = await BaseClient.getRequest(
+        api: Api.activityLog,
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ${LocalStorage.getData(key: AppConstant.token)}',
+        },
+      );
 
-  void increment() => count.value++;
+      final data = await BaseClient.handleResponse(response);
+
+      final activityModel = ActivityLogModel.fromJson(data);
+      activityList.value = activityModel.data?.data ?? [];
+    } catch (e) {
+      debugPrint("Banner fetch error: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

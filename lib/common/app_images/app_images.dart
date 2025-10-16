@@ -58,6 +58,10 @@ class AppImages {
   static const offerImage = "assets/images/nike.png";
   static const bannerImage = "assets/images/amazon offer.png";
   static const verifySuccess = "assets/images/verify success.png";
+  static const storeImage = "assets/images/amazon store image.png";
+  static const bigSales = "assets/images/big sales.png";
+  static const bigSales50 = "assets/images/big sales 50.png";
+  static const newSales = "assets/images/new sales.png";
 
 
   static const profileImage = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';

@@ -8,7 +8,7 @@ class ActivityLogCard extends StatelessWidget {
   final String storeName;
   final String couponCode;
   final String dateTime;
-  final String status; // Used, Viewed, Copied
+  final String status; // Viewed, Copied
   final String imagePath;
   final VoidCallback? onTap;
 
@@ -24,9 +24,9 @@ class ActivityLogCard extends StatelessWidget {
 
   Color _statusColor() {
     switch (status) {
-      case 'Viewed':
+      case 'VIEW':
         return Colors.blue[100]!;
-      case 'Copied':
+      case 'COPY':
         return Colors.pink[100]!;
       default:
         return AppColors.silver;
@@ -35,9 +35,9 @@ class ActivityLogCard extends StatelessWidget {
 
   Color _statusTextColor() {
     switch (status) {
-      case 'Viewed':
+      case 'VIEW':
         return Colors.blue;
-      case 'Copied':
+      case 'COPY':
         return Colors.pink;
       default:
         return AppColors.black;
@@ -59,6 +59,7 @@ class ActivityLogCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              padding: EdgeInsets.all(4),
               height: 50.h,
               width: 50.w,
               decoration: BoxDecoration(
@@ -67,7 +68,7 @@ class ActivityLogCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
+                child: Image.network(
                   imagePath,
                   scale: 4,
                 ),

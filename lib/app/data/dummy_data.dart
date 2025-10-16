@@ -1,7 +1,6 @@
 import '../../common/app_images/app_images.dart';
 
 class DummyData {
-
   static final List<Map<String, String>> activityHome = [
     {"type": "COPY", "title": "SAVE20 copied", "subtitle": "2 hours ago"},
     {"type": "VIEW", "title": "Checked Offer", "subtitle": "5 hours ago"},
@@ -10,22 +9,40 @@ class DummyData {
 
   static final List<Map<String, String>> notifications = [
     {
+      'id': '1',
       "title": "New 20% off on Grofers!",
       "subtitle": "Use the code SAVE20 before 10 Aug",
       "time": "2h ago",
       "image": AppImages.giftBox,
     },
     {
+      'id': '2',
       "title": "Flat 50% off on Zomato!",
       "subtitle": "Use the code ZOM50 today",
       "time": "5h ago",
       "image": AppImages.giftBox,
     },
     {
+      'id': '3',
       "title": "Special Offer on Amazon",
       "subtitle": "Get ₹200 cashback on first order",
       "time": "1d ago",
       "image": AppImages.giftBox,
+    },
+  ];
+
+  static final List<Map<String, String>> currentSales = [
+    {
+      "title": "Sales 1",
+      "image_url": AppImages.bigSales,
+    },
+    {
+      "title": "Sales 2",
+      "image_url": AppImages.bigSales50,
+    },
+    {
+      "title": "Sales 3",
+      "image_url": AppImages.newSales,
     },
   ];
 
@@ -52,7 +69,6 @@ class DummyData {
       "imagePath": AppImages.offerImage
     },
   ];
-
 
   static final List<Map<String, dynamic>> stores = [
     {
@@ -112,6 +128,7 @@ class DummyData {
 
   static final List<Map<String, dynamic>> offers = [
     {
+      'id': '1',
       'title': '20% OFF Everything',
       'subtitle': 'Amazon',
       'image': AppImages.offerImage,
@@ -120,6 +137,7 @@ class DummyData {
       'isFavorite': true,
     },
     {
+      'id': '2',
       'title': '50% OFF on Electronics',
       'subtitle': 'eBay',
       'image': AppImages.offerImage,
@@ -128,6 +146,7 @@ class DummyData {
       'isFavorite': false,
     },
     {
+      'id': '3',
       'title': '10% OFF Grocery',
       'subtitle': 'Walmart',
       'image': AppImages.offerImage,

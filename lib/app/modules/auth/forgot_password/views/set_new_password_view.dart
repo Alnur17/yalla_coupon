@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:yalla_coupon/app/modules/auth/forgot_password/views/reset_success_view.dart';
+import 'package:yalla_coupon/app/modules/auth/forgot_password/controllers/forgot_password_controller.dart';
 import 'package:yalla_coupon/common/widgets/custom_background_color.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
@@ -10,10 +10,20 @@ import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/app_text_style/styles.dart';
 import '../../../../../common/size_box/custom_sizebox.dart';
 import '../../../../../common/widgets/custom_button.dart';
+import '../../../../../common/widgets/custom_loader.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
 
-class SetNewPasswordView extends GetView {
-  const SetNewPasswordView({super.key});
+class SetNewPasswordView extends StatefulWidget {
+  const SetNewPasswordView({
+    super.key,
+  });
+
+  @override
+  State<SetNewPasswordView> createState() => _SetNewPasswordViewState();
+}
+
+class _SetNewPasswordViewState extends State<SetNewPasswordView> {
+  final ForgotPasswordController forgotPasswordController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -47,48 +57,83 @@ class SetNewPasswordView extends GetView {
               children: [
                 sh20,
                 Text(
-                  'Set new password',
+                  'set_new_password'.tr,
+                  // Dynamic translation for "Set new password"
                   style: h2.copyWith(fontWeight: FontWeight.w700),
                 ),
                 sh12,
                 Text(
-                  'Enter your new password and make sure you remember it',
+                  'new_password_instruction'.tr,
                   style: h5,
                 ),
                 sh16,
                 Text(
-                  'New password',
+                  'new_password'.tr,
                   style: h4,
                 ),
                 sh12,
-                CustomTextField(
-                  hintText: '**********',
-                  sufIcon: Image.asset(
-                    AppImages.eyeClose,
-                    scale: 4,
-                  ),
-                ),
+                Obx(() {
+                  return CustomTextField(
+                    controller:
+                        forgotPasswordController.newPasswordTEController,
+                    hintText: '**********',
+                    sufIcon: GestureDetector(
+                      onTap: () {
+                        forgotPasswordController.togglePasswordVisibility();
+                      },
+                      child: Image.asset(
+                        forgotPasswordController.isPasswordVisible.value
+                            ? AppImages.eyeOpen
+                            : AppImages.eyeClose,
+                        scale: 4,
+                      ),
+                    ),
+                    obscureText:
+                        !forgotPasswordController.isPasswordVisible.value,
+                  );
+                }),
                 sh16,
                 Text(
-                  'Re-type New Password',
+                  'retype_new_password'.tr,
+                  // Dynamic translation for "Re-type New Password"
                   style: h4,
                 ),
                 sh12,
-                CustomTextField(
-                  sufIcon: Image.asset(
-                    AppImages.eyeClose,
-                    scale: 4,
-                  ),
-                  hintText: '**********',
-                ),
+                Obx(() {
+                  return CustomTextField(
+                    controller:
+                        forgotPasswordController.confirmNewPasswordTEController,
+                    sufIcon: GestureDetector(
+                      onTap: () {
+                        forgotPasswordController.togglePasswordVisibility1();
+                      },
+                      child: Image.asset(
+                        forgotPasswordController.isConfirmPasswordVisible.value
+                            ? AppImages.eyeOpen
+                            : AppImages.eyeClose,
+                        scale: 4,
+                      ),
+                    ),
+                    obscureText: !forgotPasswordController
+                        .isConfirmPasswordVisible.value,
+                    hintText: '**********',
+                  );
+                }),
                 sh16,
-                CustomButton(
-                  text: 'Save changes',
-                  onPressed: () {
-                    Get.offAll(() => ResetSuccessView());
+                Obx(
+                  () {
+                    return forgotPasswordController.isLoading.value == true
+                        ? CustomLoader(color: AppColors.white)
+                        : CustomButton(
+                            text: 'save_changes'.tr,
+                            // Dynamic translation for "Save changes"
+                            onPressed: () {
+                              forgotPasswordController.resetPass();
+                            },
+                            imageAssetPath: AppImages.arrowRightNormal,
+                            gradientColors: AppColors.buttonColor,
+                          );
                   },
-                  imageAssetPath: AppImages.arrowRightNormal,
-                  gradientColors: AppColors.buttonColor,
                 ),
               ],
             ),

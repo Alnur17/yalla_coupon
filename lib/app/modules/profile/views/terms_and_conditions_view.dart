@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import 'package:get/get.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
 import '../../../../../common/app_text_style/styles.dart';
-import '../../../../../common/const_text/const_text.dart';
-import '../../../../../common/size_box/custom_sizebox.dart';
+import '../controllers/conditions_controller.dart';
 
 class TermsAndConditionsView extends GetView {
-  const TermsAndConditionsView({super.key});
+  TermsAndConditionsView({super.key});
+
+  final ConditionsController conditionsController =
+  Get.put(ConditionsController());
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +22,8 @@ class TermsAndConditionsView extends GetView {
         backgroundColor: AppColors.mainColor,
         scrolledUnderElevation: 0,
         title: Text(
-          'Terms and Conditions',
-          style: titleStyle,
+          'terms_conditions'.tr, // Dynamic translation for "Terms and Conditions"
+          style: appBarStyle,
         ),
         leading: GestureDetector(
           onTap: () {
@@ -32,55 +35,34 @@ class TermsAndConditionsView extends GetView {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              sh30,
-              // Text(
-              //   'Terms & Conditions',
-              //   style: h2,
-              // ),
-              // sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+        child: Obx(() {
+          if (conditionsController.isLoading.value) {
+            return Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.bottomBarText,
+                ));
+          } else if (conditionsController.errorMessage.isNotEmpty) {
+            return Center(
+              child: Text(
+                conditionsController.errorMessage.value,
+                style: h4.copyWith(fontSize: 14, color: AppColors.red),
               ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
+            );
+          } else {
+            return SingleChildScrollView(
+              child: Html(
+                data: conditionsController.getTermsConditions.value,
+                style: {
+                  "*": Style(
+                    backgroundColor: AppColors.mainColor,
+                  ),
+                },
               ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-              sh24,
-              Text(
-                termsIntroduction,
-                style: h4.copyWith(
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ),
+            );
+          }
+        }),
       ),
     );
   }

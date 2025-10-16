@@ -33,6 +33,7 @@ class StoreCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
+              padding: EdgeInsets.all(4).r,
               height: 50.h,
               width: 50.w,
               decoration: BoxDecoration(
@@ -41,7 +42,7 @@ class StoreCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.asset(
+                child: Image.network(
                   imagePath,
                   scale: 4,
                 ),

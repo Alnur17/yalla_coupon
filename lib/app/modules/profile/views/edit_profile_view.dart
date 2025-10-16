@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:yalla_coupon/common/widgets/custom_loader.dart';
 
 import '../../../../../common/app_color/app_colors.dart';
 import '../../../../../common/app_images/app_images.dart';
@@ -13,13 +14,31 @@ import '../../../../../common/widgets/custom_button.dart';
 import '../../../../../common/widgets/custom_textfield.dart';
 import '../controllers/profile_controller.dart';
 
-class EditProfileView extends GetView<ProfileController> {
+class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final ProfileController controller = Get.find();
+  State<EditProfileView> createState() => _EditProfileViewState();
+}
 
+class _EditProfileViewState extends State<EditProfileView> {
+  final ProfileController profileController = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  void _loadProfileData() {
+    final user = profileController.profileData.value?.data?.user;
+    profileController.nameTEController.text = user?.name ?? '';
+    profileController.emailTEController.text = user?.email ?? '';
+    profileController.contactTEController.text = user?.phone ?? '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       appBar: AppBar(
@@ -32,7 +51,7 @@ class EditProfileView extends GetView<ProfileController> {
             child: Image.asset(AppImages.back, scale: 4),
           ),
         ),
-        title: const Text('Edit Profile'),
+        title: Text('edit_profile'.tr), // Dynamic translation for "Edit Profile"
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -50,32 +69,35 @@ class EditProfileView extends GetView<ProfileController> {
                         radius: 50,
                         backgroundColor: AppColors.white,
                         child: ClipOval(
-                          child: controller.selectedImage.value != null
+                          child: profileController.selectedImage.value != null
                               ? Image.file(
-                                  controller.selectedImage.value!,
-                                  height: Get.height.h,
-                                  width: Get.width.w,
-                                  fit: BoxFit.cover,
-                                )
+                            profileController.selectedImage.value!,
+                            height: Get.height.h,
+                            width: Get.width.w,
+                            fit: BoxFit.cover,
+                          )
                               : CachedNetworkImage(
-                                  imageUrl: AppImages.profileImage,
-                                  height: Get.height.h,
-                                  width: Get.width.w,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error,
-                                          color: Colors.red),
-                                ),
+                            imageUrl:
+                            profileController.profileImageUrl.value,
+                            height: Get.height.h,
+                            width: Get.width.w,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.bottomBarText,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error,
+                                color: Colors.red),
+                          ),
                         ),
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
                         child: GestureDetector(
-                          onTap: () => controller.pickImageFromGallery(),
+                          onTap: () => profileController.pickImageFromGallery(),
                           child: const CircleAvatar(
                             radius: 15,
                             backgroundColor: AppColors.black,
@@ -92,20 +114,30 @@ class EditProfileView extends GetView<ProfileController> {
                 }),
               ),
               sh40,
-              Text('Full Name', style: h5),
+              Text('full_name'.tr, style: h5), // Dynamic translation for "Full Name"
               sh8,
-              CustomTextField(hintText: 'Enter your Name'),
+              CustomTextField(
+                controller: profileController.nameTEController,
+                hintText: 'enter_your_name'.tr, // Dynamic translation for "Enter your name"
+              ),
               sh12,
-              Text('Email', style: h5),
+              Text(
+                'email'.tr, // Dynamic translation for "Email"
+                style: h6.copyWith(fontWeight: FontWeight.w700),
+              ),
               sh8,
-              CustomTextField(hintText: 'Enter Email'),
+              CustomTextField(
+                controller: profileController.emailTEController,
+                hintText: 'enter_your_email'.tr, // Dynamic translation for "Enter your email"
+              ),
               sh12,
-              Text('Contact', style: h5),
+              Text('contact'.tr, style: h5), // Dynamic translation for "Contact"
               sh8,
               IntlPhoneField(
+                controller: profileController.contactTEController,
                 decoration: InputDecoration(
                   contentPadding:
-                      const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                   fillColor: AppColors.white,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
@@ -131,13 +163,16 @@ class EditProfileView extends GetView<ProfileController> {
                 },
               ),
               sh20,
-              CustomButton(
-                text: 'Save Changes',
-                onPressed: () {
-                  controller.saveProfileChanges(); // save image to controller
-                  Get.back();
-                },
-                gradientColors: AppColors.buttonColor,
+              Obx(
+                    () => profileController.isLoading.value == true
+                    ? CustomLoader(color: AppColors.white)
+                    : CustomButton(
+                  text: 'save_changes'.tr, // Dynamic translation for "Save Changes"
+                  onPressed: () {
+                    profileController.updateProfile();
+                  },
+                  gradientColors: AppColors.buttonColor,
+                ),
               ),
               sh20,
             ],
